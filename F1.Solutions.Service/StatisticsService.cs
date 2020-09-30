@@ -1,8 +1,8 @@
 ﻿using DataAccess;
-using F1.Solutions.Service.Helpers;
 using F1.Solutions.Service.Models;
+using F1Solutions.InfrastructureStatistics.Services.Helpers;
 
-namespace F1.Solutions.Service
+namespace F1Solutions.InfrastructureStatistics.Services
 {
     public class StatisticsService
     {

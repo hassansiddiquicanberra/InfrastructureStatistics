@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace RetrieveApiKeys.Models
+namespace F1Solutions.InfrastructureStatictics.ApiCalls.Models
 {
     public class FreshServiceTicketModel
     {

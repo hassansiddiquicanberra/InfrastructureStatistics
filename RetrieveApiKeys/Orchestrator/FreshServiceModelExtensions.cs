@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
 using F1.Solutions.Service.Models;
-using RetrieveApiKeys.Models;
+using F1Solutions.InfrastructureStatictics.ApiCalls.Models;
+using RetrieveApiKeys;
 
-namespace RetrieveApiKeys.Orchestrator
+namespace F1Solutions.InfrastructureStatictics.ApiCalls.Orchestrator
 {
     public static class FreshServiceModelExtensions
     {

@@ -57,9 +57,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataAccess\F1Solutions.InfrastructureStatictics.DataAccess.csproj">
+    <ProjectReference Include="..\DataAccess\F1Solutions.InfrastructureStatistics.DataAccess.csproj">
       <Project>{e1a1e291-81a0-4d2a-bb88-657b736ec6f0}</Project>
-      <Name>F1Solutions.InfrastructureStatictics.DataAccess</Name>
+      <Name>F1Solutions.InfrastructureStatistics.DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

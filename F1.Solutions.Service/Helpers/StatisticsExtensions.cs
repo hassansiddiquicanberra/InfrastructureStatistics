@@ -2,7 +2,7 @@
 using DataAccess;
 using F1.Solutions.Service.Models;
 
-namespace F1.Solutions.Service.Helpers
+namespace F1Solutions.InfrastructureStatistics.Services.Helpers
 {
     public static class StatisticsExtensions
     {

@@ -1,8 +1,8 @@
-﻿using System.Net.Http;
-using System.Configuration;
-using RetrieveApiKeys.Helpers;
+﻿using System.Configuration;
+using System.Net.Http;
+using F1Solutions.InfrastructureStatictics.ApiCalls.Helpers;
 
-namespace RetrieveApiKeys.ApiTask
+namespace F1Solutions.InfrastructureStatictics.ApiCalls.ApiTask
 {
     public class AirCallApiTask : BaseApiTask
     {

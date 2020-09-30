@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-namespace RetrieveApiKeys.Helpers
+namespace F1Solutions.InfrastructureStatictics.ApiCalls.Helpers
 {
     public static class ConfigHelper
     {

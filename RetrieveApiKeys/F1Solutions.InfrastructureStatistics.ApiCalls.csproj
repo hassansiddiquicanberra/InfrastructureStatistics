@@ -73,9 +73,9 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataAccess\F1Solutions.InfrastructureStatictics.DataAccess.csproj">
+    <ProjectReference Include="..\DataAccess\F1Solutions.InfrastructureStatistics.DataAccess.csproj">
       <Project>{E1A1E291-81A0-4D2A-BB88-657B736EC6F0}</Project>
-      <Name>F1Solutions.InfrastructureStatictics.DataAccess</Name>
+      <Name>F1Solutions.InfrastructureStatistics.DataAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\F1.Solutions.Service\F1Solutions.InfrastructureStatistics.Services.csproj">
       <Project>{2cdfbdc7-8aad-406e-a784-0b11a75277bd}</Project>

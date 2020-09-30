@@ -1,8 +1,8 @@
 ﻿using System;
-using RetrieveApiKeys.Orchestrator;
+using F1Solutions.InfrastructureStatictics.ApiCalls.Orchestrator;
 using Topshelf;
 
-namespace RetrieveApiKeys
+namespace F1Solutions.InfrastructureStatistics.ApiCalls
 {
     public class Program
     {
