@@ -7,8 +7,8 @@
     <ProjectGuid>{E1A1E291-81A0-4D2A-BB88-657B736EC6F0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataAccess</RootNamespace>
-    <AssemblyName>DataAccess</AssemblyName>
+    <RootNamespace>F1Solutions.InfrastructureStatistics.DataAccess</RootNamespace>
+    <AssemblyName>F1Solutions.InfrastructureStatistics.DataAccess</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

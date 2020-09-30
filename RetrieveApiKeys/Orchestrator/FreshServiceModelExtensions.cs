@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using F1.Solutions.Service.Models;
-using RetrieveApiKeys.Helpers;
 using RetrieveApiKeys.Models;
 
 namespace RetrieveApiKeys.Orchestrator
