@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="StatisticsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Statistics.dbo.Statistics' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Statistics">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="EntryDateTime" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TwoDayPercentage" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="OpenMoreThanSevenDays" Type="int" />
+          <Property Name="OpenMoreThanThirtyDays" Type="int" />
+          <Property Name="TotalPositive" Type="int" />
+          <Property Name="TotalNeutral" Type="int" />
+          <Property Name="TotalNegative" Type="int" />
+          <Property Name="TotalMspMissedCalls" Type="int" />
+          <Property Name="TotalRegisMissedCalls" Type="int" />
+          <Property Name="TotalMspHoldTime" Type="datetime" />
+          <Property Name="TotalRegisHoldTime" Type="datetime" />
+          <Property Name="EntryDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="StatisticsModelStoreContainer">
+          <EntitySet Name="Statistics" EntityType="Self.Statistics" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Statistics].[Id] AS [Id], 
+    [Statistics].[TwoDayPercentage] AS [TwoDayPercentage], 
+    [Statistics].[OpenMoreThanSevenDays] AS [OpenMoreThanSevenDays], 
+    [Statistics].[OpenMoreThanThirtyDays] AS [OpenMoreThanThirtyDays], 
+    [Statistics].[TotalPositive] AS [TotalPositive], 
+    [Statistics].[TotalNeutral] AS [TotalNeutral], 
+    [Statistics].[TotalNegative] AS [TotalNegative], 
+    [Statistics].[TotalMspMissedCalls] AS [TotalMspMissedCalls], 
+    [Statistics].[TotalRegisMissedCalls] AS [TotalRegisMissedCalls], 
+    [Statistics].[TotalMspHoldTime] AS [TotalMspHoldTime], 
+    [Statistics].[TotalRegisHoldTime] AS [TotalRegisHoldTime], 
+    [Statistics].[EntryDateTime] AS [EntryDateTime]
+    FROM [dbo].[Statistics] AS [Statistics]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StatisticsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Statistic">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="EntryDateTime" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TwoDayPercentage" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="OpenMoreThanSevenDays" Type="Int32" />
+          <Property Name="OpenMoreThanThirtyDays" Type="Int32" />
+          <Property Name="TotalPositive" Type="Int32" />
+          <Property Name="TotalNeutral" Type="Int32" />
+          <Property Name="TotalNegative" Type="Int32" />
+          <Property Name="TotalMspMissedCalls" Type="Int32" />
+          <Property Name="TotalRegisMissedCalls" Type="Int32" />
+          <Property Name="TotalMspHoldTime" Type="DateTime" Precision="3" />
+          <Property Name="TotalRegisHoldTime" Type="DateTime" Precision="3" />
+          <Property Name="EntryDateTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="StatisticsEntity" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Statistics" EntityType="Self.Statistic" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StatisticsModelStoreContainer" CdmEntityContainer="StatisticsEntity">
+          <EntitySetMapping Name="Statistics">
+            <EntityTypeMapping TypeName="StatisticsModel.Statistic">
+              <MappingFragment StoreEntitySet="Statistics">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TwoDayPercentage" ColumnName="TwoDayPercentage" />
+                <ScalarProperty Name="OpenMoreThanSevenDays" ColumnName="OpenMoreThanSevenDays" />
+                <ScalarProperty Name="OpenMoreThanThirtyDays" ColumnName="OpenMoreThanThirtyDays" />
+                <ScalarProperty Name="TotalPositive" ColumnName="TotalPositive" />
+                <ScalarProperty Name="TotalNeutral" ColumnName="TotalNeutral" />
+                <ScalarProperty Name="TotalNegative" ColumnName="TotalNegative" />
+                <ScalarProperty Name="TotalMspMissedCalls" ColumnName="TotalMspMissedCalls" />
+                <ScalarProperty Name="TotalRegisMissedCalls" ColumnName="TotalRegisMissedCalls" />
+                <ScalarProperty Name="TotalMspHoldTime" ColumnName="TotalMspHoldTime" />
+                <ScalarProperty Name="TotalRegisHoldTime" ColumnName="TotalRegisHoldTime" />
+                <ScalarProperty Name="EntryDateTime" ColumnName="EntryDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
