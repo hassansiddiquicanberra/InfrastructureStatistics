@@ -1,5 +1,5 @@
 ﻿using System;
-using F1Solutions.InfrastructureStatictics.ApiCalls.Orchestrator;
+using F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator;
 using Topshelf;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls

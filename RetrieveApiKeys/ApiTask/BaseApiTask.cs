@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace F1Solutions.InfrastructureStatictics.ApiCalls.ApiTask
+namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 {
     public abstract class BaseApiTask
     {

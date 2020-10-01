@@ -1,11 +1,11 @@
 ﻿using F1.Solutions.Service;
-using F1.Solutions.Service.Models;
-using F1Solutions.InfrastructureStatictics.ApiCalls.ApiTask;
-using F1Solutions.InfrastructureStatictics.ApiCalls.Models;
+using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
+using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
 using F1Solutions.InfrastructureStatistics.Services;
+using F1Solutions.InfrastructureStatistics.Services.Models;
 using Newtonsoft.Json;
 
-namespace F1Solutions.InfrastructureStatictics.ApiCalls.Orchestrator
+namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
 {
     public class ApiOrchestrator
     {

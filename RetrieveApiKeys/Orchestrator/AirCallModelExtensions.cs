@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using F1.Solutions.Service.Models;
-using F1Solutions.InfrastructureStatictics.ApiCalls.Helpers;
-using F1Solutions.InfrastructureStatictics.ApiCalls.Models;
+using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
+using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
+using F1Solutions.InfrastructureStatistics.Services.Models;
 
-namespace F1Solutions.InfrastructureStatictics.ApiCalls.Orchestrator
+namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
 {
     public static class AirCallModelExtensions
     {

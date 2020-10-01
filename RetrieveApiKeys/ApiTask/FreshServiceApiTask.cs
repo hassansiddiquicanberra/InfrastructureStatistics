@@ -1,8 +1,8 @@
 ﻿using System.Configuration;
 using System.Net.Http;
-using F1Solutions.InfrastructureStatictics.ApiCalls.Helpers;
+using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
 
-namespace F1Solutions.InfrastructureStatictics.ApiCalls.ApiTask
+namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 {
     public class FreshServiceApiTask : BaseApiTask
     {

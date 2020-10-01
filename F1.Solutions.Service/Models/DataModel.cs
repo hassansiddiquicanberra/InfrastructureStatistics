@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace F1.Solutions.Service.Models
+namespace F1Solutions.InfrastructureStatistics.Services.Models
 {
     public class DataModel
     {

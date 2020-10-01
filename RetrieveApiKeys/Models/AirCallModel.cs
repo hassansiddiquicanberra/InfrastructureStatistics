@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace F1Solutions.InfrastructureStatictics.ApiCalls.Models
+namespace F1Solutions.InfrastructureStatistics.ApiCalls.Models
 {
     public class AirCallModel
     {

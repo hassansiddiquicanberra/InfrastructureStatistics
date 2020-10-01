@@ -1,4 +1,4 @@
-﻿namespace RetrieveApiKeys
+﻿namespace F1Solutions.InfrastructureStatistics.ApiCalls.Utils
 {
     public static class Constants
     {

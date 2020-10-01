@@ -1,6 +1,6 @@
 ﻿using System;
 using DataAccess;
-using F1.Solutions.Service.Models;
+using F1Solutions.InfrastructureStatistics.Services.Models;
 
 namespace F1Solutions.InfrastructureStatistics.Services.Helpers
 {
