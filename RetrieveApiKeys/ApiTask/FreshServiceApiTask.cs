@@ -10,10 +10,10 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
         {
             Id = ConfigHelper.FreshServiceApiKey;
         }
-        
+
         public override string Start()
         {
-            var freshServiceResponse = SendRequest(ConfigurationManager.AppSettings["FreshServiceForTicketsUri"], HttpMethod.Get);
+            var freshServiceResponse = SendRequest(ConfigHelper.FreshServiceForTicketsUri, HttpMethod.Get);
             return freshServiceResponse.Result;
         }
     }

@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.Net.Http;
+﻿using System.Net.Http;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
@@ -14,7 +13,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
         
         public override string Start()
         {
-            var airCallResponse = SendRequest(ConfigurationManager.AppSettings["AirCallForCallUri"], HttpMethod.Get);
+            var airCallResponse = SendRequest(ConfigHelper.AirCallForCallUri, HttpMethod.Get);
             return airCallResponse.Result;
         }
     }
