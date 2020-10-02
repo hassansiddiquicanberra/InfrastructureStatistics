@@ -33,7 +33,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
                       (DateTime.Now - DateTime.Parse(x.CreatedAt.Substring(0, 10)))
                                             .TotalDays > 7)).Count();
 
-                return model;
             }
 
             model.OpenMoreThanSevenDays = ticketsOpenMoreThanSevenDays;
@@ -66,7 +65,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
                     (DateTime.Now - DateTime.Parse(x.CreatedAt.Substring(0, 10)))
                     .TotalDays > 7)).Count();
 
-                return model;
             }
 
             model.OpenMoreThanSevenDays = ticketsOpenMoreThanThirtyDays;

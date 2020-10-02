@@ -2,9 +2,10 @@
 {
     public static class Constants
     {
-        public const string OpenStatus = "1";
-        public const string PendingStatus = "2";
-        public const string ResolvedStatus = "3";
-        public const string ClosedStatus = "4";
+        //Ticket Properties https://api.freshservice.com/#ticket
+        public const string OpenStatus = "2";
+        public const string PendingStatus = "3";
+        public const string ResolvedStatus = "4";
+        public const string ClosedStatus = "5";
     }
 }
