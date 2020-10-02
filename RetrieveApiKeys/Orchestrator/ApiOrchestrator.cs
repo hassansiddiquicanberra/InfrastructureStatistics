@@ -11,12 +11,14 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
         private readonly AirCallApiTask _airCallApiTask;
         private readonly FreshServiceApiTask _freshServiceApiTask;
         private readonly StatisticsService _statisticsService;
+        private DataModel _model;
 
         public ApiOrchestrator()
         {
             _airCallApiTask = new AirCallApiTask();
             _freshServiceApiTask = new FreshServiceApiTask();
             _statisticsService = new StatisticsService();
+            _model = new DataModel();
         }
 
         public void Start()
@@ -26,8 +28,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             var listOfCalls = JsonConvert.DeserializeObject<AirCallModel>(airCallResult);
             var listOfTickets = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(freshServiceResult);
 
-            var model = AirCallFilterCallsData(listOfCalls);
-            model = FreshServiceFilterTicketsData(listOfTickets);
+            _model = AirCallFilterCallsData(listOfCalls);
+            _model = FreshServiceFilterTicketsData(listOfTickets);
 
             //Save(model);
         }
@@ -38,20 +40,18 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
 
         private DataModel AirCallFilterCallsData(AirCallModel data)
         {
-            var model = new DataModel();
-            model = model.PopulateTotalMspMissedCalls(data);
-            model = model.PopulateTotalRegisMissedCalls(data);
+            _model = _model.PopulateTotalMspMissedCalls(data);
+            _model = _model.PopulateTotalRegisMissedCalls(data);
 
-            return model;
+            return _model;
         }
 
         private DataModel FreshServiceFilterTicketsData(FreshServiceTicketModel[] data)
         {
-            var model = new DataModel();
-            model = model.PopulateTotalTicketsMoreThanSevenDays(data);
-            model = model.PopulateTotalTicketsMoreThanThirtyDays(data);
+            _model = _model.PopulateTotalTicketsMoreThanSevenDays(data);
+            _model = _model.PopulateTotalTicketsMoreThanThirtyDays(data);
 
-            return model;
+            return _model;
         }
 
         private void Save(DataModel model)

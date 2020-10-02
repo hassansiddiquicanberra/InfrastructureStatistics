@@ -63,11 +63,11 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
                 ticketsOpenMoreThanThirtyDays = (ticketsNotClosedOrDeferredOrResolved.Where(x =>
                     x.CreatedAt != null &&
                     (DateTime.Now - DateTime.Parse(x.CreatedAt.Substring(0, 10)))
-                    .TotalDays > 7)).Count();
+                    .TotalDays > 30)).Count();
 
             }
 
-            model.OpenMoreThanSevenDays = ticketsOpenMoreThanThirtyDays;
+            model.OpenMoreThanThirtyDays = ticketsOpenMoreThanThirtyDays;
 
             return model;
         }

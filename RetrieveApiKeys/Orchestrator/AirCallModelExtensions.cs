@@ -42,7 +42,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
 
             var regisNumber = ConfigHelper.RegisNumber;
 
-            model.TotalMspMissedCalls = (data.Calls.Where(x =>
+            model.TotalRegisMissedCalls = (data.Calls.Where(x =>
                                            x.MissedCallReason != null && x.AnsweredAt == null
                                            && x.Number != null && x.Number.Name == regisNumber)).Count();
 
