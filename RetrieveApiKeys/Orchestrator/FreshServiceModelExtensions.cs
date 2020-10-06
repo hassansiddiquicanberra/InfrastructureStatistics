@@ -121,22 +121,29 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             return model;
         }
 
-        //public static DataModel AverageTicketHandleTimeInMinutes(this DataModel model, FreshServiceTicketModel data)
-        //{
-        //    var avgTicketHandleTimeInMinutes = 0;
-        //    var currentDate = DateTime.Now;
-        //    if (model == null)
-        //    {
-        //        model = new DataModel();
-        //    }
+        public static DataModel PopulateAverageTicketHandleTimeInMinutes(this DataModel model, FreshServiceTicketModel data)
+        {
+            var currentDate = DateTime.Now;
+            if (model == null)
+            {
+                model = new DataModel();
+            }
 
-        //    if (data == null)
-        //    {
-        //        return model;
-        //    }
+            if (data == null)
+            {
+                return model;
+            }
+            //TODO replace with actual field - assuming that minutes handle ticket is available in the field email config id
 
+            var currentMonthTickets = (data.Tickets.Where(x =>
+                (DateTime.Parse(x.CreatedAt.Substring(0, 10))).Month == DateTime.Now.Month));
 
-        //}
+            var averageTicketHandlingTime = currentMonthTickets.Average(x => (Convert.ToInt32(x.EmailConfigId)));
+
+            model.AverageTicketHandleTimeInMins = (int) averageTicketHandlingTime;
+
+            return model;
+        }
 
     }
 }
