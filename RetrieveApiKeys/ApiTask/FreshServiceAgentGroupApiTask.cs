@@ -3,16 +3,16 @@ using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 {
-    public class FreshServiceApiTask : BaseApiTask
+    public class FreshServiceAgentGroupApiTask : BaseApiTask
     {
-        public FreshServiceApiTask()
+        public FreshServiceAgentGroupApiTask()
         {
             Id = ConfigHelper.FreshServiceApiKey;
         }
 
         public override string Start()
         {
-            var freshServiceResponse = SendRequest(ConfigHelper.FreshServiceForTicketsUri, HttpMethod.Get);
+            var freshServiceResponse = SendRequest(ConfigHelper.FreshServiceForAgentGroupsUri, HttpMethod.Get);
             return freshServiceResponse.Result;
         }
     }

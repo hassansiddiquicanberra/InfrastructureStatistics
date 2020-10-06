@@ -70,5 +70,33 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
 
             return model;
         }
+
+        public static DataModel PopulateTicketsResolvedAtLevelOne(this DataModel model, FreshServiceTicketModel data)
+        {
+            var ticketsResolvedAtLevelOne = 0;
+            if (model == null)
+            {
+                model = new DataModel();
+            }
+
+            if (data == null)
+            {
+                return model;
+            }
+
+            var resolvedTickets = data.Tickets
+                .Where(x => x.Status == Constants.ResolvedStatus);
+
+            if (resolvedTickets.Any())
+            {
+                ticketsResolvedAtLevelOne = (resolvedTickets.Where(x =>
+                    x.GroupId == data.LevelOneGroup)).Count();
+
+            }
+
+            model.TicketsResolvedByLevelOne = ticketsResolvedAtLevelOne;
+
+            return model;
+        }
     }
 }

@@ -54,7 +54,9 @@
   <ItemGroup>
     <Compile Include="ApiTask\BaseApiTask.cs" />
     <Compile Include="ApiTask\AirCallApiTask.cs" />
+    <Compile Include="ApiTask\FreshServiceAgentGroupApiTask.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
+    <Compile Include="Models\FreshServiceAgentGroupModel.cs" />
     <Compile Include="Models\FreshServiceTicketModel.cs" />
     <Compile Include="Orchestrator\FreshServiceModelExtensions.cs" />
     <Compile Include="Orchestrator\AirCallModelExtensions.cs" />

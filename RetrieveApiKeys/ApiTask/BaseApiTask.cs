@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -39,7 +38,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 
             var request = new HttpRequestMessage
             {
-                RequestUri = new Uri(uri + "?per_page=30"),
+                //RequestUri = new Uri(uri + "?per_page=90"),
+                RequestUri = new Uri(uri),
                 Method = method,
             };
 

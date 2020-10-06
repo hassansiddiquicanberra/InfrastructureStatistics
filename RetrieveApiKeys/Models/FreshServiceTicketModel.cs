@@ -5,6 +5,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Models
     public class FreshServiceTicketModel
     {
         public Tickets[] Tickets;
+        public string LevelOneGroup { get; set; }
     }
 
     public class Tickets
