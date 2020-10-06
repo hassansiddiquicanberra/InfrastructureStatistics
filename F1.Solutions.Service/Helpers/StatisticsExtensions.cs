@@ -20,6 +20,9 @@ namespace F1Solutions.InfrastructureStatistics.Services.Helpers
                 TotalRegisMissedCalls = model.TotalRegisMissedCalls,
                 TotalRegisHoldTime = model.TotalRegisHoldTime,
                 TotalMspHoldTime = model.TotalMspHoldTime,
+                TicketCountForTheMonth = model.TicketCountForTheMonth,
+                AverageTicketHandleTimeInMins = model.AverageTicketHandleTimeInMins,
+                TicketsResolvedByLevelOne = model.TicketsResolvedByLevelOne,
                 EntryDateTime = DateTime.Now
             };
         }

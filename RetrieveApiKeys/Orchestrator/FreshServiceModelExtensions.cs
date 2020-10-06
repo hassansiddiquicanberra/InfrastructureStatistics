@@ -8,7 +8,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
 {
     public static class FreshServiceModelExtensions
     {
-
         public static DataModel PopulateTotalTicketsMoreThanSevenDays(this DataModel model, FreshServiceTicketModel data)
         {
             var ticketsOpenMoreThanSevenDays = 0;
@@ -21,8 +20,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             {
                 return model;
             }
-
-            //data.Where(x => x.t)
 
             var ticketsNotClosedOrDeferredOrResolved = data.Tickets
                 .Where(x => x.Status != Constants.PendingStatus && x.Status != Constants.ResolvedStatus
