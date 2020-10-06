@@ -9,7 +9,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
     public static class FreshServiceModelExtensions
     {
 
-        public static DataModel PopulateTotalTicketsMoreThanSevenDays(this DataModel model, FreshServiceTicketModel[] data)
+        public static DataModel PopulateTotalTicketsMoreThanSevenDays(this DataModel model, FreshServiceTicketModel data)
         {
             var ticketsOpenMoreThanSevenDays = 0;
             if (model == null)
@@ -22,7 +22,9 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
                 return model;
             }
 
-            var ticketsNotClosedOrDeferredOrResolved = data
+            //data.Where(x => x.t)
+
+            var ticketsNotClosedOrDeferredOrResolved = data.Tickets
                 .Where(x => x.Status != Constants.PendingStatus && x.Status != Constants.ResolvedStatus
                                                                && x.Status != Constants.ClosedStatus);
 
@@ -40,7 +42,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             return model;
         }
 
-        public static DataModel PopulateTotalTicketsMoreThanThirtyDays(this DataModel model, FreshServiceTicketModel[] data)
+        public static DataModel PopulateTotalTicketsMoreThanThirtyDays(this DataModel model, FreshServiceTicketModel data)
         {
             var ticketsOpenMoreThanThirtyDays = 0;
             if (model == null)
@@ -53,7 +55,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
                 return model;
             }
 
-            var ticketsNotClosedOrDeferredOrResolved = data
+            var ticketsNotClosedOrDeferredOrResolved = data.Tickets
                                 .Where(x => x.Status != Constants.PendingStatus 
                                          && x.Status != Constants.ResolvedStatus
                                          && x.Status != Constants.ClosedStatus);

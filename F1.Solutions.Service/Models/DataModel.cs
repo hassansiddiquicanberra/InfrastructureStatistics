@@ -15,5 +15,11 @@ namespace F1Solutions.InfrastructureStatistics.Services.Models
         public int TotalRegisMissedCalls { get; set; }
         public DateTime? TotalMspHoldTime { get; set; }
         public DateTime? TotalRegisHoldTime { get; set; }
+
+        public int TicketCountForTheMonth { get; set; }
+
+        public int AverageTicketHandleTimeInMins { get; set; }
+
+        public int TicketsResolvedByLevelOne { get; set; }
     }
 }

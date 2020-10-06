@@ -14,7 +14,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
         public static string MspNumber => GetSetting<string>("MspNumber");
         public static string RegisNumber => GetSetting<string>("RegisNumber");
 
-        public static T GetSetting<T>( string key, bool useDefault = true)
+        public static T GetSetting<T>(string key)
         {
             var value = ConfigurationManager.AppSettings[key];
 

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataAccess
+namespace F1Solutions.InfrastructureStatistics.DataAccess
 {
     using System;
     using System.Collections.Generic;
@@ -26,5 +26,8 @@ namespace DataAccess
         public Nullable<System.DateTime> TotalMspHoldTime { get; set; }
         public Nullable<System.DateTime> TotalRegisHoldTime { get; set; }
         public System.DateTime EntryDateTime { get; set; }
+        public Nullable<int> TicketCountForTheMonth { get; set; }
+        public Nullable<int> AverageTicketHandleTimeInMins { get; set; }
+        public Nullable<int> TicketsResolvedByLevelOne { get; set; }
     }
 }

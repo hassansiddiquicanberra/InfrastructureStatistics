@@ -1,4 +1,4 @@
-﻿using DataAccess;
+﻿using F1Solutions.InfrastructureStatistics.DataAccess;
 using F1Solutions.InfrastructureStatistics.Services.Helpers;
 using F1Solutions.InfrastructureStatistics.Services.Models;
 

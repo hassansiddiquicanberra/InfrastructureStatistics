@@ -25,8 +25,9 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
         {
             var airCallResult = _airCallApiTask.Start();
             var freshServiceResult = _freshServiceApiTask.Start();
-            var listOfCalls = JsonConvert.DeserializeObject<AirCallModel>(airCallResult);
-            var listOfTickets = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(freshServiceResult);
+
+            var listOfCalls  =  JsonConvert.DeserializeObject<AirCallModel>(airCallResult);
+            var listOfTickets = JsonConvert.DeserializeObject<FreshServiceTicketModel>(freshServiceResult);
 
             _model = AirCallFilterCallsData(listOfCalls);
             _model = FreshServiceFilterTicketsData(listOfTickets);
@@ -46,7 +47,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             return _model;
         }
 
-        private DataModel FreshServiceFilterTicketsData(FreshServiceTicketModel[] data)
+        private DataModel FreshServiceFilterTicketsData(FreshServiceTicketModel data)
         {
             _model = _model.PopulateTotalTicketsMoreThanSevenDays(data);
             _model = _model.PopulateTotalTicketsMoreThanThirtyDays(data);

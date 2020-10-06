@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataAccess
+namespace F1Solutions.InfrastructureStatistics.DataAccess
 {
     using System;
     using System.Data.Entity;

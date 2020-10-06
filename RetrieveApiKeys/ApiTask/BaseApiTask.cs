@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -25,7 +26,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
             return await SendRequest(uri, Id, Token, method, string.Empty, attempt, maxAttempts);
         }
 
-        protected async Task<string> SendRequest(string uri, string id, string token, HttpMethod method, string requestBody = "", int attempt = 1, int maxAttempts = 5)
+        protected async Task<string> SendRequest(string uri, string id, string token, HttpMethod method,
+            string requestBody = "", int attempt = 1, int maxAttempts = 5)
         {
             if (attempt > maxAttempts)
             {
@@ -37,8 +39,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 
             var request = new HttpRequestMessage
             {
-                RequestUri = new Uri(uri),
-                Method = method
+                RequestUri = new Uri(uri + "?per_page=30"),
+                Method = method,
             };
 
             if (!string.IsNullOrWhiteSpace(requestBody))

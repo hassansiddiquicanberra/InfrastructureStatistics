@@ -4,10 +4,17 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Models
 {
     public class FreshServiceTicketModel
     {
+        public Tickets[] Tickets;
+    }
+
+    public class Tickets
+    {
         [JsonProperty("id")]
         public string Id { get; set; }
         [JsonProperty("requester_id")]
         public string RequesterId { get; set; }
+        [JsonProperty("responder_id")]
+        public string ResponderId { get; set; }
         [JsonProperty("status")]
         public string Status { get; set; }
         [JsonProperty("source")]
@@ -30,9 +37,9 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Models
         public string GroupId { get; set; }
         [JsonProperty("due_by")]
         public string DueBy { get; set; }
-        [JsonProperty("frDueBy")]
+        [JsonProperty("fr_due_by")]
         public string FrDueBy { get; set; }
-        [JsonProperty("isescalated")]
+        [JsonProperty("is_escalated")]
         public string IsEscalated { get; set; }
         [JsonProperty("priority")]
         public string Priority { get; set; }
@@ -42,16 +49,20 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Models
         public string ToEmail { get; set; }
         [JsonProperty("email_config_id")]
         public string EmailConfigId { get; set; }
-        [JsonProperty("cc_email")]
-        public Cc_Email CcEmail { get; set; }
+        [JsonProperty("cc_emails")]
+        public string[] CcEmails { get; set; }
+        [JsonProperty("fwd_emails")]
+        public string[] FwdEmails { get; set; }
+        [JsonProperty("reply_cc_emails")]
+        public string[] ReplyCcEmails { get; set; }
         [JsonProperty("ticket_type")]
         public string TicketType { get; set; }
         [JsonProperty("urgency")]
         public string Urgency { get; set; }
         [JsonProperty("impact")]
         public string Impact { get; set; }
-        [JsonProperty("department_id_value")]
-        public string DepartmentIdValue { get; set; }
+        [JsonProperty("department_id")]
+        public string DepartmentId { get; set; }
         [JsonProperty("category")]
         public string Category { get; set; }
         [JsonProperty("sub_category")]
@@ -60,8 +71,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Models
         public string ItemCategory { get; set; }
         [JsonProperty("description")]
         public string Description { get; set; }
-        [JsonProperty("description_html")]
-        public string DescriptionHtml { get; set; }
+        [JsonProperty("description_text")]
+        public string DescriptionText { get; set; }
         [JsonProperty("status_name")]
         public string StatusName { get; set; }
         [JsonProperty("requester_status_name")]
@@ -94,11 +105,11 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Models
         public string UrgencyName { get; set; }
         [JsonProperty("impact_name")]
         public string ImpactName { get; set; }
-        [JsonProperty("custom_field")]
-        public Custom_Field CustomField { get; set; }
+        [JsonProperty("custom_fields")]
+        public Custom_Fields CustomFields { get; set; }
     }
 
-    public class Cc_Email
+    public class Cc_Emails
     {
         [JsonProperty("cc_emails")]
         public string[] CcEmails { get; set; }
@@ -106,14 +117,14 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Models
         public string[] FwdEmails { get; set; }
     }
 
-    public class Custom_Field
+    public class Custom_Fields
     {
-        [JsonProperty("permanently_closed_55545")]
-        public string PermanentlyClosed55545 { get; set; }
-        [JsonProperty("due_date_55545")]
-        public string DueDate55545 { get; set; }
-        [JsonProperty("developer_change_required_55545")]
-        public string DeveloperChangeRequired55545 { get; set; }
+        [JsonProperty("permanently_closed")]
+        public string PermanentlyClosed { get; set; }
+        [JsonProperty("due_date")]
+        public string DueDate { get; set; }
+        [JsonProperty("developer_change_required")]
+        public string DeveloperChangeRequired { get; set; }
     }
 
 }
