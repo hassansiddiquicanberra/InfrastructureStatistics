@@ -31,7 +31,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
                       x.CreatedAt != null &&
                       (DateTime.Now - DateTime.Parse(x.CreatedAt.Substring(0, 10)))
                                             .TotalDays > 7)).Count();
-
             }
 
             model.OpenMoreThanSevenDays = ticketsOpenMoreThanSevenDays;
@@ -42,6 +41,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
         public static DataModel PopulateTotalTicketsMoreThanThirtyDays(this DataModel model, FreshServiceTicketModel data)
         {
             var ticketsOpenMoreThanThirtyDays = 0;
+
             if (model == null)
             {
                 model = new DataModel();
@@ -53,7 +53,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             }
 
             var ticketsNotClosedOrDeferredOrResolved = data.Tickets
-                                .Where(x => x.Status != Constants.PendingStatus 
+                                .Where(x => x.Status != Constants.PendingStatus
                                          && x.Status != Constants.ResolvedStatus
                                          && x.Status != Constants.ClosedStatus);
 
@@ -63,7 +63,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
                     x.CreatedAt != null &&
                     (DateTime.Now - DateTime.Parse(x.CreatedAt.Substring(0, 10)))
                     .TotalDays > 30)).Count();
-
             }
 
             model.OpenMoreThanThirtyDays = ticketsOpenMoreThanThirtyDays;
@@ -74,6 +73,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
         public static DataModel PopulateTicketsResolvedAtLevelOne(this DataModel model, FreshServiceTicketModel data)
         {
             var ticketsResolvedAtLevelOne = 0;
+            var currentDate = DateTime.Now;
             if (model == null)
             {
                 model = new DataModel();
@@ -85,7 +85,9 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             }
 
             var resolvedTickets = data.Tickets
-                .Where(x => x.Status == Constants.ResolvedStatus);
+                .Where(x => x.Status == Constants.ResolvedStatus &&
+                      x.UpdatedAt != null &&
+                      (DateTime.Parse(x.UpdatedAt.Substring(0, 10))).Month == DateTime.Now.Month);
 
             if (resolvedTickets.Any())
             {
@@ -98,5 +100,43 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
 
             return model;
         }
+
+        public static DataModel PopulateTicketCountForTheMonth(this DataModel model, FreshServiceTicketModel data)
+        {
+            var ticketCountForTheMonth = 0;
+            if (model == null)
+            {
+                model = new DataModel();
+            }
+
+            if (data == null)
+            {
+                return model;
+            }
+
+            ticketCountForTheMonth = (data.Tickets.Where(x=> (DateTime.Parse(x.CreatedAt.Substring(0, 10))).Month == DateTime.Now.Month)).Count();
+
+            model.TicketCountForTheMonth = ticketCountForTheMonth;
+
+            return model;
+        }
+
+        //public static DataModel AverageTicketHandleTimeInMinutes(this DataModel model, FreshServiceTicketModel data)
+        //{
+        //    var avgTicketHandleTimeInMinutes = 0;
+        //    var currentDate = DateTime.Now;
+        //    if (model == null)
+        //    {
+        //        model = new DataModel();
+        //    }
+
+        //    if (data == null)
+        //    {
+        //        return model;
+        //    }
+
+
+        //}
+
     }
 }

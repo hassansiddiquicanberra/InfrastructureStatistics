@@ -65,6 +65,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             _model = _model.PopulateTotalTicketsMoreThanSevenDays(data);
             _model = _model.PopulateTotalTicketsMoreThanThirtyDays(data);
             _model = _model.PopulateTicketsResolvedAtLevelOne(data);
+            _model = _model.PopulateTicketCountForTheMonth(data);
 
             return _model;
         }

@@ -38,7 +38,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 
             var request = new HttpRequestMessage
             {
-                //RequestUri = new Uri(uri + "?per_page=90"),
                 RequestUri = new Uri(uri),
                 Method = method,
             };
@@ -52,6 +51,9 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 
             using (var response = await client.SendAsync(request))
             {
+                //var responseHeaderContainsLink = response.Headers.Contains("link");
+                //TODO: if response header doesn't contain link means that is the last page.
+
                 using (var content = response.Content)
                 {
                     try
@@ -71,6 +73,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
                     }
 
                     var responseBody = await content.ReadAsStringAsync();
+                    
                     var isSuccessResponseButEmptyBody = response.IsSuccessStatusCode &&
                                                         (string.IsNullOrEmpty(responseBody) ||
                                                          string.IsNullOrWhiteSpace(responseBody));
