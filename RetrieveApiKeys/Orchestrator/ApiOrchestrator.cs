@@ -39,7 +39,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             _model = FreshServiceFilterTicketsData(listOfTickets);
             _model = FreshServiceMonthlyStatistics(listOfTickets);
 
-            //Save(model);
+            Save(_model);
         }
 
         public void Stop()

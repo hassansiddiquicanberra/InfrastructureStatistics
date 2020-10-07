@@ -10,6 +10,7 @@ namespace F1Solutions.InfrastructureStatistics.Services.Helpers
         {
             return new Statistic()
             {
+                Id = model.Id,
                 TwoDayPercentage = model.TwoDayPercentage,
                 OpenMoreThanSevenDays = model.OpenMoreThanSevenDays,
                 OpenMoreThanThirtyDays = model.OpenMoreThanThirtyDays,
@@ -21,7 +22,7 @@ namespace F1Solutions.InfrastructureStatistics.Services.Helpers
                 TotalRegisHoldTime = model.TotalRegisHoldTime,
                 TotalMspHoldTime = model.TotalMspHoldTime,
                 TicketCountForTheMonth = model.TicketCountForTheMonth,
-                AverageTicketHandleTimeInMins = model.AverageTicketHandleTimeInMins,
+                AverageTicketHandleTimeInMins = model.AverageTicketHandleTimeInMinutes,
                 TicketsResolvedByLevelOne = model.TicketsResolvedByLevelOne,
                 EntryDateTime = DateTime.Now
             };

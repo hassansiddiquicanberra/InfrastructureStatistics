@@ -5,7 +5,7 @@ namespace F1Solutions.InfrastructureStatistics.Services.Models
     public class DataModel
     {
         public int Id { get; set; }
-        public decimal TwoDayPercentage { get; set; }
+        public decimal? TwoDayPercentage { get; set; }
         public int OpenMoreThanSevenDays { get; set; }
         public int OpenMoreThanThirtyDays { get; set; }
         public int TotalPositive { get; set; }
@@ -18,7 +18,7 @@ namespace F1Solutions.InfrastructureStatistics.Services.Models
 
         public int TicketCountForTheMonth { get; set; }
 
-        public int AverageTicketHandleTimeInMins { get; set; }
+        public decimal? AverageTicketHandleTimeInMinutes { get; set; }
 
         public int TicketsResolvedByLevelOne { get; set; }
     }

@@ -123,7 +123,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
 
         public static DataModel PopulateAverageTicketHandleTimeInMinutes(this DataModel model, FreshServiceTicketModel data)
         {
-            var currentDate = DateTime.Now;
+            var averageTicketHandlingTime = 0.0m;
             if (model == null)
             {
                 model = new DataModel();
@@ -137,10 +137,10 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
 
             var currentMonthTickets = (data.Tickets.Where(x =>
                 (DateTime.Parse(x.CreatedAt.Substring(0, 10))).Month == DateTime.Now.Month));
+             
+            //averageTicketHandlingTime = currentMonthTickets.Average(x => (Convert.ToDecimal(x.EmailConfigId)));
 
-            var averageTicketHandlingTime = currentMonthTickets.Average(x => (Convert.ToInt32(x.EmailConfigId)));
-
-            model.AverageTicketHandleTimeInMins = (int) averageTicketHandlingTime;
+            model.AverageTicketHandleTimeInMinutes =  averageTicketHandlingTime;
 
             return model;
         }
