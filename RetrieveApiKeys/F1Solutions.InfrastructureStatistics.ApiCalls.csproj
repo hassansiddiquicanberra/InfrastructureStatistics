@@ -68,8 +68,8 @@
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Models\FreshServiceAgentGroupModel.cs" />
     <Compile Include="Models\FreshServiceTicketModel.cs" />
-    <Compile Include="Orchestrator\FreshServiceModelExtensions.cs" />
-    <Compile Include="Orchestrator\AirCallModelExtensions.cs" />
+    <Compile Include="ModelExtensions\FreshServiceModelExtensions.cs" />
+    <Compile Include="ModelExtensions\AirCallModelExtensions.cs" />
     <Compile Include="Orchestrator\ApiOrchestrator.cs" />
     <Compile Include="Utils\Constants.cs" />
     <Compile Include="Models\AirCallModel.cs" />

@@ -4,7 +4,7 @@ using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Utils;
 using F1Solutions.InfrastructureStatistics.Services.Models;
 
-namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
+namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
 {
     public static class FreshServiceModelExtensions
     {
