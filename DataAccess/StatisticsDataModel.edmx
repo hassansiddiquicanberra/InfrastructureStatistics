@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="StatisticsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="MonthlyStatistics">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MonthlyTicketCount" Type="int" />
+          <Property Name="MonthlyAverageTicketHandlingTime" Type="decimal" Precision="18" Scale="18" />
+          <Property Name="MonthlyLevelOneResolvedTickets" Type="int" />
+          <Property Name="EntryDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Statistics">
           <Key>
             <PropertyRef Name="Id" />
@@ -20,12 +30,10 @@
           <Property Name="TotalRegisMissedCalls" Type="int" />
           <Property Name="TotalMspHoldTime" Type="datetime" />
           <Property Name="TotalRegisHoldTime" Type="datetime" />
-          <Property Name="TicketCountForTheMonth" Type="int" />
-          <Property Name="AverageTicketHandleTimeInMins" Type="decimal" Precision="18" Scale="18" />
-          <Property Name="TicketsResolvedByLevelOne" Type="int" />
           <Property Name="EntryDateTime" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityContainer Name="StatisticsModelStoreContainer">
+          <EntitySet Name="MonthlyStatistics" EntityType="Self.MonthlyStatistics" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Statistics" EntityType="Self.Statistics" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -33,8 +41,19 @@
     <edmx:ConceptualModels>
       <Schema Namespace="StatisticsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="StatisticsEntity" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="MonthlyStatistics" EntityType="StatisticsModel.MonthlyStatistic" />
           <EntitySet Name="Statistics" EntityType="StatisticsModel.Statistic" />
         </EntityContainer>
+        <EntityType Name="MonthlyStatistic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MonthlyTicketCount" Type="Int32" />
+          <Property Name="MonthlyAverageTicketHandlingTime" Type="Decimal" Precision="18" Scale="18" />
+          <Property Name="MonthlyLevelOneResolvedTickets" Type="Int32" />
+          <Property Name="EntryDateTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
         <EntityType Name="Statistic">
           <Key>
             <PropertyRef Name="Id" />
@@ -50,9 +69,6 @@
           <Property Name="TotalRegisMissedCalls" Type="Int32" />
           <Property Name="TotalMspHoldTime" Type="DateTime" Precision="3" />
           <Property Name="TotalRegisHoldTime" Type="DateTime" Precision="3" />
-          <Property Name="TicketCountForTheMonth" Type="Int32" />
-          <Property Name="AverageTicketHandleTimeInMins" Type="Decimal" Precision="18" Scale="18" />
-          <Property Name="TicketsResolvedByLevelOne" Type="Int32" />
           <Property Name="EntryDateTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
       </Schema>
@@ -61,13 +77,21 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="StatisticsModelStoreContainer" CdmEntityContainer="StatisticsEntity">
+          <EntitySetMapping Name="MonthlyStatistics">
+            <EntityTypeMapping TypeName="StatisticsModel.MonthlyStatistic">
+              <MappingFragment StoreEntitySet="MonthlyStatistics">
+                <ScalarProperty Name="EntryDateTime" ColumnName="EntryDateTime" />
+                <ScalarProperty Name="MonthlyLevelOneResolvedTickets" ColumnName="MonthlyLevelOneResolvedTickets" />
+                <ScalarProperty Name="MonthlyAverageTicketHandlingTime" ColumnName="MonthlyAverageTicketHandlingTime" />
+                <ScalarProperty Name="MonthlyTicketCount" ColumnName="MonthlyTicketCount" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Statistics">
             <EntityTypeMapping TypeName="StatisticsModel.Statistic">
               <MappingFragment StoreEntitySet="Statistics">
                 <ScalarProperty Name="EntryDateTime" ColumnName="EntryDateTime" />
-                <ScalarProperty Name="TicketsResolvedByLevelOne" ColumnName="TicketsResolvedByLevelOne" />
-                <ScalarProperty Name="AverageTicketHandleTimeInMins" ColumnName="AverageTicketHandleTimeInMins" />
-                <ScalarProperty Name="TicketCountForTheMonth" ColumnName="TicketCountForTheMonth" />
                 <ScalarProperty Name="TotalRegisHoldTime" ColumnName="TotalRegisHoldTime" />
                 <ScalarProperty Name="TotalMspHoldTime" ColumnName="TotalMspHoldTime" />
                 <ScalarProperty Name="TotalRegisMissedCalls" ColumnName="TotalRegisMissedCalls" />

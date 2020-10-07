@@ -7,11 +7,11 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
 {
     public static class AirCallModelExtensions
     {
-        public static DataModel PopulateTotalMspMissedCalls(this DataModel model, AirCallModel data)
+        public static StatisticsDataModel PopulateTotalMspMissedCalls(this StatisticsDataModel model, AirCallModel data)
         {
             if (model == null)
             {
-                model = new DataModel();
+                model = new StatisticsDataModel();
             }
 
             if (data == null)
@@ -28,11 +28,11 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             return model;
         }
 
-        public static DataModel PopulateTotalRegisMissedCalls(this DataModel model, AirCallModel data)
+        public static StatisticsDataModel PopulateTotalRegisMissedCalls(this StatisticsDataModel model, AirCallModel data)
         {
             if (model == null)
             {
-                model = new DataModel();
+                model = new StatisticsDataModel();
             }
 
             if (data == null)

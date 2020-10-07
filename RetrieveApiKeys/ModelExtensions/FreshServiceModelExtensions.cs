@@ -8,12 +8,12 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
 {
     public static class FreshServiceModelExtensions
     {
-        public static DataModel PopulateTotalTicketsMoreThanSevenDays(this DataModel model, FreshServiceTicketModel data)
+        public static StatisticsDataModel PopulateTotalTicketsMoreThanSevenDays(this StatisticsDataModel model, FreshServiceTicketModel data)
         {
             var ticketsOpenMoreThanSevenDays = 0;
             if (model == null)
             {
-                model = new DataModel();
+                model = new StatisticsDataModel();
             }
 
             if (data == null)
@@ -38,13 +38,13 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             return model;
         }
 
-        public static DataModel PopulateTotalTicketsMoreThanThirtyDays(this DataModel model, FreshServiceTicketModel data)
+        public static StatisticsDataModel PopulateTotalTicketsMoreThanThirtyDays(this StatisticsDataModel model, FreshServiceTicketModel data)
         {
             var ticketsOpenMoreThanThirtyDays = 0;
 
             if (model == null)
             {
-                model = new DataModel();
+                model = new StatisticsDataModel();
             }
 
             if (data == null)
@@ -70,43 +70,12 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             return model;
         }
 
-        public static DataModel PopulateTicketsResolvedAtLevelOne(this DataModel model, FreshServiceTicketModel data)
-        {
-            var ticketsResolvedAtLevelOne = 0;
-            var currentDate = DateTime.Now;
-            if (model == null)
-            {
-                model = new DataModel();
-            }
-
-            if (data == null)
-            {
-                return model;
-            }
-
-            var resolvedTickets = data.Tickets
-                .Where(x => x.Status == Constants.ResolvedStatus &&
-                      x.UpdatedAt != null &&
-                      (DateTime.Parse(x.UpdatedAt.Substring(0, 10))).Month == DateTime.Now.Month);
-
-            if (resolvedTickets.Any())
-            {
-                ticketsResolvedAtLevelOne = (resolvedTickets.Where(x =>
-                    x.GroupId == data.LevelOneGroup)).Count();
-
-            }
-
-            model.TicketsResolvedByLevelOne = ticketsResolvedAtLevelOne;
-
-            return model;
-        }
-
-        public static DataModel PopulateTicketCountForTheMonth(this DataModel model, FreshServiceTicketModel data)
+        public static MonthlyStatisticsDataModel PopulateTicketCountForTheMonth(this MonthlyStatisticsDataModel model, FreshServiceTicketModel data)
         {
             var ticketCountForTheMonth = 0;
             if (model == null)
             {
-                model = new DataModel();
+                model = new MonthlyStatisticsDataModel();
             }
 
             if (data == null)
@@ -121,12 +90,12 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             return model;
         }
 
-        public static DataModel PopulateAverageTicketHandleTimeInMinutes(this DataModel model, FreshServiceTicketModel data)
+        public static MonthlyStatisticsDataModel PopulateAverageTicketHandleTimeInMinutes(this MonthlyStatisticsDataModel model, FreshServiceTicketModel data)
         {
             var averageTicketHandlingTime = 0.0m;
             if (model == null)
             {
-                model = new DataModel();
+                model = new MonthlyStatisticsDataModel();
             }
 
             if (data == null)
@@ -141,6 +110,37 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             //averageTicketHandlingTime = currentMonthTickets.Average(x => (Convert.ToDecimal(x.EmailConfigId)));
 
             model.AverageTicketHandleTimeInMinutes =  averageTicketHandlingTime;
+
+            return model;
+        }
+
+        public static MonthlyStatisticsDataModel PopulateTicketsResolvedAtLevelOne(this MonthlyStatisticsDataModel model, FreshServiceTicketModel data)
+        {
+            var ticketsResolvedAtLevelOne = 0;
+            var currentDate = DateTime.Now;
+            if (model == null)
+            {
+                model = new MonthlyStatisticsDataModel();
+            }
+
+            if (data == null)
+            {
+                return model;
+            }
+
+            var resolvedTickets = data.Tickets
+                .Where(x => x.Status == Constants.ResolvedStatus &&
+                            x.UpdatedAt != null &&
+                            (DateTime.Parse(x.UpdatedAt.Substring(0, 10))).Month == DateTime.Now.Month);
+
+            if (resolvedTickets.Any())
+            {
+                ticketsResolvedAtLevelOne = (resolvedTickets.Where(x =>
+                    x.GroupId == data.LevelOneGroup)).Count();
+
+            }
+
+            model.TicketsResolvedByLevelOne = ticketsResolvedAtLevelOne;
 
             return model;
         }

@@ -25,6 +25,7 @@ namespace F1Solutions.InfrastructureStatistics.DataAccess
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<MonthlyStatistic> MonthlyStatistics { get; set; }
         public virtual DbSet<Statistic> Statistics { get; set; }
     }
 }

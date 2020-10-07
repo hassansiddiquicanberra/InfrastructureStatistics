@@ -14,7 +14,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
         private readonly FreshServiceApiTask _freshServiceApiTask;
         private readonly FreshServiceAgentGroupApiTask _freshServiceAgentGroupApiTask;
         private readonly StatisticsService _statisticsService;
-        private DataModel _model;
+        private StatisticsDataModel _statisticsModel;
+        private MonthlyStatisticsDataModel _monthlyStatisticsModel;
 
         public ApiOrchestrator()
         {
@@ -22,7 +23,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             _freshServiceApiTask = new FreshServiceApiTask();
             _freshServiceAgentGroupApiTask = new FreshServiceAgentGroupApiTask();
             _statisticsService = new StatisticsService();
-            _model = new DataModel();
+            _statisticsModel = new StatisticsDataModel();
+            _monthlyStatisticsModel = new MonthlyStatisticsDataModel();
         }
 
         public void Start()
@@ -36,45 +38,46 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             var listOfTickets = JsonConvert.DeserializeObject<FreshServiceTicketModel>(freshServiceResult);
 
             listOfTickets.LevelOneGroup = TransformationHelper.LevelOneGroupIdentifier(listOfGroups);
-            _model = AirCallFilterCallsData(listOfCalls);
-            _model = FreshServiceFilterTicketsData(listOfTickets);
-            _model = FreshServiceMonthlyStatistics(listOfTickets);
+            _statisticsModel = AirCallFilterCallsData(listOfCalls);
+            _statisticsModel = FreshServiceFilterTicketsData(listOfTickets);
+            _monthlyStatisticsModel = FreshServiceMonthlyStatistics(listOfTickets);
 
-            Save(_model);
+            Save(_statisticsModel, _monthlyStatisticsModel);
         }
 
         public void Stop()
         {
         }
 
-        private DataModel AirCallFilterCallsData(AirCallModel data)
+        private StatisticsDataModel AirCallFilterCallsData(AirCallModel data)
         {
-            _model = _model.PopulateTotalMspMissedCalls(data);
-            _model = _model.PopulateTotalRegisMissedCalls(data);
+            _statisticsModel = _statisticsModel.PopulateTotalMspMissedCalls(data);
+            _statisticsModel = _statisticsModel.PopulateTotalRegisMissedCalls(data);
 
-            return _model;
+            return _statisticsModel;
         }
 
-        private DataModel FreshServiceFilterTicketsData(FreshServiceTicketModel data)
+        private StatisticsDataModel FreshServiceFilterTicketsData(FreshServiceTicketModel data)
         {
-            _model = _model.PopulateTotalTicketsMoreThanSevenDays(data);
-            _model = _model.PopulateTotalTicketsMoreThanThirtyDays(data);
+            _statisticsModel = _statisticsModel.PopulateTotalTicketsMoreThanSevenDays(data);
+            _statisticsModel = _statisticsModel.PopulateTotalTicketsMoreThanThirtyDays(data);
 
-            return _model;
+            return _statisticsModel;
         }
 
-        private DataModel FreshServiceMonthlyStatistics(FreshServiceTicketModel data)
+        private MonthlyStatisticsDataModel FreshServiceMonthlyStatistics(FreshServiceTicketModel data)
         {
-            _model = _model.PopulateTicketCountForTheMonth(data);
-            _model = _model.PopulateAverageTicketHandleTimeInMinutes(data);
-            _model = _model.PopulateTicketsResolvedAtLevelOne(data);
+            _monthlyStatisticsModel = _monthlyStatisticsModel.PopulateTicketCountForTheMonth(data);
+            _monthlyStatisticsModel = _monthlyStatisticsModel.PopulateAverageTicketHandleTimeInMinutes(data);
+            _monthlyStatisticsModel = _monthlyStatisticsModel.PopulateTicketsResolvedAtLevelOne(data);
 
-            return _model;
+            return _monthlyStatisticsModel;
         }
 
-        private void Save(DataModel model)
+        private void Save(StatisticsDataModel model, MonthlyStatisticsDataModel monthlyStatisticsModel)
         {
             _statisticsService.SaveStatisticsValues(model);
+            _statisticsService.SaveMonthlyStatisticsValues(monthlyStatisticsModel);
         }
     }
 }

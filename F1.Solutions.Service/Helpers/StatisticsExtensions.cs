@@ -6,7 +6,7 @@ namespace F1Solutions.InfrastructureStatistics.Services.Helpers
 {
     public static class StatisticsExtensions
     {
-        public static Statistic ModelToDomain(this DataModel model)
+        public static Statistic StatisticModelToDomain(this StatisticsDataModel model)
         {
             return new Statistic()
             {
@@ -21,9 +21,18 @@ namespace F1Solutions.InfrastructureStatistics.Services.Helpers
                 TotalRegisMissedCalls = model.TotalRegisMissedCalls,
                 TotalRegisHoldTime = model.TotalRegisHoldTime,
                 TotalMspHoldTime = model.TotalMspHoldTime,
-                TicketCountForTheMonth = model.TicketCountForTheMonth,
-                AverageTicketHandleTimeInMins = model.AverageTicketHandleTimeInMinutes,
-                TicketsResolvedByLevelOne = model.TicketsResolvedByLevelOne,
+                EntryDateTime = DateTime.Now
+            };
+        }
+
+        public static MonthlyStatistic MonthlyStatisticModelToDomain(this MonthlyStatisticsDataModel model)
+        {
+            return new MonthlyStatistic()
+            {
+                Id = model.Id,
+                MonthlyTicketCount = model.TicketCountForTheMonth,
+                MonthlyAverageTicketHandlingTime = model.AverageTicketHandleTimeInMinutes,
+                MonthlyLevelOneResolvedTickets = model.TicketsResolvedByLevelOne,
                 EntryDateTime = DateTime.Now
             };
         }

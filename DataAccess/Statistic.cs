@@ -25,9 +25,6 @@ namespace F1Solutions.InfrastructureStatistics.DataAccess
         public Nullable<int> TotalRegisMissedCalls { get; set; }
         public Nullable<System.DateTime> TotalMspHoldTime { get; set; }
         public Nullable<System.DateTime> TotalRegisHoldTime { get; set; }
-        public Nullable<int> TicketCountForTheMonth { get; set; }
-        public Nullable<decimal> AverageTicketHandleTimeInMins { get; set; }
-        public Nullable<int> TicketsResolvedByLevelOne { get; set; }
         public System.DateTime EntryDateTime { get; set; }
     }
 }

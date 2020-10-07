@@ -51,9 +51,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\MonthlyStatisticsDataModel.cs" />
     <Compile Include="StatisticsService.cs" />
     <Compile Include="Helpers\StatisticsExtensions.cs" />
-    <Compile Include="Models\DataModel.cs" />
+    <Compile Include="Models\StatisticsDataModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

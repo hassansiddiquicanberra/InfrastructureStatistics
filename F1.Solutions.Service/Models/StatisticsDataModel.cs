@@ -2,7 +2,7 @@
 
 namespace F1Solutions.InfrastructureStatistics.Services.Models
 {
-    public class DataModel
+    public class StatisticsDataModel
     {
         public int Id { get; set; }
         public decimal? TwoDayPercentage { get; set; }
@@ -15,11 +15,5 @@ namespace F1Solutions.InfrastructureStatistics.Services.Models
         public int TotalRegisMissedCalls { get; set; }
         public DateTime? TotalMspHoldTime { get; set; }
         public DateTime? TotalRegisHoldTime { get; set; }
-
-        public int TicketCountForTheMonth { get; set; }
-
-        public decimal? AverageTicketHandleTimeInMinutes { get; set; }
-
-        public int TicketsResolvedByLevelOne { get; set; }
     }
 }
