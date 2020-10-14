@@ -38,12 +38,12 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
 
             var listOfCalls = JsonConvert.DeserializeObject<AirCallModel>(airCallResult);
             var listOfGroups = JsonConvert.DeserializeObject<FreshServiceAgentGroupModel>(freshServiceAgentGroupApiTaskResult);
-            var listOfTickets = JsonConvert.DeserializeObject<FreshServiceTicketModel>(freshServiceResult);
+            var listOfTickets = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(freshServiceResult);
 
-            listOfTickets.LevelOneGroup = TransformationHelper.LevelOneGroupIdentifier(listOfGroups);
+            //listOfTickets.LevelOneGroup = TransformationHelper.LevelOneGroupIdentifier(listOfGroups);
             _statisticsModel = AirCallFilterCallsData(listOfCalls);
             _statisticsModel = FreshServiceFilterTicketsData(listOfTickets);
-            _monthlyStatisticsModel = FreshServiceMonthlyStatistics(listOfTickets);
+            //_monthlyStatisticsModel = FreshServiceMonthlyStatistics(listOfTickets);
 
             Save(_statisticsModel, _monthlyStatisticsModel);
         }
@@ -60,7 +60,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             return _statisticsModel;
         }
 
-        private StatisticsDataModel FreshServiceFilterTicketsData(FreshServiceTicketModel data)
+        private StatisticsDataModel FreshServiceFilterTicketsData(FreshServiceTicketModel[] data)
         {
             _statisticsModel = _statisticsModel.PopulateTotalTicketsMoreThanSevenDays(data);
             _statisticsModel = _statisticsModel.PopulateTotalTicketsMoreThanThirtyDays(data);
@@ -68,7 +68,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             return _statisticsModel;
         }
 
-        private MonthlyStatisticsDataModel FreshServiceMonthlyStatistics(FreshServiceTicketModel data)
+        private MonthlyStatisticsDataModel FreshServiceMonthlyStatistics(FreshServiceTicketModel[] data)
         {
             _monthlyStatisticsModel = _monthlyStatisticsModel.PopulateTicketCountForTheMonth(data);
             _monthlyStatisticsModel = _monthlyStatisticsModel.PopulateAverageTicketHandleTimeInMinutes(data);

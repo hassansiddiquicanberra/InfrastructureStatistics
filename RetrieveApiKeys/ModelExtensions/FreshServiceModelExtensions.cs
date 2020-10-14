@@ -8,7 +8,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
 {
     public static class FreshServiceModelExtensions
     {
-        public static StatisticsDataModel PopulateTotalTicketsMoreThanSevenDays(this StatisticsDataModel model, FreshServiceTicketModel data)
+        public static StatisticsDataModel PopulateTotalTicketsMoreThanSevenDays(this StatisticsDataModel model, FreshServiceTicketModel[] data)
         {
             var ticketsOpenMoreThanSevenDays = 0;
             if (model == null)
@@ -21,16 +21,21 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
                 return model;
             }
 
-            var ticketsNotClosedOrDeferredOrResolved = data.Tickets
-                .Where(x => x.Status != Constants.PendingStatus && x.Status != Constants.ResolvedStatus
-                                                               && x.Status != Constants.ClosedStatus);
-
-            if (ticketsNotClosedOrDeferredOrResolved.Any())
+            foreach (var ticket in data)
             {
-                ticketsOpenMoreThanSevenDays = (ticketsNotClosedOrDeferredOrResolved.Where(x =>
-                      x.CreatedAt != null &&
-                      (DateTime.Now - DateTime.Parse(x.CreatedAt.Substring(0, 10)))
-                                            .TotalDays > 7)).Count();
+                var ticketsNotClosedOrDeferredOrResolved = ticket.Tickets
+                    .Where(x => x.Status != Constants.PendingStatus && x.Status != Constants.ResolvedStatus
+                                                                    && x.Status != Constants.ClosedStatus);
+
+                if (ticketsNotClosedOrDeferredOrResolved.Any())
+                {
+                    ticketsOpenMoreThanSevenDays = (ticketsNotClosedOrDeferredOrResolved.Where(x =>
+                        x.CreatedAt != null &&
+                        (DateTime.Now - DateTime.Parse(x.CreatedAt.Substring(0, 10)))
+                        .TotalDays > 7)).Count();
+                }
+
+
             }
 
             model.OpenMoreThanSevenDays = ticketsOpenMoreThanSevenDays;
@@ -38,7 +43,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             return model;
         }
 
-        public static StatisticsDataModel PopulateTotalTicketsMoreThanThirtyDays(this StatisticsDataModel model, FreshServiceTicketModel data)
+        public static StatisticsDataModel PopulateTotalTicketsMoreThanThirtyDays(this StatisticsDataModel model, FreshServiceTicketModel[] data)
         {
             var ticketsOpenMoreThanThirtyDays = 0;
 
@@ -52,17 +57,20 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
                 return model;
             }
 
-            var ticketsNotClosedOrDeferredOrResolved = data.Tickets
-                                .Where(x => x.Status != Constants.PendingStatus
-                                         && x.Status != Constants.ResolvedStatus
-                                         && x.Status != Constants.ClosedStatus);
-
-            if (ticketsNotClosedOrDeferredOrResolved.Any())
+            foreach (var ticket in data)
             {
-                ticketsOpenMoreThanThirtyDays = (ticketsNotClosedOrDeferredOrResolved.Where(x =>
-                    x.CreatedAt != null &&
-                    (DateTime.Now - DateTime.Parse(x.CreatedAt.Substring(0, 10)))
-                    .TotalDays > 30)).Count();
+                var ticketsNotClosedOrDeferredOrResolved = ticket.Tickets
+                                       .Where(x => x.Status != Constants.PendingStatus
+                                                && x.Status != Constants.ResolvedStatus
+                                                && x.Status != Constants.ClosedStatus);
+
+                if (ticketsNotClosedOrDeferredOrResolved.Any())
+                {
+                    ticketsOpenMoreThanThirtyDays = (ticketsNotClosedOrDeferredOrResolved.Where(x =>
+                        x.CreatedAt != null &&
+                        (DateTime.Now - DateTime.Parse(x.CreatedAt.Substring(0, 10)))
+                        .TotalDays > 30)).Count();
+                }
             }
 
             model.OpenMoreThanThirtyDays = ticketsOpenMoreThanThirtyDays;
@@ -70,7 +78,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             return model;
         }
 
-        public static MonthlyStatisticsDataModel PopulateTicketCountForTheMonth(this MonthlyStatisticsDataModel model, FreshServiceTicketModel data)
+        public static MonthlyStatisticsDataModel PopulateTicketCountForTheMonth(this MonthlyStatisticsDataModel model, FreshServiceTicketModel[] data)
         {
             var ticketCountForTheMonth = 0;
             if (model == null)
@@ -83,14 +91,17 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
                 return model;
             }
 
-            ticketCountForTheMonth = (data.Tickets.Where(x=> (DateTime.Parse(x.CreatedAt.Substring(0, 10))).Month == DateTime.Now.Month)).Count();
+            foreach (var ticket in data)
+            {
+                ticketCountForTheMonth = (ticket.Tickets.Where(x => (DateTime.Parse(x.CreatedAt.Substring(0, 10))).Month == DateTime.Now.Month)).Count();
+            }
 
             model.TicketCountForTheMonth = ticketCountForTheMonth;
 
             return model;
         }
 
-        public static MonthlyStatisticsDataModel PopulateAverageTicketHandleTimeInMinutes(this MonthlyStatisticsDataModel model, FreshServiceTicketModel data)
+        public static MonthlyStatisticsDataModel PopulateAverageTicketHandleTimeInMinutes(this MonthlyStatisticsDataModel model, FreshServiceTicketModel[] data)
         {
             var averageTicketHandlingTime = 0.0m;
             if (model == null)
@@ -104,17 +115,20 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             }
             //TODO replace with actual field - assuming that minutes handle ticket is available in the field email config id
 
-            var currentMonthTickets = (data.Tickets.Where(x =>
-                (DateTime.Parse(x.CreatedAt.Substring(0, 10))).Month == DateTime.Now.Month));
-             
-            //averageTicketHandlingTime = currentMonthTickets.Average(x => (Convert.ToDecimal(x.EmailConfigId)));
+            foreach (var ticket in data)
+            {
+                var currentMonthTickets = (ticket.Tickets.Where(x =>
+                    (DateTime.Parse(x.CreatedAt.Substring(0, 10))).Month == DateTime.Now.Month));
 
-            model.AverageTicketHandleTimeInMinutes =  averageTicketHandlingTime;
+                //averageTicketHandlingTime = currentMonthTickets.Average(x => (Convert.ToDecimal(x.EmailConfigId)));
+            }
+
+            model.AverageTicketHandleTimeInMinutes = averageTicketHandlingTime;
 
             return model;
         }
 
-        public static MonthlyStatisticsDataModel PopulateTicketsResolvedAtLevelOne(this MonthlyStatisticsDataModel model, FreshServiceTicketModel data)
+        public static MonthlyStatisticsDataModel PopulateTicketsResolvedAtLevelOne(this MonthlyStatisticsDataModel model, FreshServiceTicketModel[] data)
         {
             var ticketsResolvedAtLevelOne = 0;
             var currentDate = DateTime.Now;
@@ -128,22 +142,24 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
                 return model;
             }
 
-            var resolvedTickets = data.Tickets
-                .Where(x => x.Status == Constants.ResolvedStatus &&
-                            x.UpdatedAt != null &&
-                            (DateTime.Parse(x.UpdatedAt.Substring(0, 10))).Month == DateTime.Now.Month);
-
-            if (resolvedTickets.Any())
+            foreach (var ticket in data)
             {
-                ticketsResolvedAtLevelOne = (resolvedTickets.Where(x =>
-                    x.GroupId == data.LevelOneGroup)).Count();
+                var resolvedTickets = ticket.Tickets
+                            .Where(x => x.Status == Constants.ResolvedStatus &&
+                                        x.UpdatedAt != null &&
+                                        (DateTime.Parse(x.UpdatedAt.Substring(0, 10))).Month == DateTime.Now.Month);
 
+                if (resolvedTickets.Any())
+                {
+                    ticketsResolvedAtLevelOne = (resolvedTickets.Where(x =>
+                        x.GroupId == ticket.LevelOneGroup)).Count();
+
+                }
             }
 
             model.TicketsResolvedByLevelOne = ticketsResolvedAtLevelOne;
 
             return model;
         }
-
     }
 }
