@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 {
@@ -30,6 +33,26 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
             {
                 return default;
             }
+        }
+
+        public static string MergeJsonString(List<string> stringList)
+        {
+            var mergeSettings = new JsonMergeSettings
+            {
+                MergeArrayHandling = MergeArrayHandling.Union
+            };
+
+            //find the length of 
+
+            var length = stringList.Count;
+
+            var j1 = (JObject)JsonConvert.DeserializeObject(stringList[0]);
+            var j2 = (JObject)JsonConvert.DeserializeObject(stringList[1]);
+            var j3 = (JObject)JsonConvert.DeserializeObject(stringList[2]);
+
+
+            var jArray = new JArray(j1, j2, j3);
+            return jArray.ToString();
         }
     }
 }

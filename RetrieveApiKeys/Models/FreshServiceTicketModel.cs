@@ -6,6 +6,10 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Models
     {
         public Tickets[] Tickets;
         public string LevelOneGroup { get; set; }
+        public int count { get; set; }
+        public int firstTicket { get; set; }
+        public int lastTicket { get; set; }
+        public string nextUrl { get; set; }
     }
 
     public class Tickets
