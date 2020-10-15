@@ -5,6 +5,24 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Models
     public class AirCallModel
     {
         public Calls[] Calls;
+
+        public Meta Meta;
+    }
+
+    public class Meta
+    {
+        [JsonProperty("count")]
+        public string Count { get; set; }
+        [JsonProperty("total")]
+        public string Total { get; set; }
+        [JsonProperty("current_page")]
+        public string CurrentPage { get; set; }
+        [JsonProperty("per_page")]
+        public string PerPage { get; set; }
+        [JsonProperty("next_page_link")]
+        public string NextPageLink { get; set; }
+        [JsonProperty("previous_page_link")]
+        public string PreviousPageLink { get; set; }
     }
 
     public class Calls
@@ -42,13 +60,13 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Models
         [JsonProperty("archived")]
         public string Archived { get; set; }
         [JsonProperty("assigned_to")]
-        public string AssignedTo { get; set; }
+        public Assigned_To AssignedTo { get; set; }
         [JsonProperty("tags")]
         public Tags[] Tags { get; set; }
         [JsonProperty("transferred_to")]
         public Transferred_To TransferredTo { get; set; }
         [JsonProperty("teams")]
-        public string[] Teams { get; set; }
+        public Teams[] Teams { get; set; }
         [JsonProperty("number")]
         public Number Number { get; set; }
         [JsonProperty("cost")]
@@ -96,9 +114,19 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Models
         [JsonProperty("updated_at")]
         public string UpdatedAt { get; set; }
         [JsonProperty("emails")]
-        public string[] Emails { get; set; }
+        public Emails[] Emails { get; set; }
         [JsonProperty("phone_numbers")]
         public Phone_Numbers[] PhoneNumbers { get; set; }
+    }
+
+    public class Emails
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+        [JsonProperty("label")]
+        public string Label { get; set; }
+        [JsonProperty("value")]
+        public string Value { get; set; }
     }
 
     public class Phone_Numbers
@@ -207,4 +235,38 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Models
         [JsonProperty("created_at")]
         public string CreatedAt { get; set; }
     }
+
+    public class Assigned_To
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+        [JsonProperty("direct_link")]
+        public string DirectLink { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
+        [JsonProperty("email")]
+        public string Email { get; set; }
+        [JsonProperty("available")]
+        public string Available { get; set; }
+        [JsonProperty("availability_status")]
+        public string AvailabilityStatus { get; set; }
+        [JsonProperty("created_at")]
+        public string CreatedAt { get; set; }
+        [JsonProperty("time_zone")]
+        public string TimeZone { get; set; }
+    }
+
+    public class Teams
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
+        [JsonProperty("direct_link")]
+        public string DirectLink { get; set; }
+        [JsonProperty("created_at")]
+        public string CreatedAt { get; set; }
+    }
+
+
 }

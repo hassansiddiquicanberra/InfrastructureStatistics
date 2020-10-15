@@ -18,19 +18,19 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 
         public delegate void SetOutputTextCallback(string text);
         public event SetOutputTextCallback RaiseSetOutputText;
-        public abstract string Start(string ticketId = null);
+        public abstract string Start(string ticketId = null, string url =null);
         public virtual void TaskComplete()
         {
             SetOutputText($"{Environment.NewLine} Task completed!!");
             SetOutputText($"{Environment.NewLine}{Environment.NewLine}");
         }
 
-        protected async Task<string> SendRequest(string uri, HttpMethod method, int attempt = 1, int maxAttempts = 5)
+        protected async Task<string> SendRequest(string url, string uri, HttpMethod method, int attempt = 1, int maxAttempts = 5)
         {
-            return await SendRequest(uri, Id, Token, method, string.Empty, attempt, maxAttempts);
+            return await SendRequest(url, uri, Id, Token, method, string.Empty, attempt, maxAttempts);
         }
 
-        protected async Task<string> SendRequest(string uri, string id, string token, HttpMethod method,
+        protected async Task<string> SendRequest(string url, string uri, string id, string token, HttpMethod method,
             string requestBody = "", int attempt = 1, int maxAttempts = 5)
         {
             if (attempt > maxAttempts)
@@ -43,7 +43,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 
             var request = new HttpRequestMessage
             {
-                RequestUri = new Uri(uri),
+                RequestUri = string.IsNullOrEmpty(url) ? new Uri(uri) : new Uri(url) ,
                 Method = method,
             };
 
@@ -71,7 +71,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
                             SetOutputText(errorMessage);
                         }
 
-                        return await SendRequest(uri, id, token, method, requestBody, attempt + 1);
+                        return await SendRequest(url, uri, id, token, method, requestBody, attempt + 1);
                     }
 
                     var responseBody = await content.ReadAsStringAsync();
@@ -91,7 +91,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
                         SetOutputText(errorMessage);
                     }
 
-                    return await SendRequest(uri, id, token, method, requestBody, attempt + 1);
+                    return await SendRequest(url, uri, id, token, method, requestBody, attempt + 1);
                 }
             }
         }
@@ -156,6 +156,10 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
                     isResponseContainingLinkText = true;
                     pageNumber++;
                 }
+                else if (!response.Headers.Contains(Constants.Link))
+                {
+                    isResponseContainingLinkText = false;
+                }
 
             } while (isResponseContainingLinkText);
 
@@ -163,7 +167,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
             {
                 ticketStringBuilder.Append(value);
             }
-
 
             var mergedJsonValues = ConfigHelper.MergeJsonString(responseBodyList);
 

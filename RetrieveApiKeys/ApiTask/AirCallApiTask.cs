@@ -12,9 +12,9 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
             Token = ConfigHelper.AirCallApiToken;
         }
         
-        public override string Start(string ticketId = null)
+        public override string Start(string ticketId = null, string url = null)
         {
-            var airCallResponse = SendRequest(ConfigHelper.AirCallForCallUri, HttpMethod.Get);
+            var airCallResponse = SendRequest(url, ConfigHelper.AirCallForCallUri, HttpMethod.Get);
             return airCallResponse.Result;
         }
     }

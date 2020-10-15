@@ -183,10 +183,5 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
 
             return model;
         }
-
-        private static TimeSpan Average(this IEnumerable<TimeSpan> spans)
-        {
-           return TimeSpan.FromMinutes(spans.Select(s => s.TotalMinutes).Average());
-        }
     }
 }

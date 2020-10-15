@@ -13,7 +13,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
             Id = ConfigHelper.FreshServiceApiKey;
         }
 
-        public override string Start(string ticketId = null)
+        public override string Start(string ticketId = null, string url = null)
         {
             var freshServiceResponse = GetAllTimeEntriesAsync(ticketId, ConfigHelper.FreshServiceForTicketsUri, HttpMethod.Get);
             
