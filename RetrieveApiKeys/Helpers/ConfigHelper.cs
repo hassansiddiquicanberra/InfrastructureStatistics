@@ -42,17 +42,14 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
                 MergeArrayHandling = MergeArrayHandling.Union
             };
 
-            //find the length of 
+            var jArrayItems = new JArray();
 
-            var length = stringList.Count;
+            foreach (var item in stringList)
+            {
+                jArrayItems.Add((JObject)JsonConvert.DeserializeObject(item));
+            }
 
-            var j1 = (JObject)JsonConvert.DeserializeObject(stringList[0]);
-            var j2 = (JObject)JsonConvert.DeserializeObject(stringList[1]);
-            var j3 = (JObject)JsonConvert.DeserializeObject(stringList[2]);
-
-
-            var jArray = new JArray(j1, j2, j3);
-            return jArray.ToString();
+            return jArrayItems.ToString();
         }
     }
 }

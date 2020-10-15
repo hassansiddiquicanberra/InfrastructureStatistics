@@ -23,19 +23,20 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
 
             foreach (var ticket in data)
             {
-                var ticketsNotClosedOrDeferredOrResolved = ticket.Tickets
-                    .Where(x => x.Status != Constants.PendingStatus && x.Status != Constants.ResolvedStatus
-                                                                    && x.Status != Constants.ClosedStatus);
-
-                if (ticketsNotClosedOrDeferredOrResolved.Any())
+                foreach (var individualTicket in ticket.Tickets)
                 {
-                    ticketsOpenMoreThanSevenDays = (ticketsNotClosedOrDeferredOrResolved.Where(x =>
-                        x.CreatedAt != null &&
-                        (DateTime.Now - DateTime.Parse(x.CreatedAt.Substring(0, 10)))
-                        .TotalDays > 7)).Count();
+                    if (individualTicket.Status != Constants.PendingStatus && individualTicket.Status !=
+                                                                           Constants.ResolvedStatus
+                                                                           && individualTicket.Status !=
+                                                                           Constants.ClosedStatus
+                                                                           && individualTicket.CreatedAt != null
+                                                                           && (DateTime.Now -
+                                                                               DateTime.Parse(individualTicket.CreatedAt
+                                                                                   .Substring(0, 10))).TotalDays > 7)
+                    {
+                        ticketsOpenMoreThanSevenDays += 1;
+                    }
                 }
-
-
             }
 
             model.OpenMoreThanSevenDays = ticketsOpenMoreThanSevenDays;
@@ -57,19 +58,22 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
                 return model;
             }
 
+
             foreach (var ticket in data)
             {
-                var ticketsNotClosedOrDeferredOrResolved = ticket.Tickets
-                                       .Where(x => x.Status != Constants.PendingStatus
-                                                && x.Status != Constants.ResolvedStatus
-                                                && x.Status != Constants.ClosedStatus);
-
-                if (ticketsNotClosedOrDeferredOrResolved.Any())
+                foreach (var individualTicket in ticket.Tickets)
                 {
-                    ticketsOpenMoreThanThirtyDays = (ticketsNotClosedOrDeferredOrResolved.Where(x =>
-                        x.CreatedAt != null &&
-                        (DateTime.Now - DateTime.Parse(x.CreatedAt.Substring(0, 10)))
-                        .TotalDays > 30)).Count();
+                    if (individualTicket.Status != Constants.PendingStatus && individualTicket.Status !=
+                                                                           Constants.ResolvedStatus
+                                                                           && individualTicket.Status !=
+                                                                           Constants.ClosedStatus
+                                                                           && individualTicket.CreatedAt != null
+                                                                           && (DateTime.Now -
+                                                                               DateTime.Parse(individualTicket.CreatedAt
+                                                                                   .Substring(0, 10))).TotalDays > 30)
+                    {
+                        ticketsOpenMoreThanThirtyDays += 1;
+                    }
                 }
             }
 
@@ -81,6 +85,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
         public static MonthlyStatisticsDataModel PopulateTicketCountForTheMonth(this MonthlyStatisticsDataModel model, FreshServiceTicketModel[] data)
         {
             var ticketCountForTheMonth = 0;
+            
             if (model == null)
             {
                 model = new MonthlyStatisticsDataModel();
@@ -93,7 +98,13 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
 
             foreach (var ticket in data)
             {
-                ticketCountForTheMonth = (ticket.Tickets.Where(x => (DateTime.Parse(x.CreatedAt.Substring(0, 10))).Month == DateTime.Now.Month)).Count();
+                foreach (var individualTicket in ticket.Tickets)
+                {
+                    if ( individualTicket.CreatedAt != null && (DateTime.Parse(individualTicket.CreatedAt.Substring(0, 10))).Month == DateTime.Now.Month)
+                    {
+                        ticketCountForTheMonth += 1;
+                    }
+                }
             }
 
             model.TicketCountForTheMonth = ticketCountForTheMonth;
@@ -131,7 +142,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
         public static MonthlyStatisticsDataModel PopulateTicketsResolvedAtLevelOne(this MonthlyStatisticsDataModel model, FreshServiceTicketModel[] data)
         {
             var ticketsResolvedAtLevelOne = 0;
-            var currentDate = DateTime.Now;
+            
             if (model == null)
             {
                 model = new MonthlyStatisticsDataModel();
@@ -144,16 +155,14 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
 
             foreach (var ticket in data)
             {
-                var resolvedTickets = ticket.Tickets
-                            .Where(x => x.Status == Constants.ResolvedStatus &&
-                                        x.UpdatedAt != null &&
-                                        (DateTime.Parse(x.UpdatedAt.Substring(0, 10))).Month == DateTime.Now.Month);
-
-                if (resolvedTickets.Any())
+                foreach (var individualTicket in ticket.Tickets)
                 {
-                    ticketsResolvedAtLevelOne = (resolvedTickets.Where(x =>
-                        x.GroupId == ticket.LevelOneGroup)).Count();
-
+                    if (individualTicket.Status != Constants.ResolvedStatus 
+                                                                           && individualTicket.UpdatedAt != null
+                                                                           && (DateTime.Parse(individualTicket.UpdatedAt.Substring(0, 10))).Month == DateTime.Now.Month)
+                    {
+                        ticketsResolvedAtLevelOne += 1;
+                    }
                 }
             }
 

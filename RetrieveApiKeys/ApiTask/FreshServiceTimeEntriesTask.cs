@@ -6,16 +6,16 @@ using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 {
-    public class FreshServiceApiTask : BaseApiTask
+    public class FreshServiceTimeEntriesTask : BaseApiTask
     {
-        public FreshServiceApiTask()
+        public FreshServiceTimeEntriesTask()
         {
             Id = ConfigHelper.FreshServiceApiKey;
         }
 
         public override string Start(string ticketId = null)
         {
-            var freshServiceResponse = GetAllTicketsAsync(ConfigHelper.FreshServiceForTicketsUri, HttpMethod.Get);
+            var freshServiceResponse = GetAllTimeEntriesAsync(ticketId, ConfigHelper.FreshServiceForTicketsUri, HttpMethod.Get);
             
             return freshServiceResponse.Result;
         }

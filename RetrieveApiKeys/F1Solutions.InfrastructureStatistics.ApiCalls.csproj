@@ -65,8 +65,10 @@
     <Compile Include="ApiTask\BaseApiTask.cs" />
     <Compile Include="ApiTask\AirCallApiTask.cs" />
     <Compile Include="ApiTask\FreshServiceAgentGroupApiTask.cs" />
+    <Compile Include="ApiTask\FreshServiceTimeEntriesTask.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Models\FreshServiceAgentGroupModel.cs" />
+    <Compile Include="Models\FreshServiceTimeEntriesModel.cs" />
     <Compile Include="Models\FreshServiceTicketModel.cs" />
     <Compile Include="ModelExtensions\FreshServiceModelExtensions.cs" />
     <Compile Include="ModelExtensions\AirCallModelExtensions.cs" />

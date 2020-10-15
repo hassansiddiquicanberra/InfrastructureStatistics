@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
-using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
-using Newtonsoft.Json;
+using F1Solutions.InfrastructureStatistics.ApiCalls.Utils;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 {
@@ -16,10 +13,12 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
     {
         protected string Id;
         protected string Token;
+        protected string TicketId;
+        private int initialPageNumber = 1;
 
         public delegate void SetOutputTextCallback(string text);
         public event SetOutputTextCallback RaiseSetOutputText;
-        public abstract string Start();
+        public abstract string Start(string ticketId = null);
         public virtual void TaskComplete()
         {
             SetOutputText($"{Environment.NewLine} Task completed!!");
@@ -57,9 +56,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 
             using (var response = await client.SendAsync(request))
             {
-                //var responseHeaderContainsLink = response.Headers.Contains("link");
-                //TODO: if response header doesn't contain link means that is the last page.
-
                 using (var content = response.Content)
                 {
                     try
@@ -127,13 +123,12 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 
         protected async Task<string> GetAllTicketsAsync(string uri, string id, string token, HttpMethod method, string requestBody = "", int attempt = 1, int maxAttempts = 5)
         {
-            int pageNumber = 1;
+            int pageNumber = initialPageNumber;
             var client = InitialiseHttpClient(id, token);
-            var errorMessage = $"ERROR: System did not return a successful Http Status code after {maxAttempts} attempts.{Environment.NewLine}";
 
             bool isResponseContainingLinkText = false;
             var responseBodyList = new List<string>();
-            var stringBuilder = new StringBuilder();
+            var ticketStringBuilder = new StringBuilder();
 
             do
             {
@@ -153,29 +148,63 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 
                 if (!isSuccessResponseButEmptyBody)
                 {
-                    //stringBuilder.AppendLine(responseBody);
                     responseBodyList.Add(responseBody);
                 }
 
-                if (response.Headers.Contains("link"))
+                if (response.Headers.Contains(Constants.Link))
                 {
                     isResponseContainingLinkText = true;
                     pageNumber++;
                 }
 
-                //} while (isResponseContainingLinkText);
-            } while (pageNumber < 11);
-
+                //} while (isResponseContainingLinkText);//TODO: uncomment this  
+            } while (pageNumber < 10); //TODO: Remove this line
 
             foreach (var value in responseBodyList)
             {
-                stringBuilder.Append(value);
+                ticketStringBuilder.Append(value);
             }
 
 
-            var convertedValues = ConfigHelper.MergeJsonString(responseBodyList);
+            var mergedJsonValues = ConfigHelper.MergeJsonString(responseBodyList);
 
-            return convertedValues;
+            return mergedJsonValues;
+        }
+
+        protected async Task<string> GetAllTimeEntriesAsync(string ticketId, string uri, HttpMethod method, int attempt = 1, int maxAttempts = 5)
+        {
+            return await GetAllTimeEntriesAsync(ticketId, uri, Id, Token, method, string.Empty, attempt, maxAttempts);
+        }
+
+        protected async Task<string> GetAllTimeEntriesAsync(string ticketId, string uri, string id, string token, HttpMethod method, string requestBody = "", int attempt = 1, int maxAttempts = 5)
+        {
+            var client = InitialiseHttpClient(id, token);
+
+            var responseBodyList = new List<string>();
+            var ticketStringBuilder = new StringBuilder();
+            var url = ConfigHelper.FreshServiceForTicketsUri + "/" + ticketId + "/time_entries";
+
+
+            var request = new HttpRequestMessage
+            {
+                RequestUri = new Uri(url),
+                Method = method,
+            };
+
+            var response = await client.SendAsync(request);
+            var content = response.Content;
+            string responseBody = await content.ReadAsStringAsync();
+
+            var isSuccessResponseButEmptyBody = response.IsSuccessStatusCode &&
+                                                (string.IsNullOrEmpty(responseBody) ||
+                                                 string.IsNullOrWhiteSpace(responseBody));
+
+            if (!isSuccessResponseButEmptyBody)
+            {
+                return responseBody;
+            }
+
+            return await GetAllTimeEntriesAsync(ticketId,uri, id, token, method, requestBody, attempt + 1);
         }
     }
 }

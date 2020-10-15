@@ -11,7 +11,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
             Id = ConfigHelper.FreshServiceApiKey;
         }
 
-        public override string Start()
+        public override string Start(string ticketId = null)
         {
             var freshServiceResponse = SendRequest(ConfigHelper.FreshServiceForAgentGroupsUri, HttpMethod.Get);
             return freshServiceResponse.Result;
