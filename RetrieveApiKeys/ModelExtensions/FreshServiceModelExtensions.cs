@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Utils;
@@ -100,7 +101,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             {
                 foreach (var individualTicket in ticket.Tickets)
                 {
-                    if ( individualTicket.CreatedAt != null && (DateTime.Parse(individualTicket.CreatedAt.Substring(0, 10))).Month == DateTime.Now.Month)
+                    if ( individualTicket.CreatedAt != null 
+                         && (DateTime.Parse(individualTicket.CreatedAt.Substring(0, 10))).Month == DateTime.Now.Month) //Current month only
                     {
                         ticketCountForTheMonth += 1;
                     }
@@ -112,34 +114,44 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             return model;
         }
 
-        public static MonthlyStatisticsDataModel PopulateAverageTicketHandleTimeInMinutes(this MonthlyStatisticsDataModel model, FreshServiceTicketModel[] data)
+        public static MonthlyStatisticsDataModel PopulateAverageTicketHandleTimeInMinutes(this MonthlyStatisticsDataModel model, FreshServiceTimeEntriesModel[] timeEntryData)
         {
-            var averageTicketHandlingTime = 0.0m;
+            var ticketHandlingTimeStringList = new List<string>();
             if (model == null)
             {
                 model = new MonthlyStatisticsDataModel();
             }
 
-            if (data == null)
+            if (timeEntryData == null)
             {
                 return model;
             }
-            //TODO replace with actual field - assuming that minutes handle ticket is available in the field email config id
-
-            foreach (var ticket in data)
+            
+            foreach (var entry in timeEntryData)
             {
-                var currentMonthTickets = (ticket.Tickets.Where(x =>
-                    (DateTime.Parse(x.CreatedAt.Substring(0, 10))).Month == DateTime.Now.Month));
+                foreach (var individualEntry in entry.Time_Entries)
+                {
 
-                //averageTicketHandlingTime = currentMonthTickets.Average(x => (Convert.ToDecimal(x.EmailConfigId)));
+                    if (!string.IsNullOrEmpty(individualEntry.TimeSpent) &&
+                        (DateTime.Parse(individualEntry.CreatedAt.Substring(0, 10))).Month == DateTime.Now.Month) //Current month only
+                    {
+                        ticketHandlingTimeStringList.Add(individualEntry.TimeSpent);
+                    }
+                    
+                }
+               
             }
 
-            model.AverageTicketHandleTimeInMinutes = averageTicketHandlingTime;
+            var averageTicketHandlingTime = ticketHandlingTimeStringList.Select(TimeSpan.Parse)
+                .Average(time => time.TotalMinutes);
+
+            var decimalValue = (decimal?) averageTicketHandlingTime;
+            model.AverageTicketHandleTimeInMinutes = Math.Round(decimalValue.GetValueOrDefault(), 10);
 
             return model;
         }
 
-        public static MonthlyStatisticsDataModel PopulateTicketsResolvedAtLevelOne(this MonthlyStatisticsDataModel model, FreshServiceTicketModel[] data)
+        public static MonthlyStatisticsDataModel PopulateTicketsResolvedAtLevelOne(this MonthlyStatisticsDataModel model, FreshServiceTicketModel[] data, string levelOneGroupIdentifierId)
         {
             var ticketsResolvedAtLevelOne = 0;
             
@@ -157,9 +169,10 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             {
                 foreach (var individualTicket in ticket.Tickets)
                 {
-                    if (individualTicket.Status != Constants.ResolvedStatus 
+                    if (individualTicket.Status == Constants.ResolvedStatus 
                                                                            && individualTicket.UpdatedAt != null
-                                                                           && (DateTime.Parse(individualTicket.UpdatedAt.Substring(0, 10))).Month == DateTime.Now.Month)
+                                                                           && (DateTime.Parse(individualTicket.UpdatedAt.Substring(0, 10))).Month == DateTime.Now.Month
+                                                                           && individualTicket.GroupId == levelOneGroupIdentifierId)
                     {
                         ticketsResolvedAtLevelOne += 1;
                     }
@@ -169,6 +182,11 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             model.TicketsResolvedByLevelOne = ticketsResolvedAtLevelOne;
 
             return model;
+        }
+
+        private static TimeSpan Average(this IEnumerable<TimeSpan> spans)
+        {
+           return TimeSpan.FromMinutes(spans.Select(s => s.TotalMinutes).Average());
         }
     }
 }

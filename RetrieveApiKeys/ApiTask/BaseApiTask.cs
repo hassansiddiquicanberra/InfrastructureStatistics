@@ -157,8 +157,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
                     pageNumber++;
                 }
 
-                //} while (isResponseContainingLinkText);//TODO: uncomment this  
-            } while (pageNumber < 10); //TODO: Remove this line
+            } while (isResponseContainingLinkText);
 
             foreach (var value in responseBodyList)
             {

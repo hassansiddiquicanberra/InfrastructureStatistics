@@ -11,7 +11,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MonthlyTicketCount" Type="int" />
-          <Property Name="MonthlyAverageTicketHandlingTime" Type="decimal" Precision="18" Scale="18" />
+          <Property Name="MonthlyAverageTicketHandlingTime" Type="decimal" Precision="20" Scale="10" />
           <Property Name="MonthlyLevelOneResolvedTickets" Type="int" />
           <Property Name="EntryDateTime" Type="datetime" Nullable="false" />
         </EntityType>
@@ -50,7 +50,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MonthlyTicketCount" Type="Int32" />
-          <Property Name="MonthlyAverageTicketHandlingTime" Type="Decimal" Precision="18" Scale="18" />
+          <Property Name="MonthlyAverageTicketHandlingTime" Type="Decimal" Precision="20" Scale="10" />
           <Property Name="MonthlyLevelOneResolvedTickets" Type="Int32" />
           <Property Name="EntryDateTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
