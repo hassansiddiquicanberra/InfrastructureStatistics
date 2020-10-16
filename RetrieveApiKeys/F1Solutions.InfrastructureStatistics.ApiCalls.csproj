@@ -68,6 +68,7 @@
     <Compile Include="ApiTask\FreshServiceTimeEntriesTask.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\JsonHelper.cs" />
+    <Compile Include="Helpers\ServiceExecutionHelper.cs" />
     <Compile Include="Models\FreshServiceAgentGroupModel.cs" />
     <Compile Include="Models\FreshServiceTimeEntriesModel.cs" />
     <Compile Include="Models\FreshServiceTicketModel.cs" />
@@ -79,7 +80,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApiTask\FreshServiceApiTask.cs" />
-    <Compile Include="Utils\TransformationHelper.cs" />
+    <Compile Include="Helpers\TransformationHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

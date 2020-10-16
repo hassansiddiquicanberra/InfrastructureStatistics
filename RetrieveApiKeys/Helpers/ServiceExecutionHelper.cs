@@ -1,28 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
-using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
 using Newtonsoft.Json;
 
-namespace F1Solutions.InfrastructureStatistics.ApiCalls.Utils
+namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 {
-    public static class TransformationHelper
+    public static class ServiceExecutionHelper
     {
-        public static string FindLevelOneGroupIdentifier(FreshServiceAgentGroupModel model)
-        {
-            var levelOneGroupId = string.Empty;
-
-            var levelOneGroupRecord = model.Groups.FirstOrDefault(x => x.Name.Contains(ConfigHelper.FirstLevelHelpDesk));
-            if (levelOneGroupRecord != null)
-            {
-                levelOneGroupId = levelOneGroupRecord.Id;
-            }
-
-            return levelOneGroupId;
-        }
-
         public static string ExecutePaginatedAirCallService(AirCallApiTask _airCallApiTask)
         {
             var airCallModelList = new List<string>();
@@ -41,14 +25,16 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Utils
                     var deserializedObject = JsonConvert.DeserializeObject<AirCallModel>(airCallResult);
                     airCallNextPageUrl = deserializedObject.Meta.NextPageLink;
                 }
-            } while (!string.IsNullOrEmpty(airCallNextPageUrl));
+
+                //} while (!string.IsNullOrEmpty(airCallNextPageUrl));
+            } while (airCallNextPageUrl == "https://api.aircall.io/v1/calls?order=asc&page=15&per_page=20");
 
             return JsonHelper.MergeJsonStringValues(airCallModelList);
         }
 
         public static string ExecuteFreshServiceTimeEntriesForEachTicket(FreshServiceTicketModel[] tickets, FreshServiceTimeEntriesTask _freshServiceTimeEntriesTask)
         {
-            var responseBodyList = new List<string>(); 
+            var responseBodyList = new List<string>();
 
             foreach (var ticket in tickets)
             {
@@ -66,10 +52,5 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Utils
 
             return JsonHelper.MergeJsonStringValues(responseBodyList);
         }
-
-       
     }
 }
-
-
-
