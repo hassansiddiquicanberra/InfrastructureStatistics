@@ -1,4 +1,7 @@
-﻿using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
+﻿using System;
+using System.ServiceProcess;
+using System.Timers;
+using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
@@ -31,29 +34,35 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             _monthlyStatisticsModel = new MonthlyStatisticsDataModel();
         }
 
-        public void Start()
+        public void ExecuteMonthlyStatisticsServiceCalls()
         {
-            var airCallTaskResult = ServiceExecutionHelper.ExecutePaginatedAirCallService(_airCallApiTask);
             var freshServiceResult = _freshServiceApiTask.Start();
             var freshServiceAgentGroupApiTaskResult = _freshServiceAgentGroupApiTask.Start();
 
-            var listOfCalls = JsonConvert.DeserializeObject<AirCallModel[]>(airCallTaskResult);
-            var listOfGroups = JsonConvert.DeserializeObject<FreshServiceAgentGroupModel>(freshServiceAgentGroupApiTaskResult);
             var listOfTickets = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(freshServiceResult);
-
+            
             var freshServiceTimeEntriesList = ServiceExecutionHelper.ExecuteFreshServiceTimeEntriesForEachTicket(listOfTickets, _freshServiceTimeEntriesTask);
             var timeEntries = JsonConvert.DeserializeObject<FreshServiceTimeEntriesModel[]>(freshServiceTimeEntriesList);
-
+            var listOfGroups = JsonConvert.DeserializeObject<FreshServiceAgentGroupModel>(freshServiceAgentGroupApiTaskResult);
             _levelOneGroupIdentifierId = TransformationHelper.FindLevelOneGroupIdentifier(listOfGroups);
-            _statisticsModel = AirCallFilterCallsData(listOfCalls);
-            _statisticsModel = FreshServiceFilterTicketsData(listOfTickets);
+
             _monthlyStatisticsModel = FreshServiceMonthlyStatistics(listOfTickets, timeEntries);
 
-            Save(_statisticsModel, _monthlyStatisticsModel);
+            SaveMonthlyStatisticsData(_monthlyStatisticsModel);
         }
 
-        public void Stop()
+        public void ExecuteNonMonthlyStatisticsServiceCalls()
         {
+            var airCallTaskResult = ServiceExecutionHelper.ExecutePaginatedAirCallService(_airCallApiTask);
+            var freshServiceResult = _freshServiceApiTask.Start();
+
+            var listOfTickets = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(freshServiceResult);
+
+            var listOfCalls = JsonConvert.DeserializeObject<AirCallModel[]>(airCallTaskResult);
+            _statisticsModel = FreshServiceFilterTicketsData(listOfTickets);
+            _statisticsModel = AirCallFilterCallsData(listOfCalls);
+
+            SaveStatisticsData(_statisticsModel);
         }
 
         private StatisticsDataModel AirCallFilterCallsData(AirCallModel[] airCallData)
@@ -82,9 +91,13 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             return _monthlyStatisticsModel;
         }
 
-        private void Save(StatisticsDataModel model, MonthlyStatisticsDataModel monthlyStatisticsModel)
+        private void SaveStatisticsData(StatisticsDataModel model)
         {
             _statisticsService.SaveStatisticsValues(model);
+        }
+
+        private void SaveMonthlyStatisticsData(MonthlyStatisticsDataModel monthlyStatisticsModel)
+        {
             _statisticsService.SaveMonthlyStatisticsValues(monthlyStatisticsModel);
         }
     }
