@@ -10,9 +10,9 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Utils
 {
     public static class TransformationHelper
     {
-        public static string LevelOneGroupIdentifier(FreshServiceAgentGroupModel model)
+        public static string FindLevelOneGroupIdentifier(FreshServiceAgentGroupModel model)
         {
-            var levelOneGroupId = "";
+            var levelOneGroupId = string.Empty;
 
             var levelOneGroupRecord = model.Groups.FirstOrDefault(x => x.Name.Contains(ConfigHelper.FirstLevelHelpDesk));
             if (levelOneGroupRecord != null)
@@ -26,37 +26,29 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Utils
         public static string ExecutePaginatedAirCallService(AirCallApiTask _airCallApiTask)
         {
             var airCallModelList = new List<string>();
-            var callsStringBuilder = new StringBuilder();
             var airCallResult = _airCallApiTask.Start();
             airCallModelList.Add(airCallResult);
+
             var listOfCalls = JsonConvert.DeserializeObject<AirCallModel>(airCallResult);
-            var nextPageUrl = listOfCalls.Meta.NextPageLink;
+            var airCallNextPageUrl = listOfCalls.Meta.NextPageLink;
 
             do
             {
-                if (!string.IsNullOrEmpty(nextPageUrl))
+                if (!string.IsNullOrEmpty(airCallNextPageUrl))
                 {
-                    airCallResult = _airCallApiTask.Start(null, nextPageUrl);
+                    airCallResult = _airCallApiTask.Start(null, airCallNextPageUrl);
                     airCallModelList.Add(airCallResult);
                     var deserializedObject = JsonConvert.DeserializeObject<AirCallModel>(airCallResult);
-                    nextPageUrl = deserializedObject.Meta.NextPageLink;
+                    airCallNextPageUrl = deserializedObject.Meta.NextPageLink;
                 }
-            } while (!string.IsNullOrEmpty(nextPageUrl));
+            } while (!string.IsNullOrEmpty(airCallNextPageUrl));
 
-            foreach (var value in airCallModelList)
-            {
-                callsStringBuilder.Append(value);
-            }
-
-            var mergedAirCallJsonValues = ConfigHelper.MergeJsonString(airCallModelList);
-
-            return mergedAirCallJsonValues;
+            return JsonHelper.MergeJsonStringValues(airCallModelList);
         }
 
         public static string ExecuteFreshServiceTimeEntriesForEachTicket(FreshServiceTicketModel[] tickets, FreshServiceTimeEntriesTask _freshServiceTimeEntriesTask)
         {
-            var responseBodyList = new List<string>();
-            var ticketStringBuilder = new StringBuilder();
+            var responseBodyList = new List<string>(); 
 
             foreach (var ticket in tickets)
             {
@@ -72,15 +64,10 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Utils
                 }
             }
 
-            foreach (var value in responseBodyList)
-            {
-                ticketStringBuilder.Append(value);
-            }
-
-            var mergedJsonValues = ConfigHelper.MergeJsonString(responseBodyList);
-
-            return mergedJsonValues;
+            return JsonHelper.MergeJsonStringValues(responseBodyList);
         }
+
+       
     }
 }
 

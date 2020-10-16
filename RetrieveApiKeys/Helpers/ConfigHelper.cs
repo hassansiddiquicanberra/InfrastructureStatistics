@@ -35,21 +35,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
             }
         }
 
-        public static string MergeJsonString(List<string> stringList)
-        {
-            var mergeSettings = new JsonMergeSettings
-            {
-                MergeArrayHandling = MergeArrayHandling.Union
-            };
-
-            var jArrayItems = new JArray();
-
-            foreach (var item in stringList)
-            {
-                jArrayItems.Add((JObject)JsonConvert.DeserializeObject(item));
-            }
-
-            return jArrayItems.ToString();
-        }
+       
     }
 }

@@ -163,14 +163,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 
             } while (pageNumber < 30);
 
-            foreach (var value in responseBodyList)
-            {
-                ticketStringBuilder.Append(value);
-            }
-
-            var mergedJsonValues = ConfigHelper.MergeJsonString(responseBodyList);
-
-            return mergedJsonValues;
+            return JsonHelper.MergeJsonStringValues(responseBodyList);
         }
 
         protected async Task<string> GetAllTimeEntriesAsync(string ticketId, string uri, HttpMethod method, int attempt = 1, int maxAttempts = 5)
@@ -185,7 +178,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
             var responseBodyList = new List<string>();
             var ticketStringBuilder = new StringBuilder();
             var url = ConfigHelper.FreshServiceForTicketsUri + "/" + ticketId + "/time_entries";
-
 
             var request = new HttpRequestMessage
             {

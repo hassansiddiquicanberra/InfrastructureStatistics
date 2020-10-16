@@ -43,7 +43,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             var freshServiceTimeEntriesList = TransformationHelper.ExecuteFreshServiceTimeEntriesForEachTicket(listOfTickets, _freshServiceTimeEntriesTask);
             var timeEntries = JsonConvert.DeserializeObject<FreshServiceTimeEntriesModel[]>(freshServiceTimeEntriesList);
 
-            _levelOneGroupIdentifierId = TransformationHelper.LevelOneGroupIdentifier(listOfGroups);
+            _levelOneGroupIdentifierId = TransformationHelper.FindLevelOneGroupIdentifier(listOfGroups);
             _statisticsModel = AirCallFilterCallsData(listOfCalls);
             _statisticsModel = FreshServiceFilterTicketsData(listOfTickets);
             _monthlyStatisticsModel = FreshServiceMonthlyStatistics(listOfTickets, timeEntries);

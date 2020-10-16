@@ -67,6 +67,7 @@
     <Compile Include="ApiTask\FreshServiceAgentGroupApiTask.cs" />
     <Compile Include="ApiTask\FreshServiceTimeEntriesTask.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
+    <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Models\FreshServiceAgentGroupModel.cs" />
     <Compile Include="Models\FreshServiceTimeEntriesModel.cs" />
     <Compile Include="Models\FreshServiceTicketModel.cs" />
