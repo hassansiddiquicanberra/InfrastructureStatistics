@@ -26,10 +26,10 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             {
                 foreach (var individualTicket in ticket.Tickets)
                 {
-                    if (individualTicket.Status != Constants.PendingStatus && individualTicket.Status !=
-                                                                           Constants.ResolvedStatus
+                    if (individualTicket.Status != Constants.TicketWithPendingStatus && individualTicket.Status !=
+                                                                           Constants.TicketWithResolvedStatus
                                                                            && individualTicket.Status !=
-                                                                           Constants.ClosedStatus
+                                                                           Constants.TicketWithClosedStatus
                                                                            && individualTicket.CreatedAt != null
                                                                            && (DateTime.Now -
                                                                                DateTime.Parse(individualTicket.CreatedAt
@@ -64,10 +64,10 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             {
                 foreach (var individualTicket in ticket.Tickets)
                 {
-                    if (individualTicket.Status != Constants.PendingStatus && individualTicket.Status !=
-                                                                           Constants.ResolvedStatus
+                    if (individualTicket.Status != Constants.TicketWithPendingStatus && individualTicket.Status !=
+                                                                           Constants.TicketWithResolvedStatus
                                                                            && individualTicket.Status !=
-                                                                           Constants.ClosedStatus
+                                                                           Constants.TicketWithClosedStatus
                                                                            && individualTicket.CreatedAt != null
                                                                            && (DateTime.Now -
                                                                                DateTime.Parse(individualTicket.CreatedAt
@@ -169,7 +169,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             {
                 foreach (var individualTicket in ticket.Tickets)
                 {
-                    if (individualTicket.Status == Constants.ResolvedStatus 
+                    if (individualTicket.Status == Constants.TicketWithResolvedStatus 
                                                                            && individualTicket.UpdatedAt != null
                                                                            && (DateTime.Parse(individualTicket.UpdatedAt.Substring(0, 10))).Month == DateTime.Now.Month
                                                                            && individualTicket.GroupId == levelOneGroupIdentifierId)
@@ -180,6 +180,45 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             }
 
             model.TicketsResolvedByLevelOne = ticketsResolvedAtLevelOne;
+
+            return model;
+        }
+
+        public static StatisticsDataModel PopulateTwoDayPercentageForTickets(this StatisticsDataModel model, FreshServiceTicketModel[] freshServiceTicketData)
+        {
+            var daysTicketIsOpen = new List<int>();
+            
+            if (model == null)
+            {
+                model = new StatisticsDataModel();
+            }
+
+            if (freshServiceTicketData == null)
+            {
+                return model;
+            }
+
+            foreach (var tickets in freshServiceTicketData)
+            {
+                foreach (var individualTicket in tickets.Tickets)
+                {
+
+                    if (individualTicket.Status != Constants.TicketWithPendingStatus && individualTicket.Status != Constants.TicketWithClosedStatus
+                                                                                     && individualTicket.Status != Constants.TicketWithPendingStatus
+                                                                                     && individualTicket.Status != Constants.TicketWithResolvedStatus
+                                                                                     && individualTicket.CreatedAt != null)
+                    {
+                        daysTicketIsOpen.Add((DateTime.Now - DateTime.Parse(individualTicket.CreatedAt.Substring(0, 10))).Days);
+                    }
+
+                }
+
+            }
+
+            var averageTicketOpenDays = daysTicketIsOpen.Average();
+
+            var decimalValue = (decimal?)averageTicketOpenDays;
+            model.TwoDayPercentage = Math.Round(decimalValue.GetValueOrDefault(), 10);
 
             return model;
         }

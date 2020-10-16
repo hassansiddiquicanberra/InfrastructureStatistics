@@ -23,7 +23,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Utils
             return levelOneGroupId;
         }
 
-        public static string ExecuteSubSequentAirCallService(AirCallApiTask _airCallApiTask)
+        public static string ExecutePaginatedAirCallService(AirCallApiTask _airCallApiTask)
         {
             var airCallModelList = new List<string>();
             var callsStringBuilder = new StringBuilder();
@@ -53,7 +53,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Utils
             return mergedAirCallJsonValues;
         }
 
-        public static string ExecuteFreshServiceTimeEntriesTask(FreshServiceTicketModel[] tickets, FreshServiceTimeEntriesTask _freshServiceTimeEntriesTask)
+        public static string ExecuteFreshServiceTimeEntriesForEachTicket(FreshServiceTicketModel[] tickets, FreshServiceTimeEntriesTask _freshServiceTimeEntriesTask)
         {
             var responseBodyList = new List<string>();
             var ticketStringBuilder = new StringBuilder();

@@ -19,7 +19,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
                 return model;
             }
 
-            model.TotalMspMissedCalls = FilterCallsByName(ConfigHelper.MspNumber, airCallData);
+            model.TotalMspMissedCalls = FilterCallsByPhoneTypeName(ConfigHelper.MspNumber, airCallData);
 
             return model;
         }
@@ -36,29 +36,29 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
                 return model;
             }
 
-            model.TotalRegisMissedCalls = FilterCallsByName(ConfigHelper.RegisNumber, airCallData);
+            model.TotalRegisMissedCalls = FilterCallsByPhoneTypeName(ConfigHelper.RegisNumber, airCallData);
 
             return model;
         }
 
-        private static int FilterCallsByName(string phoneTypeName, AirCallModel[] data)
+        private static int FilterCallsByPhoneTypeName(string phoneTypeName, AirCallModel[] airCallData)
         {
-            var total = 0;
-            foreach (var calls in data)
+            var totalCalls = 0;
+            foreach (var allCalls in airCallData)
             {
-                foreach (var individualCall in calls.Calls)
+                foreach (var individualCall in allCalls.Calls)
                 {
                     if (individualCall.MissedCallReason != null
                         && individualCall.AnsweredAt == null
                         && individualCall.Number != null
                         && individualCall.Number.Name == phoneTypeName)
                     {
-                        total += 1;
+                        totalCalls += 1;
                     }
                 }
             }
 
-            return total;
+            return totalCalls;
         }
     }
 }

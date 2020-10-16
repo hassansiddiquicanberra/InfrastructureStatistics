@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
-using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
+﻿using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Utils;
@@ -35,7 +32,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
 
         public void Start()
         {
-            var airCallTaskResult = TransformationHelper.ExecuteSubSequentAirCallService(_airCallApiTask);
+            var airCallTaskResult = TransformationHelper.ExecutePaginatedAirCallService(_airCallApiTask);
             var freshServiceResult = _freshServiceApiTask.Start();
             var freshServiceAgentGroupApiTaskResult = _freshServiceAgentGroupApiTask.Start();
 
@@ -43,7 +40,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             var listOfGroups = JsonConvert.DeserializeObject<FreshServiceAgentGroupModel>(freshServiceAgentGroupApiTaskResult);
             var listOfTickets = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(freshServiceResult);
 
-            var freshServiceTimeEntriesList = TransformationHelper.ExecuteFreshServiceTimeEntriesTask(listOfTickets, _freshServiceTimeEntriesTask);
+            var freshServiceTimeEntriesList = TransformationHelper.ExecuteFreshServiceTimeEntriesForEachTicket(listOfTickets, _freshServiceTimeEntriesTask);
             var timeEntries = JsonConvert.DeserializeObject<FreshServiceTimeEntriesModel[]>(freshServiceTimeEntriesList);
 
             _levelOneGroupIdentifierId = TransformationHelper.LevelOneGroupIdentifier(listOfGroups);
@@ -70,6 +67,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
         {
             _statisticsModel = _statisticsModel.PopulateTotalTicketsMoreThanSevenDays(ticketData);
             _statisticsModel = _statisticsModel.PopulateTotalTicketsMoreThanThirtyDays(ticketData);
+            _statisticsModel = _statisticsModel.PopulateTwoDayPercentageForTickets(ticketData);
 
             return _statisticsModel;
         }

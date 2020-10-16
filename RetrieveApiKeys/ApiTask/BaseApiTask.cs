@@ -18,7 +18,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 
         public delegate void SetOutputTextCallback(string text);
         public event SetOutputTextCallback RaiseSetOutputText;
-        public abstract string Start(string ticketId = null, string url =null);
+        public abstract string Start(string ticketId = null, string url = null);
         public virtual void TaskComplete()
         {
             SetOutputText($"{Environment.NewLine} Task completed!!");
@@ -43,7 +43,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 
             var request = new HttpRequestMessage
             {
-                RequestUri = string.IsNullOrEmpty(url) ? new Uri(uri) : new Uri(url) ,
+                RequestUri = string.IsNullOrEmpty(url) ? new Uri(uri) : new Uri(url),
                 Method = method,
             };
 
@@ -151,17 +151,17 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
                     responseBodyList.Add(responseBody);
                 }
 
-                if (response.Headers.Contains(Constants.Link))
+                if (response.Headers.Contains(Constants.LinkInResponseHeader))
                 {
                     isResponseContainingLinkText = true;
                     pageNumber++;
                 }
-                else if (!response.Headers.Contains(Constants.Link))
+                else if (!response.Headers.Contains(Constants.LinkInResponseHeader))
                 {
                     isResponseContainingLinkText = false;
                 }
 
-            } while (isResponseContainingLinkText);
+            } while (pageNumber < 30);
 
             foreach (var value in responseBodyList)
             {
@@ -206,7 +206,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
                 return responseBody;
             }
 
-            return await GetAllTimeEntriesAsync(ticketId,uri, id, token, method, requestBody, attempt + 1);
+            return await GetAllTimeEntriesAsync(ticketId, uri, id, token, method, requestBody, attempt + 1);
         }
     }
 }

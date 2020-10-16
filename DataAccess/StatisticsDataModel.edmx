@@ -20,7 +20,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TwoDayPercentage" Type="decimal" Precision="18" Scale="18" />
+          <Property Name="TwoDayPercentage" Type="decimal" Precision="20" Scale="10" />
           <Property Name="OpenMoreThanSevenDays" Type="int" />
           <Property Name="OpenMoreThanThirtyDays" Type="int" />
           <Property Name="TotalPositive" Type="int" />
@@ -59,7 +59,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TwoDayPercentage" Type="Decimal" Precision="18" Scale="18" />
+          <Property Name="TwoDayPercentage" Type="Decimal" Precision="20" Scale="10" />
           <Property Name="OpenMoreThanSevenDays" Type="Int32" />
           <Property Name="OpenMoreThanThirtyDays" Type="Int32" />
           <Property Name="TotalPositive" Type="Int32" />
