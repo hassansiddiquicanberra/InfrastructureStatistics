@@ -52,11 +52,11 @@
     <Compile Include="ProjectInstaller.Designer.cs">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
-    <Compile Include="StatisticsService.cs">
+    <Compile Include="HourlyStatisticsService.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="StatisticsService.Designer.cs">
-      <DependentUpon>StatisticsService.cs</DependentUpon>
+    <Compile Include="HourlyStatisticsService.Designer.cs">
+      <DependentUpon>HourlyStatisticsService.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

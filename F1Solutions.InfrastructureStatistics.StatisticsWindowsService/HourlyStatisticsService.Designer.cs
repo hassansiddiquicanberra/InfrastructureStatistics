@@ -1,6 +1,6 @@
 ﻿namespace F1Solutions.InfrastructureStatistics.StatisticsWindowsService
 {
-    partial class StatisticsService
+    partial class HourlyStatisticsService
     {
         /// <summary> 
         /// Required designer variable.

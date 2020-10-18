@@ -161,7 +161,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
                     isResponseContainingLinkText = false;
                 }
 
-            } while (pageNumber < 15);
+            } while (pageNumber < 5);
 
             return JsonHelper.MergeJsonStringValues(responseBodyList);
         }

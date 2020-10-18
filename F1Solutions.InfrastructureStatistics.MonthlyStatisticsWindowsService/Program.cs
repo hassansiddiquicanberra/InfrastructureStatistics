@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ServiceProcess;
 
 namespace F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService
 {
@@ -14,12 +9,18 @@ namespace F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService
         /// </summary>
         static void Main()
         {
+            #if DEBUG
+            var myService = new MonthlyStatisticsService();
+            myService.OnDebug();
+            System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
+            #else
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {
                 new MonthlyStatisticsService()
             };
             ServiceBase.Run(ServicesToRun);
+            #endif
         }
     }
 }

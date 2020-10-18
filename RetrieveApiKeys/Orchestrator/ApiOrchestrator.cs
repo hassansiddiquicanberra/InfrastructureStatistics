@@ -51,7 +51,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             SaveMonthlyStatisticsData(_monthlyStatisticsModel);
         }
 
-        public void ExecuteNonMonthlyStatisticsServiceCalls()
+        public void ExecuteHourlyStatisticsServiceCalls()
         {
             var airCallTaskResult = ServiceExecutionHelper.ExecutePaginatedAirCallService(_airCallApiTask);
             var freshServiceResult = _freshServiceApiTask.Start();

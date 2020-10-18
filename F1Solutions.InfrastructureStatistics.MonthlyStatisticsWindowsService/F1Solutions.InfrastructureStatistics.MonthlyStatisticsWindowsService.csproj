@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\CalculationHelper.cs" />
     <Compile Include="MonthlyStatisticsService.cs">
       <SubType>Component</SubType>
     </Compile>

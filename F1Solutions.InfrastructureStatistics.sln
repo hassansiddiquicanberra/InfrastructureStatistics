@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "F1Solutions.InfrastructureS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "F1Solutions.InfrastructureStatistics.Services", "F1.Solutions.Service\F1Solutions.InfrastructureStatistics.Services.csproj", "{2CDFBDC7-8AAD-406E-A784-0B11A75277BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "F1Solutions.InfrastructureStatistics.StatisticsWindowsService", "F1Solutions.InfrastructureStatistics.StatisticsWindowsService\F1Solutions.InfrastructureStatistics.StatisticsWindowsService.csproj", "{62E3D5A3-D75E-479A-8519-315F0F8C3518}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "F1Solutions.InfrastructureStatistics.HourlyStatisticsWindowsService", "F1Solutions.InfrastructureStatistics.StatisticsWindowsService\F1Solutions.InfrastructureStatistics.HourlyStatisticsWindowsService.csproj", "{62E3D5A3-D75E-479A-8519-315F0F8C3518}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService", "F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService\F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService.csproj", "{3E8577E3-5EF1-46DB-9C87-74D4B256E78E}"
 EndProject

@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator;
+using F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService.Helpers;
 
 namespace F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService
 {
@@ -19,10 +13,17 @@ namespace F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService
             InitializeComponent();
             _apiOrchestrator = new ApiOrchestrator();
         }
+        public void OnDebug()
+        {
+            OnStart(null);
+        }
 
         protected override void OnStart(string[] args)
         {
-            _apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
+            if(CalculationHelper.IsTodayFirstDayOfTheMonth())
+            {
+                _apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
+            }
         }
 
         protected override void OnStop()
