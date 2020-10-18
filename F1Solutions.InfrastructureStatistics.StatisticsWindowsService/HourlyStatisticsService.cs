@@ -6,7 +6,7 @@ namespace F1Solutions.InfrastructureStatistics.StatisticsWindowsService
 {
     public partial class HourlyStatisticsService : ServiceBase
     {
-        readonly System.Timers.Timer _timer = new System.Timers.Timer();
+        readonly Timer _timer = new Timer();
 
         private readonly ApiOrchestrator _apiOrchestrator;
         public HourlyStatisticsService()
