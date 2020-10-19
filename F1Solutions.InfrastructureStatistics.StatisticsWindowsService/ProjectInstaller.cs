@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Configuration.Install;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ServiceProcess;
 
 namespace F1Solutions.InfrastructureStatistics.StatisticsWindowsService
 {
@@ -18,10 +14,12 @@ namespace F1Solutions.InfrastructureStatistics.StatisticsWindowsService
 
         private void serviceInstaller1_AfterInstall(object sender, InstallEventArgs e)
         {
-            using (System.ServiceProcess.ServiceController sc = new
-                System.ServiceProcess.ServiceController(serviceInstaller1.ServiceName))
+            using (var serviceController = new ServiceController(HourlyServiceInstaller.ServiceName))
             {
-                sc.Start();
+                if (serviceController.Status != ServiceControllerStatus.Running)
+                {
+                    serviceController.Start();
+                }
             }
         }
     }

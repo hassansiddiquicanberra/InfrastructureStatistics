@@ -9,18 +9,12 @@ namespace F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService
         /// </summary>
         static void Main()
         {
-            #if DEBUG
-            var myService = new MonthlyStatisticsService();
-            myService.OnDebug();
-            System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
-            #else
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
+            var servicesToRun = new ServiceBase[]
             {
                 new MonthlyStatisticsService()
             };
-            ServiceBase.Run(ServicesToRun);
-            #endif
+
+            ServiceBase.Run(servicesToRun);
         }
     }
 }

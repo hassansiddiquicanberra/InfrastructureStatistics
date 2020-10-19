@@ -28,33 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.serviceProcessInstaller1 = new System.ServiceProcess.ServiceProcessInstaller();
-            this.serviceInstaller1 = new System.ServiceProcess.ServiceInstaller();
+            this.MonthlyServiceProcessInstaller = new System.ServiceProcess.ServiceProcessInstaller();
+            this.MonthlyServiceInstaller = new System.ServiceProcess.ServiceInstaller();
             // 
-            // serviceProcessInstaller1
+            // MonthlyServiceProcessInstaller
             // 
-            this.serviceProcessInstaller1.Account = System.ServiceProcess.ServiceAccount.LocalSystem;
-            this.serviceProcessInstaller1.Password = null;
-            this.serviceProcessInstaller1.Username = null;
+            this.MonthlyServiceProcessInstaller.Account = System.ServiceProcess.ServiceAccount.LocalSystem;
+            this.MonthlyServiceProcessInstaller.Password = null;
+            this.MonthlyServiceProcessInstaller.Username = null;
             // 
-            // serviceInstaller1
+            // MonthlyServiceInstaller
             // 
-            this.serviceInstaller1.Description = "This service runs on 1st of every month to save monthly statistics";
-            this.serviceInstaller1.ServiceName = "MonthlyStatisticsService";
-            this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
-            this.serviceInstaller1.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.serviceInstaller1_AfterInstall);
+            this.MonthlyServiceInstaller.Description = "This service runs on 1st of every month to save monthly statistics";
+            this.MonthlyServiceInstaller.ServiceName = "MonthlyStatisticsService";
+            this.MonthlyServiceInstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
+            this.MonthlyServiceInstaller.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.serviceInstaller1_AfterInstall);
             // 
             // ProjectInstaller
             // 
             this.Installers.AddRange(new System.Configuration.Install.Installer[] {
-            this.serviceProcessInstaller1,
-            this.serviceInstaller1});
+            this.MonthlyServiceProcessInstaller,
+            this.MonthlyServiceInstaller});
 
         }
 
         #endregion
 
-        private System.ServiceProcess.ServiceProcessInstaller serviceProcessInstaller1;
-        private System.ServiceProcess.ServiceInstaller serviceInstaller1;
+        private System.ServiceProcess.ServiceProcessInstaller MonthlyServiceProcessInstaller;
+        private System.ServiceProcess.ServiceInstaller MonthlyServiceInstaller;
     }
 }

@@ -10,7 +10,7 @@ namespace F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService.H
             var isTimeMatching = false;
             var firstDayOfMonth = new DateTime(today.Year, today.Month, 19);
             var start = new DateTime(today.Year, today.Month, today.Day, today.Hour, today.Minute, today.Second); 
-            var end = new DateTime(today.Year, today.Month, today.Day, 11, 46, 0); //12 pm today 19 October
+            var end = new DateTime(today.Year, today.Month, today.Day, 13, 30, 0); //1:30 pm today 19 October
             DateTime now = DateTime.Now;
 
             if ((now > start) && (now < end))

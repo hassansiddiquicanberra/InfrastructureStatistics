@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "F1Solutions.InfrastructureS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService", "F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService\F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService.csproj", "{3E8577E3-5EF1-46DB-9C87-74D4B256E78E}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Hourly Service Setup", "Hourly Service Setup\Hourly Service Setup.vdproj", "{731DA73D-C520-41B6-AECC-F3833D5EC8B4}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Monthly Service Setup", "Monthly Service Setup\Monthly Service Setup.vdproj", "{6320AB5A-EB65-4240-B352-4F6E9E162E02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,10 @@ Global
 		{3E8577E3-5EF1-46DB-9C87-74D4B256E78E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E8577E3-5EF1-46DB-9C87-74D4B256E78E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E8577E3-5EF1-46DB-9C87-74D4B256E78E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{731DA73D-C520-41B6-AECC-F3833D5EC8B4}.Debug|Any CPU.ActiveCfg = Debug
+		{731DA73D-C520-41B6-AECC-F3833D5EC8B4}.Release|Any CPU.ActiveCfg = Release
+		{6320AB5A-EB65-4240-B352-4F6E9E162E02}.Debug|Any CPU.ActiveCfg = Debug
+		{6320AB5A-EB65-4240-B352-4F6E9E162E02}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
