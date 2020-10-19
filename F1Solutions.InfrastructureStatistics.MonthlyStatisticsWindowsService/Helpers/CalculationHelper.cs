@@ -6,19 +6,21 @@ namespace F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService.H
     {
         public static bool IsFirstDayOfTheMonthAndTimeMatches()
         {
+            var hourClockAsOneAm = 1;
             var today = DateTime.Now;
             var isTodayFirstDayOfTheMonth = false;
             var isTimeOneAm = false;
-            var firstDayOfMonth = new DateTime(today.Year, today.Month, 19);
-            var startDate = new DateTime(today.Year, today.Month, today.Day, today.Hour, today.Minute, today.Second);
-            var endDate = new DateTime(today.Year, today.Month, today.Day, 01, 0, 0);
+
+            var firstDayOfMonth = new DateTime(today.Year, today.Month, 1);
+            var currentDateWithTime = new DateTime(today.Year, today.Month, today.Day, today.Hour, today.Minute, today.Second);
+            var currentDateWithTimeAsOneAm = new DateTime(today.Year, today.Month, today.Day, hourClockAsOneAm, 0, 0);
 
             if (firstDayOfMonth.Day == today.Day)
             {
                 isTodayFirstDayOfTheMonth = true;
             }
 
-            if ((today > startDate) && (today < endDate))
+            if ((today > currentDateWithTime) && (today < currentDateWithTimeAsOneAm))
             {
                 isTimeOneAm = true;
             }
