@@ -4,12 +4,22 @@ namespace F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService.H
 {
     public static class CalculationHelper
     {
-        public static bool IsTodayFirstDayOfTheMonth()
+        public static bool IsFirstDayOfTheMonthAndTimeMatches()
         {
             var today = DateTime.Now;
-            var firstDayOfMonth = new DateTime(today.Year, today.Month, 1);
+            var isTimeMatching = false;
+            var firstDayOfMonth = new DateTime(today.Year, today.Month, 19);
+            var start = new DateTime(today.Year, today.Month, today.Day, today.Hour, today.Minute, today.Second); 
+            var end = new DateTime(today.Year, today.Month, today.Day, 11, 46, 0); //12 pm today 19 October
+            DateTime now = DateTime.Now;
 
-            return firstDayOfMonth.Day == today.Day;
+            if ((now > start) && (now < end))
+            {
+                isTimeMatching = true;
+            }
+
+
+            return firstDayOfMonth.Day == today.Day && isTimeMatching;
         }
     }
 }

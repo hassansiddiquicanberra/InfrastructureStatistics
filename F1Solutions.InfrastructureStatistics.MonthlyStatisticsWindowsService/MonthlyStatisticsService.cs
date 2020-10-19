@@ -20,7 +20,7 @@ namespace F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService
 
         protected override void OnStart(string[] args)
         {
-            if(CalculationHelper.IsTodayFirstDayOfTheMonth())
+            if(CalculationHelper.IsFirstDayOfTheMonthAndTimeMatches())
             {
                 _apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
             }
