@@ -6,7 +6,8 @@ namespace F1Solutions.InfrastructureStatistics.StatisticsWindowsService
 {
     public partial class HourlyStatisticsService : ServiceBase
     {
-        //readonly Timer _timer = new Timer();
+        private readonly double ServiceToRunEverySeventyFiveMinutesInMs = 45000000;
+        readonly Timer _timer = new Timer();
 
         private readonly ApiOrchestrator _apiOrchestrator;
         public HourlyStatisticsService()
@@ -17,20 +18,19 @@ namespace F1Solutions.InfrastructureStatistics.StatisticsWindowsService
 
         protected override void OnStart(string[] args)
         {
-            _apiOrchestrator.ExecuteHourlyStatisticsServiceCalls();
-            //_timer.Elapsed += OnElapsedTime;
-            //_timer.Interval = 900000;
-            //_timer.Enabled = true;
+            _timer.Elapsed += OnElapsedTime;
+            _timer.Interval = ServiceToRunEverySeventyFiveMinutesInMs;
+            _timer.Enabled = true;
         }
 
         private void OnElapsedTime(object sender, ElapsedEventArgs e)
         {
-           // _apiOrchestrator.ExecuteHourlyStatisticsServiceCalls();
+            _apiOrchestrator.ExecuteHourlyStatisticsServiceCalls();
         }
 
         protected override void OnStop()
         {
-           // _timer.Enabled = false;
+            _timer.Enabled = false;
         }
     }
 }
