@@ -3,7 +3,7 @@
 "VSVersion" = "3:800"
 "ProjectType" = "8:{978C614F-708E-4E1A-B201-565925725DBA}"
 "IsWebType" = "8:FALSE"
-"ProjectName" = "8:Monthly Statictics Service"
+"ProjectName" = "8:Monthly Statictics Service Installer"
 "LanguageId" = "3:1033"
 "CodePage" = "3:1252"
 "UILanguageId" = "3:1033"
@@ -1037,7 +1037,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_A184AB2A9D674ACAB0D81192C53E60B2"
             {
-            "SourcePath" = "8:..\\F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService\\obj\\Debug\\F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService.exe"
+            "SourcePath" = "8:..\\F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService\\obj\\Release\\F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_143453C6AFC34C26B6CF11CB3BDA8CD4"
