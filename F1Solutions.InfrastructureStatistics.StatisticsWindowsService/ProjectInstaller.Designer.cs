@@ -28,32 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.HourlyServiceProcessInstaller = new System.ServiceProcess.ServiceProcessInstaller();
-            this.HourlyServiceInstaller = new System.ServiceProcess.ServiceInstaller();
+            this.ThreeHourlyServiceProcessInstaller = new System.ServiceProcess.ServiceProcessInstaller();
+            this.ThreeHourlyServiceInstaller = new System.ServiceProcess.ServiceInstaller();
             // 
-            // HourlyServiceProcessInstaller
+            // ThreeHourlyServiceProcessInstaller
             // 
-            this.HourlyServiceProcessInstaller.Account = System.ServiceProcess.ServiceAccount.LocalSystem;
-            this.HourlyServiceProcessInstaller.Password = null;
-            this.HourlyServiceProcessInstaller.Username = null;
+            this.ThreeHourlyServiceProcessInstaller.Account = System.ServiceProcess.ServiceAccount.LocalSystem;
+            this.ThreeHourlyServiceProcessInstaller.Password = null;
+            this.ThreeHourlyServiceProcessInstaller.Username = null;
             // 
-            // HourlyServiceInstaller
+            // ThreeHourlyServiceInstaller
             // 
-            this.HourlyServiceInstaller.Description = "This service runs every hour to save statistical data";
-            this.HourlyServiceInstaller.ServiceName = "HourlyStatisticsService";
-            this.HourlyServiceInstaller.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.serviceInstaller1_AfterInstall);
+            this.ThreeHourlyServiceInstaller.Description = "This service runs every 3 hours to save statistical data";
+            this.ThreeHourlyServiceInstaller.ServiceName = "ThreeHourlyStatisticsService";
+            this.ThreeHourlyServiceInstaller.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.serviceInstaller1_AfterInstall);
             // 
             // ProjectInstaller
             // 
             this.Installers.AddRange(new System.Configuration.Install.Installer[] {
-            this.HourlyServiceProcessInstaller,
-            this.HourlyServiceInstaller});
+            this.ThreeHourlyServiceProcessInstaller,
+            this.ThreeHourlyServiceInstaller});
 
         }
 
         #endregion
 
-        private System.ServiceProcess.ServiceProcessInstaller HourlyServiceProcessInstaller;
-        private System.ServiceProcess.ServiceInstaller HourlyServiceInstaller;
+        private System.ServiceProcess.ServiceProcessInstaller ThreeHourlyServiceProcessInstaller;
+        private System.ServiceProcess.ServiceInstaller ThreeHourlyServiceInstaller;
     }
 }

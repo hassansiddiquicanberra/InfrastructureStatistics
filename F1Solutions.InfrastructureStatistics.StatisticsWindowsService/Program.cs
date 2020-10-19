@@ -12,7 +12,7 @@ namespace F1Solutions.InfrastructureStatistics.StatisticsWindowsService
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {
-                new HourlyStatisticsService()
+                new ThreeHourlyStatisticsService()
             };
             ServiceBase.Run(ServicesToRun);
         }

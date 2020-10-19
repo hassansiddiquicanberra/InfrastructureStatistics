@@ -4,13 +4,13 @@ using F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator;
 
 namespace F1Solutions.InfrastructureStatistics.StatisticsWindowsService
 {
-    public partial class HourlyStatisticsService : ServiceBase
+    public partial class ThreeHourlyStatisticsService : ServiceBase
     {
-        private readonly double ServiceToRunEverySeventyFiveMinutesInMs = 45000000;
+        private readonly double ServiceToRunEveryThreeHoursInMilliseconds = 10800000;
         readonly Timer _timer = new Timer();
 
         private readonly ApiOrchestrator _apiOrchestrator;
-        public HourlyStatisticsService()
+        public ThreeHourlyStatisticsService()
         {
             InitializeComponent();
             _apiOrchestrator = new ApiOrchestrator();
@@ -19,7 +19,7 @@ namespace F1Solutions.InfrastructureStatistics.StatisticsWindowsService
         protected override void OnStart(string[] args)
         {
             _timer.Elapsed += OnElapsedTime;
-            _timer.Interval = ServiceToRunEverySeventyFiveMinutesInMs;
+            _timer.Interval = ServiceToRunEveryThreeHoursInMilliseconds;
             _timer.Enabled = true;
         }
 
