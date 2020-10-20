@@ -124,11 +124,10 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
         protected async Task<string> GetAllTicketsAsync(string uri, string id, string token, HttpMethod method, string requestBody = "", int attempt = 1, int maxAttempts = 5)
         {
             int pageNumber = initialPageNumber;
-            var client = InitialiseHttpClient(id, token);
+            var httpClient = InitialiseHttpClient(id, token);
 
             bool isResponseContainingLinkText = false;
             var responseBodyList = new List<string>();
-            var ticketStringBuilder = new StringBuilder();
 
             do
             {
@@ -138,7 +137,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
                     Method = method,
                 };
 
-                var response = await client.SendAsync(request);
+                var response = await httpClient.SendAsync(request);
                 var content = response.Content;
                 string responseBody = await content.ReadAsStringAsync();
 
@@ -174,9 +173,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
         protected async Task<string> GetAllTimeEntriesAsync(string ticketId, string uri, string id, string token, HttpMethod method, string requestBody = "", int attempt = 1, int maxAttempts = 5)
         {
             var client = InitialiseHttpClient(id, token);
-
-            var responseBodyList = new List<string>();
-            var ticketStringBuilder = new StringBuilder();
             var url = ConfigHelper.FreshServiceForTicketsUri + "/" + ticketId + "/time_entries";
 
             var request = new HttpRequestMessage
@@ -187,6 +183,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 
             var response = await client.SendAsync(request);
             var content = response.Content;
+
             string responseBody = await content.ReadAsStringAsync();
 
             var isSuccessResponseButEmptyBody = response.IsSuccessStatusCode &&

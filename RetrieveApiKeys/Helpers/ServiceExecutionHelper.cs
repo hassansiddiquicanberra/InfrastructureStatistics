@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
+using F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator;
 using Newtonsoft.Json;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
@@ -27,27 +28,23 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
                 }
 
             } while (!string.IsNullOrEmpty(airCallNextPageUrl));
-            ////} while (airCallNextPageUrl == "https://api.aircall.io/v1/calls?order=asc&page=30&per_page=20");
 
             return JsonHelper.MergeJsonStringValues(airCallModelList);
         }
 
-        public static string ExecuteFreshServiceTimeEntriesForEachTicket(FreshServiceTicketModel[] tickets, FreshServiceTimeEntriesTask _freshServiceTimeEntriesTask)
+        public static string ExecuteFreshServiceTimeEntriesForEachTicket(List<string> ticketIds, FreshServiceTimeEntriesTask freshServiceTimeEntriesTask)
         {
             var responseBodyList = new List<string>();
 
-            foreach (var ticket in tickets)
+            foreach (var ticketId in ticketIds)
             {
-                foreach (var individualTicket in ticket.Tickets)
+                if (!string.IsNullOrEmpty(ticketId))
                 {
-                    var ticketId = individualTicket.Id;
-                    if (!string.IsNullOrEmpty(ticketId))
-                    {
-                        var url = ConfigHelper.FreshServiceForTicketsUri + "/" + ticketId + "/time_entries";
-                        var freshServiceAgentGroupApiTaskResult = _freshServiceTimeEntriesTask.Start(ticketId);
-                        responseBodyList.Add(freshServiceAgentGroupApiTaskResult);
-                    }
+                    var url = ConfigHelper.FreshServiceForTicketsUri + "/" + ticketId + "/time_entries";
+                    var freshServiceAgentGroupApiTaskResult = freshServiceTimeEntriesTask.Start(ticketId);
+                    responseBodyList.Add(freshServiceAgentGroupApiTaskResult);
                 }
+
             }
 
             return JsonHelper.MergeJsonStringValues(responseBodyList);

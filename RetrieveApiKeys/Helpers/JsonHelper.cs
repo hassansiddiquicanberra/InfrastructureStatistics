@@ -26,12 +26,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 
         public static string MergeJsonStringValues(List<string> listOfValues)
         {
-            var valuesStringBuilder = new StringBuilder();
-            foreach (var value in listOfValues)
-            {
-                valuesStringBuilder.Append(value);
-            }
-
             var mergedTimeEntriesJsonValues = IndentJsonValues(listOfValues);
 
             return mergedTimeEntriesJsonValues;

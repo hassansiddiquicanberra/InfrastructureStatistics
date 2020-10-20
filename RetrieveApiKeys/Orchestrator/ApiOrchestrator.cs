@@ -1,4 +1,7 @@
-﻿using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
@@ -36,13 +39,39 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             var freshServiceAgentGroupApiTaskResult = _freshServiceAgentGroupApiTask.Start();
 
             var listOfTickets = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(freshServiceResult);
-            
-            var freshServiceTimeEntriesList = ServiceExecutionHelper.ExecuteFreshServiceTimeEntriesForEachTicket(listOfTickets, _freshServiceTimeEntriesTask);
-            var timeEntries = JsonConvert.DeserializeObject<FreshServiceTimeEntriesModel[]>(freshServiceTimeEntriesList);
+            _monthlyStatisticsModel = FreshServiceMonthlyStatistics(listOfTickets);
+
             var listOfGroups = JsonConvert.DeserializeObject<FreshServiceAgentGroupModel>(freshServiceAgentGroupApiTaskResult);
             _levelOneGroupIdentifierId = TransformationHelper.FindLevelOneGroupIdentifier(listOfGroups);
 
-            _monthlyStatisticsModel = FreshServiceMonthlyStatistics(listOfTickets, timeEntries);
+            var ticketIdList = new List<string>();
+            if (listOfTickets != null)
+            {
+                foreach (var tickets in listOfTickets)
+                {
+                    if (tickets?.Tickets != null)
+                        foreach (var individualTicket in tickets.Tickets)
+                        {
+                            if (!string.IsNullOrEmpty(individualTicket.CreatedAt) &&
+                                (DateTime.Parse(individualTicket.CreatedAt.Substring(0, 10))).Month ==
+                                DateTime.Now.Month)
+                            {
+                                ticketIdList.Add(individualTicket.Id);
+                            }
+                        }
+                }
+
+                freshServiceResult = null;
+            }
+
+            listOfTickets = null;
+            var freshServiceTimeEntriesList = ServiceExecutionHelper.ExecuteFreshServiceTimeEntriesForEachTicket(ticketIdList,
+                    _freshServiceTimeEntriesTask);
+            var timeEntries =
+                JsonConvert.DeserializeObject<FreshServiceTimeEntriesModel[]>(freshServiceTimeEntriesList);
+
+
+            _monthlyStatisticsModel = FreshServiceTicketHandleTimeStatistics(timeEntries);
 
             SaveMonthlyStatisticsData(_monthlyStatisticsModel);
         }
@@ -78,11 +107,19 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             return _statisticsModel;
         }
 
-        private MonthlyStatisticsDataModel FreshServiceMonthlyStatistics(FreshServiceTicketModel[] ticketData, FreshServiceTimeEntriesModel[] timeEntryData)
+        private MonthlyStatisticsDataModel FreshServiceMonthlyStatistics(FreshServiceTicketModel[] ticketData)
         {
             _monthlyStatisticsModel = _monthlyStatisticsModel.PopulateTicketCountForTheMonth(ticketData);
+            _monthlyStatisticsModel =
+                _monthlyStatisticsModel.PopulateTicketsResolvedAtLevelOne(ticketData, _levelOneGroupIdentifierId);
+
+            return _monthlyStatisticsModel;
+        }
+
+        private MonthlyStatisticsDataModel FreshServiceTicketHandleTimeStatistics(
+            FreshServiceTimeEntriesModel[] timeEntryData)
+        {
             _monthlyStatisticsModel = _monthlyStatisticsModel.PopulateAverageTicketHandleTimeInMinutes(timeEntryData);
-            _monthlyStatisticsModel = _monthlyStatisticsModel.PopulateTicketsResolvedAtLevelOne(ticketData, _levelOneGroupIdentifierId);
 
             return _monthlyStatisticsModel;
         }
@@ -96,5 +133,15 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
         {
             _statisticsService.SaveMonthlyStatisticsValues(monthlyStatisticsModel);
         }
+    }
+
+    public class FreshServiceTicketIdModel
+    {
+        public Tickets[] Tickets;
+    }
+
+    public class Tickets
+    {
+        [JsonProperty("id")] public string Id { get; set; }
     }
 }

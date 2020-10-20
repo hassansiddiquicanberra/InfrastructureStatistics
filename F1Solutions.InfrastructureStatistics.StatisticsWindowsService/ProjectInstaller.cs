@@ -14,7 +14,7 @@ namespace F1Solutions.InfrastructureStatistics.StatisticsWindowsService
 
         private void serviceInstaller1_AfterInstall(object sender, InstallEventArgs e)
         {
-            using (var serviceController = new ServiceController(ThreeHourlyServiceInstaller.ServiceName))
+            using (var serviceController = new ServiceController(HourlyServiceInstaller.ServiceName))
             {
                 if (serviceController.Status != ServiceControllerStatus.Running)
                 {
