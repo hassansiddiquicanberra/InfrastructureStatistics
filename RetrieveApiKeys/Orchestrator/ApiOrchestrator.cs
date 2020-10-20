@@ -38,11 +38,11 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             var freshServiceResult = _freshServiceApiTask.Start();
             var freshServiceAgentGroupApiTaskResult = _freshServiceAgentGroupApiTask.Start();
 
-            var listOfTickets = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(freshServiceResult);
-            _monthlyStatisticsModel = FreshServiceMonthlyStatistics(listOfTickets);
-
             var listOfGroups = JsonConvert.DeserializeObject<FreshServiceAgentGroupModel>(freshServiceAgentGroupApiTaskResult);
             _levelOneGroupIdentifierId = TransformationHelper.FindLevelOneGroupIdentifier(listOfGroups);
+
+            var listOfTickets = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(freshServiceResult);
+            _monthlyStatisticsModel = FreshServiceMonthlyStatistics(listOfTickets);
 
             var ticketIdList = new List<string>();
             if (listOfTickets != null)
