@@ -48,18 +48,21 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             {
                 foreach (var tickets in listOfTickets)
                 {
-                    if (tickets?.Tickets != null)
-                        foreach (var individualTicket in tickets.Tickets)
-                        {
-                            if (!string.IsNullOrEmpty(individualTicket.CreatedAt) &&
-                                (DateTime.Parse(individualTicket.CreatedAt.Substring(0, 10))).Month ==
-                                DateTime.Now.Month)
-                            {
-                                ticketIdList.Add(individualTicket.Id);
-                            }
-                        }
-                }
+                    if (tickets?.Tickets == null)
+                    {
+                        continue;
+                    }
 
+                    foreach (var individualTicket in tickets.Tickets)
+                    {
+                        if (!string.IsNullOrEmpty(individualTicket.CreatedAt) &&
+                            (DateTime.Parse(individualTicket.CreatedAt.Substring(0, 10))).Month ==
+                            DateTime.Now.Month)
+                        {
+                            ticketIdList.Add(individualTicket.Id);
+                        }
+                    }
+                }
             }
 
             //Below is null to dispose object
@@ -131,17 +134,5 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
         {
             _statisticsService.SaveMonthlyStatisticsValues(monthlyStatisticsModel);
         }
-    }
-
-    //Below is a class needed to make least amount of memory to be taken since we only need ticket Id for executing time entries for each ticket
-    //Unfortunately !Cannot add to a different file other will require to make it partial (exact same name as below is required for DTO to sync correctly)
-    public class FreshServiceTicketIdModel
-    {
-        public Tickets[] Tickets;
-    }
-
-    public class Tickets
-    {
-        [JsonProperty("id")] public string Id { get; set; }
     }
 }

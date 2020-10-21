@@ -104,6 +104,7 @@
     <Compile Include="ApiTask\AirCallApiTask.cs" />
     <Compile Include="ApiTask\FreshServiceAgentGroupApiTask.cs" />
     <Compile Include="ApiTask\FreshServiceTimeEntriesTask.cs" />
+    <Compile Include="Helpers\CalculationHelper.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Helpers\ServiceExecutionHelper.cs" />
@@ -114,14 +115,20 @@
     <Compile Include="ModelExtensions\FreshServiceModelExtensions.cs" />
     <Compile Include="ModelExtensions\AirCallModelExtensions.cs" />
     <Compile Include="Orchestrator\ApiOrchestrator.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="WindowsApiService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WindowsApiService.Designer.cs">
+      <DependentUpon>WindowsApiService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\Constants.cs" />
     <Compile Include="Models\AirCallModel.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApiTask\FreshServiceApiTask.cs" />
     <Compile Include="Helpers\TransformationHelper.cs" />
