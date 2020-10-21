@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Net.Http;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
-using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 {

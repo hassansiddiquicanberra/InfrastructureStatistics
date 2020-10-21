@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
-using F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator;
 using Newtonsoft.Json;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers

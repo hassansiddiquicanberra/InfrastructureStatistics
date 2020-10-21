@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService.Helpers
+namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 {
     public static class CalculationHelper
     {
@@ -20,7 +20,7 @@ namespace F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService.H
                 isTodayFirstDayOfTheMonth = true;
             }
 
-            if ((today > currentDateWithTime) && (today < currentDateWithTimeAsOneAm))
+            if (today > currentDateWithTime && today < currentDateWithTimeAsOneAm)
             {
                 isTimeOneAm = true;
             }

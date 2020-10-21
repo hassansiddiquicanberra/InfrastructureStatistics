@@ -1,6 +1,4 @@
-﻿using System;
-using F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator;
-using Topshelf;
+﻿using Topshelf;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls
 {
@@ -20,7 +18,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
                         }
                     })
                     .RunAsLocalSystem()
-                    .EnableServiceRecovery(r => r.RestartService(TimeSpan.FromSeconds(10)))
                     .StartAutomatically()
                     .SetServiceName("Infrastructure Statistics");
             });

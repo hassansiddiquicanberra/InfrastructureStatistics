@@ -1,7 +1,7 @@
 ﻿using System.ServiceProcess;
 using System.Timers;
+using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator;
-using F1Solutions.InfrastructureStatistics.MonthlyStatisticsWindowsService.Helpers;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls
 {
@@ -33,19 +33,13 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
             _timer.Enabled = false;
         }
 
-        protected override void OnStart(string[] args)
-        {
-            
-        }
-
         private void OnElapsedTime(object sender, ElapsedEventArgs e)
         {
             _apiOrchestrator.ExecuteHourlyStatisticsServiceCalls();
         }
 
-        protected override void OnStop()
-        {
-         
-        }
+        protected override void OnStart(string[] args){}
+
+        protected override void OnStop(){}
     }
 }

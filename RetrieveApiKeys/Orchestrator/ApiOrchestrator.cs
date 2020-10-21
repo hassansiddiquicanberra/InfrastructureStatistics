@@ -65,7 +65,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
                 }
             }
 
-            //Below is null to dispose object
+            //Below has been set as null to dispose object
             freshServiceResult = null;
             listOfTickets = null;
             var freshServiceTimeEntriesList = ServiceExecutionHelper.ExecuteFreshServiceTimeEntriesForEachTicket(ticketIdList,
@@ -81,10 +81,9 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
         {
             var airCallTaskResult = ServiceExecutionHelper.ExecutePaginatedAirCallService(_airCallApiTask);
             var freshServiceResult = _freshServiceApiTask.Start();
-
             var listOfTickets = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(freshServiceResult);
-
             var listOfCalls = JsonConvert.DeserializeObject<AirCallModel[]>(airCallTaskResult);
+
             _statisticsModel = FreshServiceFilterTicketsData(listOfTickets);
             _statisticsModel = AirCallFilterCallsData(listOfCalls);
 
@@ -121,7 +120,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             FreshServiceTimeEntriesModel[] timeEntryData)
         {
             _monthlyStatisticsModel = _monthlyStatisticsModel.PopulateAverageTicketHandleTimeInMinutes(timeEntryData);
-
             return _monthlyStatisticsModel;
         }
 
