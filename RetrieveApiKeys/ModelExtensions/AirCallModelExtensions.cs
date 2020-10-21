@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
+﻿using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
 using F1Solutions.InfrastructureStatistics.Services.Models;
 
@@ -44,16 +43,22 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
         private static int FilterCallsByPhoneTypeName(string phoneTypeName, AirCallModel[] airCallData)
         {
             var totalCalls = 0;
-            foreach (var allCalls in airCallData)
+            if (airCallData != null)
             {
-                foreach (var individualCall in allCalls.Calls)
+                foreach (var allCalls in airCallData)
                 {
-                    if (individualCall.MissedCallReason != null
-                        && individualCall.AnsweredAt == null
-                        && individualCall.Number != null
-                        && individualCall.Number.Name == phoneTypeName)
+                    if (allCalls.Calls != null)
                     {
-                        totalCalls += 1;
+                        foreach (var individualCall in allCalls.Calls)
+                        {
+                            if (individualCall.MissedCallReason != null
+                                && individualCall.AnsweredAt == null
+                                && individualCall.Number != null
+                                && individualCall.Number.Name == phoneTypeName)
+                            {
+                                totalCalls += 1;
+                            }
+                        }
                     }
                 }
             }

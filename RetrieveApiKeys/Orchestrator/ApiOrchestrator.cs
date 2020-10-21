@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions;
@@ -61,15 +60,14 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
                         }
                 }
 
-                freshServiceResult = null;
             }
 
+            //Below is null to dispose object
+            freshServiceResult = null;
             listOfTickets = null;
             var freshServiceTimeEntriesList = ServiceExecutionHelper.ExecuteFreshServiceTimeEntriesForEachTicket(ticketIdList,
                     _freshServiceTimeEntriesTask);
-            var timeEntries =
-                JsonConvert.DeserializeObject<FreshServiceTimeEntriesModel[]>(freshServiceTimeEntriesList);
-
+            var timeEntries = JsonConvert.DeserializeObject<FreshServiceTimeEntriesModel[]>(freshServiceTimeEntriesList);
 
             _monthlyStatisticsModel = FreshServiceTicketHandleTimeStatistics(timeEntries);
 
@@ -135,6 +133,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
         }
     }
 
+    //Below is a class needed to make least amount of memory to be taken since we only need ticket Id for executing time entries for each ticket
+    //Unfortunately !Cannot add to a different file other will require to make it partial (exact same name as below is required for DTO to sync correctly)
     public class FreshServiceTicketIdModel
     {
         public Tickets[] Tickets;
