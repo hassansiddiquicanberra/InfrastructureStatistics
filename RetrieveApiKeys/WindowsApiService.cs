@@ -22,9 +22,12 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
 
         public void Start()
         {
-            if (CalculationHelper.IsFirstDayOfTheMonthAndTimeMatches() && !_statisticsService.DoesAnyRecordExistForToday())
+            if (CalculationHelper.IsFirstDayOfTheMonthAndTimeMatches())
             {
-                _apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
+                if(!_statisticsService.DoesAnyRecordExistForToday())
+                {
+                    _apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
+                }
             }
 
             _timer.Elapsed += OnElapsedTime;
