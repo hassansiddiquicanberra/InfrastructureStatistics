@@ -2,6 +2,7 @@
 using System.Timers;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator;
+using F1Solutions.InfrastructureStatistics.Services;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls
 {
@@ -9,16 +10,19 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
     {
         private readonly ApiOrchestrator _apiOrchestrator;
         private readonly double ServiceToRunEveryThreeHoursInMilliseconds = 10800000;
+        private readonly StatisticsService _statisticsService;
         readonly Timer _timer = new Timer();
+
         public WindowsApiService()
         {
             InitializeComponent();
             _apiOrchestrator = new ApiOrchestrator();
+            _statisticsService = new StatisticsService();
         }
 
         public void Start()
         {
-            if (CalculationHelper.IsFirstDayOfTheMonthAndTimeMatches())
+            if (CalculationHelper.IsFirstDayOfTheMonthAndTimeMatches() && !_statisticsService.DoesAnyRecordExistForToday())
             {
                 _apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
             }

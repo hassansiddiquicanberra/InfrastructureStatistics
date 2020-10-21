@@ -1,4 +1,6 @@
-﻿using F1Solutions.InfrastructureStatistics.DataAccess;
+﻿using System;
+using System.Linq;
+using F1Solutions.InfrastructureStatistics.DataAccess;
 using F1Solutions.InfrastructureStatistics.Services.Helpers;
 using F1Solutions.InfrastructureStatistics.Services.Models;
 
@@ -22,6 +24,16 @@ namespace F1Solutions.InfrastructureStatistics.Services
 
             DataAccessStatistics.MonthlyStatistics.Add(monthlyStatisticValues);
             DataAccessStatistics.SaveChanges();
+        }
+
+        public bool DoesAnyRecordExistForToday()
+        {
+            var currentDateTime = DateTime.Now;
+            bool recordExistsForToday = DataAccessStatistics.MonthlyStatistics.Any(x => x.EntryDateTime.Year == currentDateTime.Year &&
+                                                                                         x.EntryDateTime.Month == currentDateTime.Month &&
+                                                                                         x.EntryDateTime.Day == currentDateTime.Day);
+
+            return recordExistsForToday;
         }
     }
 }
