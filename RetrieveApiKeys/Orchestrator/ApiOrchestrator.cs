@@ -4,6 +4,7 @@ using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
+using F1Solutions.InfrastructureStatistics.ApiCalls.Utils;
 using F1Solutions.InfrastructureStatistics.Services;
 using F1Solutions.InfrastructureStatistics.Services.Models;
 using Newtonsoft.Json;
@@ -17,6 +18,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
         private readonly FreshServiceTimeEntriesTask _freshServiceTimeEntriesTask;
         private readonly FreshServiceAgentGroupApiTask _freshServiceAgentGroupApiTask;
         private readonly StatisticsService _statisticsService;
+
         private StatisticsDataModel _statisticsModel;
         private MonthlyStatisticsDataModel _monthlyStatisticsModel;
         private string _levelOneGroupIdentifierId = null;
@@ -26,6 +28,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             _airCallApiTask = new AirCallApiTask();
             _freshServiceApiTask = new FreshServiceApiTask();
             _freshServiceAgentGroupApiTask = new FreshServiceAgentGroupApiTask();
+
             _freshServiceTimeEntriesTask = new FreshServiceTimeEntriesTask();
             _statisticsService = new StatisticsService();
             _statisticsModel = new StatisticsDataModel();
@@ -64,6 +67,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
                     }
                 }
             }
+
+            CacheHelper.SaveToCache("ListOfTickets",ticketIdList,DateTime.Now.AddHours(Constants.CacheExpirationTimeInHours));
 
             //Below has been set as null to dispose object
             freshServiceResult = null;
