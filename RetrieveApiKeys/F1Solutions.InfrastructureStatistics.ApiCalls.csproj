@@ -113,9 +113,7 @@
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Helpers\ServiceCaller.cs" />
-    <Compile Include="Helpers\ServiceExecutionHelper.cs" />
-    <Compile Include="Models\CachedModel.cs" />
-    <Compile Include="Models\CachedTimeEntries.cs" />
+    <Compile Include="Helpers\ServiceHelper.cs" />
     <Compile Include="Models\FreshServiceAgentGroupModel.cs" />
     <Compile Include="Models\FreshServiceTimeEntriesModel.cs" />
     <Compile Include="Models\FreshServiceTicketModel.cs" />

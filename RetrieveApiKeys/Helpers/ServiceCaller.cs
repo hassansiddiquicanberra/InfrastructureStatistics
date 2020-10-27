@@ -11,10 +11,10 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 {
     public class ServiceCaller
     {
-        private readonly ServiceExecutionHelper _serviceExecutionHelper;
+        private readonly ServiceHelper _serviceExecutionHelper;
         public ServiceCaller()
         {
-            _serviceExecutionHelper = new ServiceExecutionHelper();
+            _serviceExecutionHelper = new ServiceHelper();
         }
         public string CallFreshServiceApi(FreshServiceApiTask freshServiceApiTask)
         {

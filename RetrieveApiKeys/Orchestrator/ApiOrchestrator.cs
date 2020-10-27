@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions;
@@ -19,7 +20,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
         private readonly StatisticsService _statisticsService;
         private readonly ServiceCaller _serviceCaller;
         private readonly CacheHelper _cacheHelper;
-        private readonly ServiceExecutionHelper _serviceExecutionHelper;
+        private readonly ServiceHelper _serviceExecutionHelper;
 
         private StatisticsDataModel _statisticsModel;
         private MonthlyStatisticsDataModel _monthlyStatisticsModel;
@@ -36,25 +37,29 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             _monthlyStatisticsModel = new MonthlyStatisticsDataModel();
             _serviceCaller = new ServiceCaller();
             _cacheHelper = new CacheHelper();
-            _serviceExecutionHelper = new ServiceExecutionHelper();
+            _serviceExecutionHelper = new ServiceHelper();
         }
 
         public void ExecuteMonthlyStatisticsServiceCalls()
         {
-            var listOfTickets = _serviceCaller.CallFreshServiceApi(_freshServiceApiTask);
-            var deserializedTicketList = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(listOfTickets);
-            _cacheHelper.SaveToCache(Constants.CacheKey, deserializedTicketList,DateTime.Now.AddHours(4.0));
+            var listOfTickets = string.Empty;
+
+            if (_cacheHelper.GetCacheExpiryValue() == DateTime.MinValue || (DateTime.Now > _cacheHelper.GetCacheExpiryValue()))
+            {
+                listOfTickets = _serviceCaller.CallFreshServiceApi(_freshServiceApiTask);
+                var deserializedTicketList = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(listOfTickets);
+                _cacheHelper.SaveToCache(Constants.CacheKey, deserializedTicketList);
+            }
+
+            var cachedTicketList = _cacheHelper.GetFromCache<FreshServiceTicketModel[]>(Constants.CacheKey);
+
             var listOfGroups = _serviceCaller.CallFreshServiceGroupApi(_freshServiceAgentGroupApiTask);
             _levelOneGroupIdentifierId = TransformationHelper.FindLevelOneGroupIdentifier(listOfGroups);
-            
-            _monthlyStatisticsModel = FreshServiceMonthlyStatistics(deserializedTicketList);
-            var cachedTicketModelList = TransformationHelper.TransformTicketsToCachedEntity(deserializedTicketList);
-            //CacheHelper.SaveToCache(Constants.CacheKey, cachedTicketModelList, DateTime.Now.AddHours(Constants.CacheExpirationTimeInHours));
+
+            _monthlyStatisticsModel = FreshServiceMonthlyStatistics(cachedTicketList);
             var ticketIdList = TransformationHelper.GetListOfTickets(listOfTickets);
             var timeEntries = _serviceCaller.CallFreshServiceTimeEntriesApi(ticketIdList, _freshServiceTimeEntriesTask);
-            //Below has been set as null to dispose object
-            deserializedTicketList = null;
-            listOfTickets = null;
+            
             _monthlyStatisticsModel = FreshServiceTicketHandleTimeStatistics(timeEntries);
             SaveMonthlyStatisticsData(_monthlyStatisticsModel);
         }

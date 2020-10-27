@@ -1,5 +1,6 @@
 ﻿using System.ServiceProcess;
 using System.Timers;
+using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator;
 using F1Solutions.InfrastructureStatistics.Services;
 
@@ -8,8 +9,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
     partial class WindowsApiService : ServiceBase
     {
         private readonly ApiOrchestrator _apiOrchestrator;
-        private const string CacheKey = "CachedListOfTickets";
-        //private readonly double ServiceToRunEveryThreeHoursInMilliseconds = 10800000;
+        private readonly double ServiceToRunEveryThreeHoursInMilliseconds = 120000;
         private readonly StatisticsService _statisticsService;
         readonly Timer _timer = new Timer();
 
@@ -22,19 +22,21 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
 
         public void Start()
         {
-            //only perform below if the cache has expired ?
-            _apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
+            //_apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
+            ///*
+            // * TODO:**CHECK WITH ZAR FOR Whether the Below call to monthly will change ??  will it not be every 1st day of the month at 1am?
+            //*/
             //if (CalculationHelper.IsFirstDayOfTheMonthAndTimeMatches())
             //{
-            //    if(!_statisticsService.DoesAnyRecordExistForToday())
+            //    if (!_statisticsService.DoesAnyRecordExistForToday())
             //    {
             //        _apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
             //    }
             //}
 
-            //_timer.Elapsed += OnElapsedTime;
-            //_timer.Interval = ServiceToRunEveryThreeHoursInMilliseconds;
-            //_timer.Enabled = true;
+            _timer.Elapsed += OnElapsedTime;
+            _timer.Interval = ServiceToRunEveryThreeHoursInMilliseconds;
+            _timer.Enabled = true;
         }
 
         public new void Stop()
@@ -44,11 +46,11 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
 
         private void OnElapsedTime(object sender, ElapsedEventArgs e)
         {
-            _apiOrchestrator.ExecuteHourlyStatisticsServiceCalls();
+            _apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
         }
 
-        protected override void OnStart(string[] args){}
+        protected override void OnStart(string[] args) { }
 
-        protected override void OnStop(){}
+        protected override void OnStop() { }
     }
 }

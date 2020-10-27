@@ -22,53 +22,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
             return levelOneGroupId;
         }
 
-        public static List<CachedModel> TransformTicketsToCachedEntity(FreshServiceTicketModel[] listOfTickets)
-        {
-            var cachedTicketModel = new List<CachedModel>();
-            if (listOfTickets != null)
-            {
-                foreach (var tickets in listOfTickets)
-                {
-                    if (tickets?.Tickets == null)
-                    {
-                        continue;
-                    }
-
-                    foreach (var individualTicket in tickets.Tickets)
-                    {
-                        if (!string.IsNullOrEmpty(individualTicket.CreatedAt) &&
-                            (DateTime.Parse(individualTicket.CreatedAt.Substring(0, 10))).Month ==
-                            DateTime.Now.Month)
-                        {
-                            cachedTicketModel.Add(new CachedModel(
-                                new Agent()
-                                {
-                                    TicketId = individualTicket.Id,
-                                    CreatedAt = individualTicket.CreatedAt,
-                                    DepartmentId = individualTicket.DepartmentId,
-                                    DepartmentName = individualTicket.DepartmentName,
-                                    UpdatedAt = individualTicket.UpdatedAt
-                                },
-                                new Organisation()
-                                {
-                                    TicketId = individualTicket.Id,
-                                    CreatedAt = individualTicket.CreatedAt,
-                                    DepartmentId = individualTicket.DepartmentId,
-                                    DepartmentName = individualTicket.DepartmentName,
-                                    UpdatedAt = individualTicket.UpdatedAt
-                                },
-                                
-                                new TimeEntry(){})
-                            );
-                        }
-                    }
-                }
-            }
-
-            return cachedTicketModel;
-        }
-
-
         public static List<string> GetListOfTickets(string freshServiceResult)
         {
             var listOfTickets = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(freshServiceResult);

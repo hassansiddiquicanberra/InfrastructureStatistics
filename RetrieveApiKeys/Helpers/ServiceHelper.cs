@@ -8,10 +8,10 @@ using Newtonsoft.Json;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 {
-    public class ServiceExecutionHelper
+    public class ServiceHelper
     {
         private readonly CacheHelper _cacheHelper;
-        public ServiceExecutionHelper()
+        public ServiceHelper()
         {
             _cacheHelper = new CacheHelper();
         }
@@ -44,6 +44,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
             var ticketEntryId = 0;
             var responseBodyList = new List<string>();
             FreshServiceTimeEntriesModel deserialisedTimeEntries = null;
+
             foreach (var ticketId in ticketIds)
             {
                 if (!string.IsNullOrEmpty(ticketId))
