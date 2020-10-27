@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Data.Entity;
-using System.Data.Entity.Core.Objects.DataClasses;
-using System.Linq;
-using F1Solutions.InfrastructureStatistics.DataAccess;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 {
-    public static class CalculationHelper<T> where T:DbSet<T>
+    public static class CalculationHelper
     {
         public static bool IsFirstDayOfTheMonthAndTimeMatches()
         {
