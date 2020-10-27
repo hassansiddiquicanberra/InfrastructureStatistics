@@ -36,6 +36,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
         public static string ExecuteFreshServiceTimeEntriesForEachTicket(List<string> ticketIds, FreshServiceTimeEntriesTask freshServiceTimeEntriesTask)
         {
             var ticketEntryId = 0;
+            var responseBodyList = new List<string>();
             FreshServiceTimeEntriesModel deserialisedTimeEntries = null;
             foreach (var ticketId in ticketIds)
             {
@@ -49,7 +50,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 
                         if (deserialisedTimeEntries != null && deserialisedTimeEntries.Time_Entries.Any())
                         {
-                            List<TimeEntry> cachedTimeEntries = deserialisedTimeEntries.Time_Entries.Select(x =>
+                            List<TimeEntry> toBeCachedTimeEntries = deserialisedTimeEntries.Time_Entries.Select(x =>
                                 new TimeEntry()
                                 {
                                     CreatedAt = x.CreatedAt,
@@ -59,18 +60,20 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
                                     UpdatedAt = x.UpdatedAt
                                 }).ToList();
 
-                            foreach (var entry in cachedTimeEntries)
+                            foreach (var entry in toBeCachedTimeEntries)
                             {
                                 CacheHelper.ModifyTimeEntriesInCache(Constants.CacheKey, entry,
                                     DateTime.Now.AddHours(Constants.CacheExpirationTimeInHours), ticketEntryId, true);
                                 ticketEntryId++;
                             }
+
+                            responseBodyList.Add(freshServiceTimeEntriesServiceResult);
                         }
                     }
                 }
             }
 
-            return "";
+            return JsonHelper.MergeJsonStringValues(responseBodyList);
         }
     }
 }
