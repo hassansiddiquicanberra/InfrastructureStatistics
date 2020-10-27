@@ -24,18 +24,24 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
                 var allCacheObjects = _cache.Get(cacheKey);
                 var casteCacheObjects = (List<CachedModel>)allCacheObjects;
 
-                foreach (var cachedObject in casteCacheObjects)
+                if (casteCacheObjects != null)
                 {
-                    cachedObject.CachedTimeEntry = new TimeEntry()
+                    foreach (var cachedObject in casteCacheObjects)
                     {
-                        CreatedAt = timeEntry.CreatedAt,
-                        Billable = timeEntry.Billable,
-                        OwnerId = timeEntry.OwnerId,
-                        Status = timeEntry.Status,
-                        TimeSpent = timeEntry.TimeSpent,
-                        UpdatedAt = timeEntry.UpdatedAt,
-                        Urgency = timeEntry.Urgency
-                    };
+                        if (cachedObject != null)
+                        {
+                            cachedObject.CachedTimeEntry = new TimeEntry()
+                            {
+                                CreatedAt = timeEntry.CreatedAt,
+                                Billable = timeEntry.Billable,
+                                OwnerId = timeEntry.OwnerId,
+                                Status = timeEntry.Status,
+                                TimeSpent = timeEntry.TimeSpent,
+                                UpdatedAt = timeEntry.UpdatedAt,
+                                Urgency = timeEntry.Urgency
+                            };
+                        }
+                    }
                 }
             }
 
