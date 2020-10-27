@@ -30,7 +30,7 @@ namespace F1Solutions.InfrastructureStatistics.Services
         public bool DoesAnyRecordExistForToday()
         {
             var currentDateTime = DateTime.Now;
-            bool recordExistsForToday = EntityCalculationHelper.DoesValueExistForTodaysDate(DataAccessStatistics.MonthlyStatistics);
+            return EntityCalculationHelper.DoesValueExistForTodaysDate(DataAccessStatistics.MonthlyStatistics);
         }
     }
 }

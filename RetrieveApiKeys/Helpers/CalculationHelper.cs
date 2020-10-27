@@ -32,17 +32,5 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 
             return isTodayFirstDayOfTheMonth && isTimeOneAm;
         }
-
-
-        public static bool DoesValueExistForTodaysDate(T dbObject)
-        {
-            var currentDateTime = DateTime.Now;
-
-            var dbSetForMonthlyStatistics = dbObject as DbSet<MonthlyStatistic>;
-            bool recordExistsForToday = dbSetForMonthlyStatistics != null && dbSetForMonthlyStatistics.Any(x => x.EntryDateTime.Year == currentDateTime.Year &&
-                                                                                        x.EntryDateTime.Month == currentDateTime.Month &&
-                                                                                        x.EntryDateTime.Day == currentDateTime.Day);
-
-        }
     }
 }
