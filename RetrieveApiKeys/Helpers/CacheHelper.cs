@@ -14,10 +14,13 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 
         public static void SaveToCache(string cacheKey, object savedItem, DateTime expirationTime)
         {
-            _cache.Add(cacheKey, savedItem, expirationTime);
+            if (!_cache.Contains(cacheKey))
+            {
+                _cache.Add(cacheKey, savedItem, expirationTime);
+            }
         }
 
-        public static void SaveTimeEntriesToCache(string cacheKey, TimeEntry timeEntry, DateTime expirationTime, bool willUpdateTimeEntryObject = false)
+        public static void ModifyTimeEntriesInCache(string cacheKey, TimeEntry timeEntry, DateTime expirationTime, int ticketEntryId = 0, bool willUpdateTimeEntryObject = false)
         {
             if (willUpdateTimeEntryObject)
             {
@@ -26,26 +29,15 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 
                 if (casteCacheObjects != null)
                 {
-                    foreach (var cachedObject in casteCacheObjects)
-                    {
-                        if (cachedObject != null)
-                        {
-                            cachedObject.CachedTimeEntry = new TimeEntry()
-                            {
-                                CreatedAt = timeEntry.CreatedAt,
-                                Billable = timeEntry.Billable,
-                                OwnerId = timeEntry.OwnerId,
-                                Status = timeEntry.Status,
-                                TimeSpent = timeEntry.TimeSpent,
-                                UpdatedAt = timeEntry.UpdatedAt,
-                                Urgency = timeEntry.Urgency
-                            };
-                        }
-                    }
+                    casteCacheObjects[ticketEntryId].CachedTimeEntry.CreatedAt = timeEntry.CreatedAt;
+                    casteCacheObjects[ticketEntryId].CachedTimeEntry.Billable = timeEntry.Billable;
+                    casteCacheObjects[ticketEntryId].CachedTimeEntry.OwnerId = timeEntry.OwnerId;
+                    casteCacheObjects[ticketEntryId].CachedTimeEntry.Status = timeEntry.Status;
+                    casteCacheObjects[ticketEntryId].CachedTimeEntry.TimeSpent = timeEntry.TimeSpent;
+                    casteCacheObjects[ticketEntryId].CachedTimeEntry.UpdatedAt = timeEntry.UpdatedAt;
+                    casteCacheObjects[ticketEntryId].CachedTimeEntry.Urgency = timeEntry.Urgency;
                 }
             }
-
-            var checkCachedObjectsAfterFinalUpdate = _cache.Get(cacheKey);
         }
 
         public static T GetFromCache<T>(string cacheKey) where T : class

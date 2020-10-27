@@ -56,7 +56,10 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
                                     DepartmentId = individualTicket.DepartmentId,
                                     DepartmentName = individualTicket.DepartmentName,
                                     UpdatedAt = individualTicket.UpdatedAt
-                                }));
+                                },
+                                
+                                new TimeEntry(){})
+                            );
                         }
                     }
                 }

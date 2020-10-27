@@ -25,7 +25,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
 
         public void Start()
         {
-            var a = CacheHelper.GetFromCache<List<CachedModel>>(CacheKey);
 
             //only perform below if the cache has expired ?
 

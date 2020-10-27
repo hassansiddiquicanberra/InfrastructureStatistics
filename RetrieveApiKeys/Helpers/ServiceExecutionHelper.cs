@@ -37,11 +37,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 
         public static string ExecuteFreshServiceTimeEntriesForEachTicket(List<string> ticketIds, FreshServiceTimeEntriesTask freshServiceTimeEntriesTask)
         {
-            var timeEntriesList = new List<CachedTimeEntries>();
+            var ticketEntryId = 0;
             FreshServiceTimeEntriesModel deserialisedTimeEntries = null;
-
-
-
             foreach (var ticketId in ticketIds)
             {
                 if (!string.IsNullOrEmpty(ticketId))
@@ -54,8 +51,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 
                         if (deserialisedTimeEntries != null && deserialisedTimeEntries.Time_Entries.Any())
                         {
-
-                            var cachedTimeEntries = deserialisedTimeEntries.Time_Entries.Select(x =>
+                            List<TimeEntry> cachedTimeEntries = deserialisedTimeEntries.Time_Entries.Select(x =>
                                 new TimeEntry()
                                 {
                                     CreatedAt = x.CreatedAt,
@@ -63,20 +59,20 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
                                     OwnerId = x.AgentId,
                                     TimeSpent = x.TimeSpent,
                                     UpdatedAt = x.UpdatedAt
-                                }).SingleOrDefault();
+                                }).ToList();
 
-                            //get the existing cache and modify the root object which is cachemodel and add this new time entry object there
-                            CacheHelper.SaveTimeEntriesToCache(Constants.CacheKey, cachedTimeEntries,DateTime.Now.AddHours(Constants.CacheExpirationTimeInHours), true);
+                            foreach (var entry in cachedTimeEntries)
+                            {
+                                CacheHelper.ModifyTimeEntriesInCache(Constants.CacheKey, entry,
+                                    DateTime.Now.AddHours(Constants.CacheExpirationTimeInHours), ticketEntryId, true);
+                                ticketEntryId++;
+                            }
                         }
                     }
                 }
             }
 
-
-            var a = CacheHelper.GetFromCache<List<CachedTimeEntries>>("ListOfCachedTimeEntries");
-
             return "";
-            //return JsonHelper.MergeJsonStringValues(freshServiceTimeEntriesServiceResult);
         }
     }
 }

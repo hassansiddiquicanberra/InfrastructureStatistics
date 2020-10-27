@@ -51,9 +51,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
 
             CacheHelper.SaveToCache(Constants.CacheKey, cachedTicketModelList, DateTime.Now.AddHours(Constants.CacheExpirationTimeInHours));
 
-            var cachedData = CacheHelper.GetFromCache<List<CachedModel>>(Constants.CacheKey);
-
-
             var ticketIdList = TransformationHelper.ListOfTickets(freshServiceResult);
             
             var freshServiceTimeEntriesList = ServiceExecutionHelper.ExecuteFreshServiceTimeEntriesForEachTicket(ticketIdList,
@@ -64,8 +61,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             //Below has been set as null to dispose object
             freshServiceResult = null;
             listOfTickets = null;
-
-           
 
             //_monthlyStatisticsModel = FreshServiceTicketHandleTimeStatistics(timeEntries);
 
