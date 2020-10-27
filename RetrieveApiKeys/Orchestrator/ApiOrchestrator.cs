@@ -17,6 +17,9 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
         private readonly FreshServiceTimeEntriesTask _freshServiceTimeEntriesTask;
         private readonly FreshServiceAgentGroupApiTask _freshServiceAgentGroupApiTask;
         private readonly StatisticsService _statisticsService;
+        private readonly ServiceCaller _serviceCaller;
+        private readonly CacheHelper _cacheHelper;
+        private readonly ServiceExecutionHelper _serviceExecutionHelper;
 
         private StatisticsDataModel _statisticsModel;
         private MonthlyStatisticsDataModel _monthlyStatisticsModel;
@@ -31,26 +34,26 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             _statisticsService = new StatisticsService();
             _statisticsModel = new StatisticsDataModel();
             _monthlyStatisticsModel = new MonthlyStatisticsDataModel();
+            _serviceCaller = new ServiceCaller();
+            _cacheHelper = new CacheHelper();
+            _serviceExecutionHelper = new ServiceExecutionHelper();
         }
 
         public void ExecuteMonthlyStatisticsServiceCalls()
         {
-            var freshServiceResult = _freshServiceApiTask.Start();
-            var freshServiceAgentGroupApiTaskResult = _freshServiceAgentGroupApiTask.Start();
-            var listOfGroups = JsonConvert.DeserializeObject<FreshServiceAgentGroupModel>(freshServiceAgentGroupApiTaskResult);
+            var listOfTickets = _serviceCaller.CallFreshServiceApi(_freshServiceApiTask);
+            var deserializedTicketList = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(listOfTickets);
+            _cacheHelper.SaveToCache(Constants.CacheKey, deserializedTicketList,DateTime.Now.AddHours(4.0));
+            var listOfGroups = _serviceCaller.CallFreshServiceGroupApi(_freshServiceAgentGroupApiTask);
             _levelOneGroupIdentifierId = TransformationHelper.FindLevelOneGroupIdentifier(listOfGroups);
             
-            FreshServiceTicketModel[] listOfTickets = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(freshServiceResult);
-            _monthlyStatisticsModel = FreshServiceMonthlyStatistics(listOfTickets);
-            var cachedTicketModelList = TransformationHelper.TransformTicketsToCachedEntity(listOfTickets);
-            
-            CacheHelper.SaveToCache(Constants.CacheKey, cachedTicketModelList, DateTime.Now.AddHours(Constants.CacheExpirationTimeInHours));
-            var ticketIdList = TransformationHelper.GetListOfTickets(freshServiceResult);
-            var freshServiceTimeEntriesList = ServiceExecutionHelper.ExecuteFreshServiceTimeEntriesForEachTicket(ticketIdList,_freshServiceTimeEntriesTask);
-            var timeEntries = JsonConvert.DeserializeObject<FreshServiceTimeEntriesModel[]>(freshServiceTimeEntriesList);
-            
+            _monthlyStatisticsModel = FreshServiceMonthlyStatistics(deserializedTicketList);
+            var cachedTicketModelList = TransformationHelper.TransformTicketsToCachedEntity(deserializedTicketList);
+            //CacheHelper.SaveToCache(Constants.CacheKey, cachedTicketModelList, DateTime.Now.AddHours(Constants.CacheExpirationTimeInHours));
+            var ticketIdList = TransformationHelper.GetListOfTickets(listOfTickets);
+            var timeEntries = _serviceCaller.CallFreshServiceTimeEntriesApi(ticketIdList, _freshServiceTimeEntriesTask);
             //Below has been set as null to dispose object
-            freshServiceResult = null;
+            deserializedTicketList = null;
             listOfTickets = null;
             _monthlyStatisticsModel = FreshServiceTicketHandleTimeStatistics(timeEntries);
             SaveMonthlyStatisticsData(_monthlyStatisticsModel);
@@ -58,7 +61,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
 
         public void ExecuteHourlyStatisticsServiceCalls()
         {
-            var airCallTaskResult = ServiceExecutionHelper.ExecutePaginatedAirCallService(_airCallApiTask);
+            var airCallTaskResult = _serviceExecutionHelper.ExecutePaginatedAirCallService(_airCallApiTask);
             var freshServiceResult = _freshServiceApiTask.Start();
             var listOfTickets = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(freshServiceResult);
             var listOfCalls = JsonConvert.DeserializeObject<AirCallModel[]>(airCallTaskResult);

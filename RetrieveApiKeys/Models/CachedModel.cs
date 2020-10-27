@@ -22,7 +22,7 @@
         public string DepartmentName { get; set; }
     }
 
-    public class Organisation
+    public class Organisation //TODO: check what fields are required here ...
     {
         public string TicketId { get; set; }
         public string CreatedAt { get; set; }

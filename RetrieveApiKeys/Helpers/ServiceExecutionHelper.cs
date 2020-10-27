@@ -8,9 +8,14 @@ using Newtonsoft.Json;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 {
-    public static class ServiceExecutionHelper
+    public class ServiceExecutionHelper
     {
-        public static string ExecutePaginatedAirCallService(AirCallApiTask _airCallApiTask)
+        private readonly CacheHelper _cacheHelper;
+        public ServiceExecutionHelper()
+        {
+            _cacheHelper = new CacheHelper();
+        }
+        public string ExecutePaginatedAirCallService(AirCallApiTask _airCallApiTask)
         {
             var airCallModelList = new List<string>();
             var airCallResult = _airCallApiTask.Start();
@@ -18,6 +23,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 
             var listOfCalls = JsonConvert.DeserializeObject<AirCallModel>(airCallResult);
             var airCallNextPageUrl = listOfCalls.Meta.NextPageLink;
+            
             do
             {
                 if (!string.IsNullOrEmpty(airCallNextPageUrl))
@@ -33,7 +39,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
             return JsonHelper.MergeJsonStringValues(airCallModelList);
         }
 
-        public static string ExecuteFreshServiceTimeEntriesForEachTicket(List<string> ticketIds, FreshServiceTimeEntriesTask freshServiceTimeEntriesTask)
+        public string ExecuteFreshServiceTimeEntriesForEachTicket(List<string> ticketIds, FreshServiceTimeEntriesTask freshServiceTimeEntriesTask)
         {
             var ticketEntryId = 0;
             var responseBodyList = new List<string>();
@@ -62,7 +68,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 
                             foreach (var entry in toBeCachedTimeEntries)
                             {
-                                CacheHelper.ModifyTimeEntriesInCache(Constants.CacheKey, entry,
+                                _cacheHelper.ModifyTimeEntriesInCache(Constants.CacheKey, entry,
                                     DateTime.Now.AddHours(Constants.CacheExpirationTimeInHours), ticketEntryId, true);
                                 ticketEntryId++;
                             }
