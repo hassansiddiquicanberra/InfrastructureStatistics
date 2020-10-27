@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Infrastructure.Design;
 using System.Linq;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
@@ -19,7 +18,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 
             var listOfCalls = JsonConvert.DeserializeObject<AirCallModel>(airCallResult);
             var airCallNextPageUrl = listOfCalls.Meta.NextPageLink;
-
             do
             {
                 if (!string.IsNullOrEmpty(airCallNextPageUrl))

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Caching;
-using System.Web.Caching;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Utils;
 
