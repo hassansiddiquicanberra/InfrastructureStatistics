@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Data.Entity;
+using System.Data.Entity.Core.Objects.DataClasses;
+using System.Linq;
+using F1Solutions.InfrastructureStatistics.DataAccess;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 {
-    public static class CalculationHelper
+    public static class CalculationHelper<T> where T:DbSet<T>
     {
         public static bool IsFirstDayOfTheMonthAndTimeMatches()
         {
@@ -12,7 +16,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
             var isTimeOneAm = false;
 
             var firstDayOfMonth = new DateTime(today.Year, today.Month, 1);
-            var currentDateWithTime = new DateTime(today.Year, today.Month, today.Day, today.Hour, today.Minute, today.Second);
+            var currentDateWithTime =
+                new DateTime(today.Year, today.Month, today.Day, today.Hour, today.Minute, today.Second);
             var currentDateWithTimeAsOneAm = new DateTime(today.Year, today.Month, today.Day, hourClockAsOneAm, 0, 0);
 
             if (firstDayOfMonth.Day == today.Day)
@@ -26,6 +31,18 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
             }
 
             return isTodayFirstDayOfTheMonth && isTimeOneAm;
+        }
+
+
+        public static bool DoesValueExistForTodaysDate(T dbObject)
+        {
+            var currentDateTime = DateTime.Now;
+
+            var dbSetForMonthlyStatistics = dbObject as DbSet<MonthlyStatistic>;
+            bool recordExistsForToday = dbSetForMonthlyStatistics != null && dbSetForMonthlyStatistics.Any(x => x.EntryDateTime.Year == currentDateTime.Year &&
+                                                                                        x.EntryDateTime.Month == currentDateTime.Month &&
+                                                                                        x.EntryDateTime.Day == currentDateTime.Day);
+
         }
     }
 }

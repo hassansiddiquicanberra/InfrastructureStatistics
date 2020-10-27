@@ -72,6 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\EntityCalculationHelper.cs" />
     <Compile Include="Models\MonthlyStatisticsDataModel.cs" />
     <Compile Include="StatisticsService.cs" />
     <Compile Include="Helpers\StatisticsExtensions.cs" />

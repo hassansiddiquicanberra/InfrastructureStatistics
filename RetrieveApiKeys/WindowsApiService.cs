@@ -8,7 +8,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
     partial class WindowsApiService : ServiceBase
     {
         private readonly ApiOrchestrator _apiOrchestrator;
-        private readonly double ServiceToRunEveryThreeHoursInMilliseconds = 120000;
+        private readonly double ServiceToRunEverySixMinutesInMilliseconds = 360000;
         private readonly StatisticsService _statisticsService;
         readonly Timer _timer = new Timer();
 
@@ -34,7 +34,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
             //}
 
             _timer.Elapsed += OnElapsedTime;
-            _timer.Interval = ServiceToRunEveryThreeHoursInMilliseconds;
+            _timer.Interval = ServiceToRunEverySixMinutesInMilliseconds;
             _timer.Enabled = true;
         }
 

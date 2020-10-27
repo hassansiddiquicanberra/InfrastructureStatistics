@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using F1Solutions.InfrastructureStatistics.DataAccess;
 using F1Solutions.InfrastructureStatistics.Services.Helpers;
 using F1Solutions.InfrastructureStatistics.Services.Models;
@@ -29,11 +30,7 @@ namespace F1Solutions.InfrastructureStatistics.Services
         public bool DoesAnyRecordExistForToday()
         {
             var currentDateTime = DateTime.Now;
-            bool recordExistsForToday = DataAccessStatistics.MonthlyStatistics.Any(x => x.EntryDateTime.Year == currentDateTime.Year &&
-                                                                                         x.EntryDateTime.Month == currentDateTime.Month &&
-                                                                                         x.EntryDateTime.Day == currentDateTime.Day);
-
-            return recordExistsForToday;
+            bool recordExistsForToday = EntityCalculationHelper.DoesValueExistForTodaysDate(DataAccessStatistics.MonthlyStatistics);
         }
     }
 }
