@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions;
@@ -18,9 +17,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
         private readonly FreshServiceTimeEntriesTask _freshServiceTimeEntriesTask;
         private readonly FreshServiceAgentGroupApiTask _freshServiceAgentGroupApiTask;
         private readonly StatisticsService _statisticsService;
-        private readonly ServiceCaller _serviceCaller;
-        private readonly CacheHelper _cacheHelper;
-        private readonly ServiceHelper _serviceExecutionHelper;
 
         private StatisticsDataModel _statisticsModel;
         private MonthlyStatisticsDataModel _monthlyStatisticsModel;
@@ -35,30 +31,27 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             _statisticsService = new StatisticsService();
             _statisticsModel = new StatisticsDataModel();
             _monthlyStatisticsModel = new MonthlyStatisticsDataModel();
-            _serviceCaller = new ServiceCaller();
-            _cacheHelper = new CacheHelper();
-            _serviceExecutionHelper = new ServiceHelper();
         }
 
         public void ExecuteMonthlyStatisticsServiceCalls()
         {
             var listOfTickets = string.Empty;
 
-            if (_cacheHelper.GetCacheExpiryValue() == DateTime.MinValue || (DateTime.Now > _cacheHelper.GetCacheExpiryValue()))
+            if (CacheHelper.GetCacheExpiryValue() == DateTime.MinValue || (DateTime.Now > CacheHelper.GetCacheExpiryValue()))
             {
-                listOfTickets = _serviceCaller.CallFreshServiceApi(_freshServiceApiTask);
+                listOfTickets = ServiceCaller.CallFreshServiceApi(_freshServiceApiTask);
                 var deserializedTicketList = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(listOfTickets);
-                _cacheHelper.SaveToCache(Constants.CacheKey, deserializedTicketList);
+                CacheHelper.SaveToCache(Constants.CacheKey, deserializedTicketList);
             }
 
-            var cachedTicketList = _cacheHelper.GetFromCache<FreshServiceTicketModel[]>(Constants.CacheKey);
+            var cachedTicketList = CacheHelper.GetFromCache<FreshServiceTicketModel[]>(Constants.CacheKey);
 
-            var listOfGroups = _serviceCaller.CallFreshServiceGroupApi(_freshServiceAgentGroupApiTask);
+            var listOfGroups = ServiceCaller.CallFreshServiceGroupApi(_freshServiceAgentGroupApiTask);
             _levelOneGroupIdentifierId = TransformationHelper.FindLevelOneGroupIdentifier(listOfGroups);
 
             _monthlyStatisticsModel = FreshServiceMonthlyStatistics(cachedTicketList);
-            var ticketIdList = TransformationHelper.GetListOfTickets(listOfTickets);
-            var timeEntries = _serviceCaller.CallFreshServiceTimeEntriesApi(ticketIdList, _freshServiceTimeEntriesTask);
+            var ticketIdList = TransformationHelper.GetListOfTickets(cachedTicketList);
+            var timeEntries = ServiceCaller.CallFreshServiceTimeEntriesApi(ticketIdList, _freshServiceTimeEntriesTask);
             
             _monthlyStatisticsModel = FreshServiceTicketHandleTimeStatistics(timeEntries);
             SaveMonthlyStatisticsData(_monthlyStatisticsModel);
@@ -66,7 +59,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
 
         public void ExecuteHourlyStatisticsServiceCalls()
         {
-            var airCallTaskResult = _serviceExecutionHelper.ExecutePaginatedAirCallService(_airCallApiTask);
+            var airCallTaskResult = ServiceHelper.ExecutePaginatedAirCallService(_airCallApiTask);
             var freshServiceResult = _freshServiceApiTask.Start();
             var listOfTickets = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(freshServiceResult);
             var listOfCalls = JsonConvert.DeserializeObject<AirCallModel[]>(airCallTaskResult);

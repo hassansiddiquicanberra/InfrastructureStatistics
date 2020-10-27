@@ -1,6 +1,5 @@
 ﻿using System.ServiceProcess;
 using System.Timers;
-using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator;
 using F1Solutions.InfrastructureStatistics.Services;
 

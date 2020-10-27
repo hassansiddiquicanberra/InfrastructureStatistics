@@ -1,24 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
-using F1Solutions.InfrastructureStatistics.ApiCalls.Utils;
 using Newtonsoft.Json;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 {
-    public class ServiceHelper
+    public static class ServiceHelper
     {
-        private readonly CacheHelper _cacheHelper;
-        public ServiceHelper()
-        {
-            _cacheHelper = new CacheHelper();
-        }
-        public string ExecutePaginatedAirCallService(AirCallApiTask _airCallApiTask)
+        public static string ExecutePaginatedAirCallService(AirCallApiTask airCallApiTask)
         {
             var airCallModelList = new List<string>();
-            var airCallResult = _airCallApiTask.Start();
+            var airCallResult = airCallApiTask.Start();
             airCallModelList.Add(airCallResult);
 
             var listOfCalls = JsonConvert.DeserializeObject<AirCallModel>(airCallResult);
@@ -28,7 +21,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
             {
                 if (!string.IsNullOrEmpty(airCallNextPageUrl))
                 {
-                    airCallResult = _airCallApiTask.Start(null, airCallNextPageUrl);
+                    airCallResult = airCallApiTask.Start(null, airCallNextPageUrl);
                     airCallModelList.Add(airCallResult);
                     var deserializedObject = JsonConvert.DeserializeObject<AirCallModel>(airCallResult);
                     airCallNextPageUrl = deserializedObject.Meta.NextPageLink;
@@ -39,42 +32,22 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
             return JsonHelper.MergeJsonStringValues(airCallModelList);
         }
 
-        public string ExecuteFreshServiceTimeEntriesForEachTicket(List<string> ticketIds, FreshServiceTimeEntriesTask freshServiceTimeEntriesTask)
+        public static string ExecuteFreshServiceTimeEntriesForEachTicket(List<string> ticketIds, FreshServiceTimeEntriesTask freshServiceTimeEntriesTask)
         {
-            var ticketEntryId = 0;
             var responseBodyList = new List<string>();
-            FreshServiceTimeEntriesModel deserialisedTimeEntries = null;
 
             foreach (var ticketId in ticketIds)
             {
                 if (!string.IsNullOrEmpty(ticketId))
                 {
-                    var url = ConfigHelper.FreshServiceForTicketsUri + "/" + ticketId + "/time_entries";
-                    var freshServiceTimeEntriesServiceResult = freshServiceTimeEntriesTask.Start(ticketId);
+                    var freshServiceTimeEntriesServiceResult = ServiceCaller.ExecuteFreshServiceTimeEntriesApiService(freshServiceTimeEntriesTask,ticketId);
                     if (!string.IsNullOrEmpty(freshServiceTimeEntriesServiceResult) && freshServiceTimeEntriesServiceResult.Any())
                     {
-                        deserialisedTimeEntries = JsonConvert.DeserializeObject<FreshServiceTimeEntriesModel>(freshServiceTimeEntriesServiceResult);
+                        var deserializedTimeEntries = JsonConvert.DeserializeObject<FreshServiceTimeEntriesModel>(freshServiceTimeEntriesServiceResult);
 
-                        if (deserialisedTimeEntries != null && deserialisedTimeEntries.Time_Entries.Any())
+                        if (deserializedTimeEntries != null && deserializedTimeEntries.Time_Entries.Any())
                         {
-                            List<TimeEntry> toBeCachedTimeEntries = deserialisedTimeEntries.Time_Entries.Select(x =>
-                                new TimeEntry()
-                                {
-                                    CreatedAt = x.CreatedAt,
-                                    Billable = x.billable,
-                                    OwnerId = x.AgentId,
-                                    TimeSpent = x.TimeSpent,
-                                    UpdatedAt = x.UpdatedAt
-                                }).ToList();
-
-                            foreach (var entry in toBeCachedTimeEntries)
-                            {
-                                _cacheHelper.ModifyTimeEntriesInCache(Constants.CacheKey, entry,
-                                    DateTime.Now.AddHours(Constants.CacheExpirationTimeInHours), ticketEntryId, true);
-                                ticketEntryId++;
-                            }
-
-                            responseBodyList.Add(freshServiceTimeEntriesServiceResult);
+                           responseBodyList.Add(freshServiceTimeEntriesServiceResult);
                         }
                     }
                 }

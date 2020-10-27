@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
-using Newtonsoft.Json;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 {
@@ -22,10 +21,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
             return levelOneGroupId;
         }
 
-        public static List<string> GetListOfTickets(string freshServiceResult)
+        public static List<string> GetListOfTickets(FreshServiceTicketModel[] listOfTickets)
         {
-            var listOfTickets = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(freshServiceResult);
-
             var ticketIdList = new List<string>();
             if (listOfTickets != null)
             {
