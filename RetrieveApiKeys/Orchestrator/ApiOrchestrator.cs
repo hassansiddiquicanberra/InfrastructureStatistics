@@ -43,7 +43,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             _monthlyStatisticsModel = FreshServiceMonthlyStatistics(listOfTickets);
             var cachedTicketModelList = TransformationHelper.TransformTicketsToCachedEntity(listOfTickets);
             CacheHelper.SaveToCache(Constants.CacheKey, cachedTicketModelList, DateTime.Now.AddHours(Constants.CacheExpirationTimeInHours));
-            var ticketIdList = TransformationHelper.ListOfTickets(freshServiceResult);
+            var ticketIdList = TransformationHelper.GetListOfTickets(freshServiceResult);
             var freshServiceTimeEntriesList = ServiceExecutionHelper.ExecuteFreshServiceTimeEntriesForEachTicket(ticketIdList,_freshServiceTimeEntriesTask);
             var timeEntries = JsonConvert.DeserializeObject<FreshServiceTimeEntriesModel[]>(freshServiceTimeEntriesList);
             //Below has been set as null to dispose object

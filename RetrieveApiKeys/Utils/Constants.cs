@@ -8,6 +8,6 @@
         public const string TicketWithClosedStatus = "5";
         public const string LinkInResponseHeader = "link";
         public const double CacheExpirationTimeInHours = 4.5;
-        public const string CacheKey = "ListOfTickets";
+        public const string CacheKey = "GetListOfTickets";
     }
 }

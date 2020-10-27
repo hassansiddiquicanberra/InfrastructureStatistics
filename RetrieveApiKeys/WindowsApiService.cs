@@ -22,11 +22,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
 
         public void Start()
         {
-
             //only perform below if the cache has expired ?
-
             _apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
-
             //if (CalculationHelper.IsFirstDayOfTheMonthAndTimeMatches())
             //{
             //    if(!_statisticsService.DoesAnyRecordExistForToday())

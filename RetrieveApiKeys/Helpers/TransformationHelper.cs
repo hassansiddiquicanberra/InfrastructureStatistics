@@ -69,7 +69,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
         }
 
 
-        public static List<string> ListOfTickets(string freshServiceResult)
+        public static List<string> GetListOfTickets(string freshServiceResult)
         {
             var listOfTickets = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(freshServiceResult);
 
