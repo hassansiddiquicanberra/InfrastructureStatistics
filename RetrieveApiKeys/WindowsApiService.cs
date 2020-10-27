@@ -1,6 +1,8 @@
-﻿using System.ServiceProcess;
+﻿using System.Collections.Generic;
+using System.ServiceProcess;
 using System.Timers;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
+using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator;
 using F1Solutions.InfrastructureStatistics.Services;
 
@@ -9,7 +11,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
     partial class WindowsApiService : ServiceBase
     {
         private readonly ApiOrchestrator _apiOrchestrator;
-        private readonly double ServiceToRunEveryThreeHoursInMilliseconds = 10800000;
+        private const string CacheKey = "CachedListOfTickets";
+        //private readonly double ServiceToRunEveryThreeHoursInMilliseconds = 10800000;
         private readonly StatisticsService _statisticsService;
         readonly Timer _timer = new Timer();
 
@@ -22,17 +25,23 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
 
         public void Start()
         {
-            if (CalculationHelper.IsFirstDayOfTheMonthAndTimeMatches())
-            {
-                if(!_statisticsService.DoesAnyRecordExistForToday())
-                {
-                    _apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
-                }
-            }
+            var a = CacheHelper.GetFromCache<List<CachedModel>>(CacheKey);
 
-            _timer.Elapsed += OnElapsedTime;
-            _timer.Interval = ServiceToRunEveryThreeHoursInMilliseconds;
-            _timer.Enabled = true;
+            //only perform below if the cache has expired ?
+
+            _apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
+
+            //if (CalculationHelper.IsFirstDayOfTheMonthAndTimeMatches())
+            //{
+            //    if(!_statisticsService.DoesAnyRecordExistForToday())
+            //    {
+            //        _apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
+            //    }
+            //}
+
+            //_timer.Elapsed += OnElapsedTime;
+            //_timer.Interval = ServiceToRunEveryThreeHoursInMilliseconds;
+            //_timer.Enabled = true;
         }
 
         public new void Stop()
