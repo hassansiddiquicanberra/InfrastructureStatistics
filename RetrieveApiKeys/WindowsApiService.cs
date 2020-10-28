@@ -23,21 +23,21 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
 
         public void Start()
         {
-            //_apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
-            ///*
-            // * TODO:**CHECK WITH ZAR FOR Whether the Below call to monthly will change ??  will it not be every 1st day of the month at 1am?
-            //*/
-            //if (CalculationHelper.IsFirstDayOfTheMonthAndTimeMatches())
-            //{
-            //    if (!_statisticsService.DoesAnyRecordExistForToday())
-            //    {
-            //        _apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
-            //    }
-            //}
+            _apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
+            /////*
+            //// * TODO:**CHECK WITH ZAR FOR Whether the Below call to monthly will change ??  will it not be every 1st day of the month at 1am?
+            ////*/
+            ////if (CalculationHelper.IsFirstDayOfTheMonthAndTimeMatches())
+            ////{
+            ////    if (!_statisticsService.DoesAnyRecordExistForToday())
+            ////    {
+            ////        _apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
+            ////    }
+            ////}
 
-            _timer.Elapsed += OnElapsedTime;
-            _timer.Interval = ServiceToRunEverySixMinutesInMilliseconds;
-            _timer.Enabled = true;
+            //_timer.Elapsed += OnElapsedTime;
+            //_timer.Interval = ServiceToRunEverySixMinutesInMilliseconds;
+            //_timer.Enabled = true;
         }
 
         public new void Stop()

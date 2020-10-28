@@ -40,15 +40,24 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
         public void ExecuteMonthlyStatisticsServiceCalls()
         {
             var listOfTickets = string.Empty;
+            listOfTickets = ServiceCaller.CallFreshServiceApi(_freshServiceApiTask);
+            var deserializedTicketList = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(listOfTickets);
+            //CacheHelper.SaveToCache(Constants.CacheKey, deserializedTicketList, DateTime.Now.AddHours(4));
 
-            if (CacheHelper.GetCacheExpiryValue() == DateTime.MinValue || (DateTime.Now > CacheHelper.GetCacheExpiryValue()))
-            {
-                listOfTickets = ServiceCaller.CallFreshServiceApi(_freshServiceApiTask);
-                var deserializedTicketList = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(listOfTickets);
-                CacheHelper.SaveToCache(Constants.CacheKey, deserializedTicketList, DateTime.Now.AddHours(4));
-            }
+            //if (CacheHelper.GetCacheExpiryValue() == DateTime.MinValue || (DateTime.Now > CacheHelper.GetCacheExpiryValue()))
+            //{
+            //    listOfTickets = ServiceCaller.CallFreshServiceApi(_freshServiceApiTask);
+            //    var deserializedTicketList = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(listOfTickets);
+            //    CacheHelper.SaveToCache(Constants.CacheKey, deserializedTicketList, DateTime.Now.AddHours(4));
+            //}
 
             var cachedTicketList = CacheHelper.GetFromCache<FreshServiceTicketModel[]>(Constants.CacheKey);
+
+
+            //Lets calculate the agent and org level details model needed for the DB
+
+            var statisticsForAgent = FreshServiceAgentStatistics(deserializedTicketList);
+
 
             var listOfGroups = ServiceCaller.CallFreshServiceGroupApi(_freshServiceAgentGroupApiTask);
             _levelOneGroupIdentifierId = TransformationHelper.FindLevelOneGroupIdentifier(listOfGroups);
@@ -102,7 +111,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
 
         private StatisticsAgentDataModel FreshServiceAgentStatistics(FreshServiceTicketModel[] ticketData)
         {
-            _statisticsAgentDataModel = _statisticsAgentDataModel.TotalTicketsOpen(ticketData);
+            _statisticsAgentDataModel = _statisticsAgentDataModel.TotalTicketsResolvedToday(ticketData);
 
             return _statisticsAgentDataModel;
         }
