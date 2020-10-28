@@ -37,5 +37,35 @@ namespace F1Solutions.InfrastructureStatistics.Services.Helpers
             };
         }
 
+        public static Agent StatisticsAgentModelToDomain(this StatisticsAgentDataModel model)
+        {
+            return new Agent()
+            {
+                AgentId = model.AgentId,
+                AgentName =  model.AgentName,
+                DateRecorded = model.DateRecorded,
+                TotalTicketsOpen = model.TotalTicketsOpen,
+                AverageTicketAgeLastSevenDays = model.AverageTicketAgeLastSevenDays,
+                AverageTicketResolutionTimeLastSevenDays = model.AverageTicketResolutionTimeLastSevenDays,
+                TotalNotRespondedToInTwoDays = model.TotalNotRespondedToInTwoDays,
+                TotalResolvedLastSevenDays = model.TotalResolvedLastSevenDays,
+                TotalResolvedLastThirtyDays = model.TotalResolvedLastThirtyDays,
+                TotalResolvedToday = model.TotalResolvedToday,
+                TotalTickets = model.TotalTickets
+            };
+        }
+
+        public static Organisation StatisticsOrganisationModelToDomain(this StatisticsOrganisationDataModel model)
+        {
+            return new Organisation()
+            {
+                OrganisationId = model.OrganisationId,
+                OrganisationName = model.OrganistionName,
+                DateRecorded = model.DateRecorded,
+                TotalOlderThanSevenDays = model.TotalOlderThanSevenDays,
+                TotalOlderThanThirtyDays = model.TotalOlderThanThirtyDays,
+                TotalOpen = model.TotalOpen
+            };
+        }
     }
 }

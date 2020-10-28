@@ -27,6 +27,22 @@ namespace F1Solutions.InfrastructureStatistics.Services
             DataAccessStatistics.SaveChanges();
         }
 
+        public void SaveAgentStatisticsData(StatisticsAgentDataModel model)
+        {
+            var agentStatisticsValues = model.StatisticsAgentModelToDomain();
+
+            DataAccessStatistics.Agents.Add(agentStatisticsValues);
+            DataAccessStatistics.SaveChanges();
+        }
+
+        public void SaveOrganisationStatisticsData(StatisticsOrganisationDataModel model)
+        {
+            var organisationStatisticsValues = model.StatisticsOrganisationModelToDomain();
+
+            DataAccessStatistics.Organisations.Add(organisationStatisticsValues);
+            DataAccessStatistics.SaveChanges();
+        }
+
         public bool DoesAnyRecordExistForToday()
         {
             var currentDateTime = DateTime.Now;

@@ -71,7 +71,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Agent.cs">
+      <DependentUpon>StatisticsDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="MonthlyStatistic.cs">
+      <DependentUpon>StatisticsDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Organisation.cs">
       <DependentUpon>StatisticsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

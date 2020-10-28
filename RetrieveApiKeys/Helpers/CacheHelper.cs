@@ -8,15 +8,14 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
     {
         static readonly MemoryCache _cache = MemoryCache.Default;
 
-        public static void SaveToCache(string cacheKey, object objectToSaveToCache)
+        public static void SaveToCache(string cacheKey, object objectToSaveToCache, DateTime expirationValue)
         {
             var cacheItemPolicy = new CacheItemPolicy();
 
             if (!_cache.Contains(cacheKey))
             {
-                
                 _cache.Set(cacheKey,objectToSaveToCache,cacheItemPolicy);
-                _cache.Set("CacheExpiryValue",DateTime.Now.AddHours(4), cacheItemPolicy);
+                _cache.Set("CacheExpiryValue", expirationValue, cacheItemPolicy);
             }
         }
 

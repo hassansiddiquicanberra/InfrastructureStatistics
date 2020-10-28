@@ -7,6 +7,8 @@
       <Diagram DiagramId="07761ca190b44809b45f0000cc55e98a" Name="Diagram1">
         <EntityTypeShape EntityType="StatisticsModel.MonthlyStatistic" Width="2.75" PointX="0.875" PointY="0.75" />
         <EntityTypeShape EntityType="StatisticsModel.Statistic" Width="2.5" PointX="4.375" PointY="0.75" />
+        <EntityTypeShape EntityType="StatisticsModel.Agent" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="StatisticsModel.Organisation" Width="1.5" PointX="2.75" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

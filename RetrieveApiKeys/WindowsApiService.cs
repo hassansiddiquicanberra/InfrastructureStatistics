@@ -1,5 +1,7 @@
-﻿using System.ServiceProcess;
+﻿using System;
+using System.ServiceProcess;
 using System.Timers;
+using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator;
 using F1Solutions.InfrastructureStatistics.Services;
 
@@ -8,7 +10,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
     partial class WindowsApiService : ServiceBase
     {
         private readonly ApiOrchestrator _apiOrchestrator;
-        private readonly double ServiceToRunEverySixMinutesInMilliseconds = 360000;
+        private readonly double ServiceToRunEverySixMinutesInMilliseconds = 240000;
         private readonly StatisticsService _statisticsService;
         readonly Timer _timer = new Timer();
 
@@ -45,7 +47,13 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
 
         private void OnElapsedTime(object sender, ElapsedEventArgs e)
         {
+            var executionCount = 0;
             _apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
+            executionCount++;
+            Console.WriteLine("Execution No of Service " + executionCount);
+            Console.WriteLine();
+            Console.WriteLine("The value for expiry of cache is " + CacheHelper.GetCacheExpiryValue());
+            Console.WriteLine();
         }
 
         protected override void OnStart(string[] args) { }

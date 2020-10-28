@@ -20,6 +20,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
 
         private StatisticsDataModel _statisticsModel;
         private MonthlyStatisticsDataModel _monthlyStatisticsModel;
+        private StatisticsAgentDataModel _statisticsAgentDataModel;
+        private StatisticsOrganisationDataModel _statisticsOrganisationDataModel;
         private string _levelOneGroupIdentifierId = null;
 
         public ApiOrchestrator()
@@ -31,6 +33,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             _statisticsService = new StatisticsService();
             _statisticsModel = new StatisticsDataModel();
             _monthlyStatisticsModel = new MonthlyStatisticsDataModel();
+            _statisticsAgentDataModel = new StatisticsAgentDataModel();
+            _statisticsOrganisationDataModel = new StatisticsOrganisationDataModel();
         }
 
         public void ExecuteMonthlyStatisticsServiceCalls()
@@ -41,7 +45,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             {
                 listOfTickets = ServiceCaller.CallFreshServiceApi(_freshServiceApiTask);
                 var deserializedTicketList = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(listOfTickets);
-                CacheHelper.SaveToCache(Constants.CacheKey, deserializedTicketList);
+                CacheHelper.SaveToCache(Constants.CacheKey, deserializedTicketList, DateTime.Now.AddHours(4));
             }
 
             var cachedTicketList = CacheHelper.GetFromCache<FreshServiceTicketModel[]>(Constants.CacheKey);
@@ -95,6 +99,22 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             return _monthlyStatisticsModel;
         }
 
+
+        private StatisticsAgentDataModel FreshServiceAgentStatistics(FreshServiceTicketModel[] ticketData)
+        {
+            _statisticsAgentDataModel = _statisticsAgentDataModel.TotalTicketsOpen(ticketData);
+
+            return _statisticsAgentDataModel;
+        }
+
+
+        private StatisticsOrganisationDataModel FreshServiceOrganisationStatistics(FreshServiceTicketModel[] ticketData)
+        {
+            _statisticsOrganisationDataModel = _statisticsOrganisationDataModel.TotalTicketsOpen(ticketData);
+
+            return _statisticsOrganisationDataModel;
+        }
+
         private MonthlyStatisticsDataModel FreshServiceTicketHandleTimeStatistics(
             FreshServiceTimeEntriesModel[] timeEntryData)
         {
@@ -110,6 +130,16 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
         private void SaveMonthlyStatisticsData(MonthlyStatisticsDataModel monthlyStatisticsModel)
         {
             _statisticsService.SaveMonthlyStatisticsValues(monthlyStatisticsModel);
+        }
+
+        private void SaveAgentStatisticsData(StatisticsAgentDataModel agentDataModel)
+        {
+            _statisticsService.SaveAgentStatisticsData(agentDataModel);
+        }
+
+        private void SaveOrganisationStatisticsData(StatisticsOrganisationDataModel organistionDataModel)
+        {
+            _statisticsService.SaveOrganisationStatisticsData(organistionDataModel);
         }
     }
 }
