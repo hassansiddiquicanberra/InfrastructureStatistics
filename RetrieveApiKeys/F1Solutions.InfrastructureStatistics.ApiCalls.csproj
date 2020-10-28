@@ -114,7 +114,7 @@
     <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Helpers\ServiceCaller.cs" />
     <Compile Include="Helpers\ServiceHelper.cs" />
-    <Compile Include="ModelExtensions\FreshServiceOrganistionModelExtensions.cs" />
+    <Compile Include="ModelExtensions\FreshServiceOrganisationModelExtensions.cs" />
     <Compile Include="ModelExtensions\FreshServiceAgentModelExtensions.cs" />
     <Compile Include="Models\FreshServiceAgentGroupModel.cs" />
     <Compile Include="Models\FreshServiceAgentModel.cs" />

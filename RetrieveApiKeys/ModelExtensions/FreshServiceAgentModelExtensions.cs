@@ -9,6 +9,72 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
 {
     public static class FreshServiceAgentModelExtensions
     {
+        public static List<string> PopulateAgentId(this StatisticsAgentDataModel model, FreshServiceTicketModel[] data)
+        {
+            var listOfResponderId = new List<string>();
+
+            if (model == null)
+            {
+                model = new StatisticsAgentDataModel();
+            }
+
+            foreach (var tickets in data)
+            {
+                foreach (var ticket in tickets.Tickets)
+                {
+                    listOfResponderId.Add(ticket.DepartmentId);
+                }
+            }
+
+            return listOfResponderId.Distinct().ToList();
+        }
+
+
+        public static List<string> PopulateAgentName(this StatisticsAgentDataModel model, FreshServiceTicketModel[] data)
+        {
+            var listOfResponderName = new List<string>();
+            if (model == null)
+            {
+                model = new StatisticsAgentDataModel();
+            }
+
+            foreach (var tickets in data)
+            {
+                foreach (var ticket in tickets.Tickets)
+                {
+                    listOfResponderName.Add(ticket.DepartmentName);
+                    //ticket.ResponderId, ResponderName = agent name and agent id
+                    //ticket.DepartmentName, DepartmentId = org name and org id
+
+                    //need to group all the results with the agent id which is obtained from the ticket i.e. ticket.responderId
+                }
+            }
+
+            return listOfResponderName.ToList();
+        }
+
+
+        public static StatisticsAgentDataModel TotalTickets(this StatisticsAgentDataModel model, FreshServiceTicketModel[] data)
+        {
+            int totalTicketCount = 0;
+            if (model == null)
+            {
+                model = new StatisticsAgentDataModel();
+            }
+
+
+            foreach (var tickets in data)
+            {
+                foreach (var ticket in tickets.Tickets)
+                {
+                    totalTicketCount++;
+                }
+            }
+
+            model.TotalTickets = totalTicketCount;
+
+            return model;
+        }
         public static StatisticsAgentDataModel TotalTicketsResolvedToday(this StatisticsAgentDataModel model, FreshServiceTicketModel[] data)
         {
             int totalTicketsResolvedToday = 0;
@@ -183,7 +249,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             {
                 foreach (var ticket in tickets.Tickets)
                 {
-                    if (ticket.Status == Constants.TicketWithResolvedStatus && 
+                    if (ticket.Status == Constants.TicketWithResolvedStatus &&
                         (DateTime.Now - DateTime.Parse(ticket.CreatedAt.Substring(0, 10))).TotalDays < 8)
                     {
                         //this ticket is resolved and is not before 7 days old

@@ -31,7 +31,5 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
                 return default;
             }
         }
-
-       
     }
 }

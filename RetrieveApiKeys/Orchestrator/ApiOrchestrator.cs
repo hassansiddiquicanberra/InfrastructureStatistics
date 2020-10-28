@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions;
@@ -50,24 +51,21 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             //    var deserializedTicketList = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(listOfTickets);
             //    CacheHelper.SaveToCache(Constants.CacheKey, deserializedTicketList, DateTime.Now.AddHours(4));
             //}
-
             var cachedTicketList = CacheHelper.GetFromCache<FreshServiceTicketModel[]>(Constants.CacheKey);
-
-
             //Lets calculate the agent and org level details model needed for the DB
-
-            var statisticsForAgent = FreshServiceAgentStatistics(deserializedTicketList);
-
+            var a  = GetDataOfResponders(deserializedTicketList);
+            var b = GetNameOfResponders(deserializedTicketList);
 
             var listOfGroups = ServiceCaller.CallFreshServiceGroupApi(_freshServiceAgentGroupApiTask);
             _levelOneGroupIdentifierId = TransformationHelper.FindLevelOneGroupIdentifier(listOfGroups);
-
-            _monthlyStatisticsModel = FreshServiceMonthlyStatistics(cachedTicketList);
-            var ticketIdList = TransformationHelper.GetListOfTickets(cachedTicketList);
+            var ticketIdList = ServiceHelper.GetTicketIdListOfString(deserializedTicketList);
             var timeEntries = ServiceCaller.CallFreshServiceTimeEntriesApi(ticketIdList, _freshServiceTimeEntriesTask);
-            
+            _monthlyStatisticsModel = FreshServiceTicketHandleTimeStatistics(timeEntries);
+            _monthlyStatisticsModel = FreshServiceMonthlyStatistics(cachedTicketList);
+
             _monthlyStatisticsModel = FreshServiceTicketHandleTimeStatistics(timeEntries);
             SaveMonthlyStatisticsData(_monthlyStatisticsModel);
+            SaveAgentStatisticsData(_statisticsAgentDataModel);
         }
 
         public void ExecuteHourlyStatisticsServiceCalls()
@@ -109,12 +107,29 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
         }
 
 
-        private StatisticsAgentDataModel FreshServiceAgentStatistics(FreshServiceTicketModel[] ticketData)
+        private List<string> GetDataOfResponders(FreshServiceTicketModel[] ticketData)
         {
-            _statisticsAgentDataModel = _statisticsAgentDataModel.TotalTicketsResolvedToday(ticketData);
-
-            return _statisticsAgentDataModel;
+            return _statisticsAgentDataModel.PopulateAgentId(ticketData);
         }
+
+        private List<string> GetNameOfResponders(FreshServiceTicketModel[] ticketData)
+        {
+            return _statisticsAgentDataModel.PopulateAgentName(ticketData);
+        }
+
+        ////private StatisticsAgentDaListtaModel FreshServiceAgentStatistics(FreshServiceTicketModel[] ticketData)
+        ////{
+        ////    _statisticsAgentDataModel = _statisticsAgentDataModel.TotalTickets(ticketData);
+        ////    _statisticsAgentDataModel = _statisticsAgentDataModel.TotalTicketsResolvedToday(ticketData);
+        ////    _statisticsAgentDataModel = _statisticsAgentDataModel.TotalTicketsOpen(ticketData);
+        ////    _statisticsAgentDataModel = _statisticsAgentDataModel.TotalResolvedLastSevenDays(ticketData);
+        ////    _statisticsAgentDataModel = _statisticsAgentDataModel.TotalResolvedLastThirtyDays(ticketData);
+        ////    _statisticsAgentDataModel = _statisticsAgentDataModel.TotalNotRespondedToInTwoDays(ticketData);
+        ////    _statisticsAgentDataModel = _statisticsAgentDataModel.AverageTicketAgeLastSevenDays(ticketData);
+        ////    _statisticsAgentDataModel = _statisticsAgentDataModel.AverageTicketResolutionTimeLastSevenDays(ticketData);
+
+        ////    return _statisticsAgentDataModel;
+        ////}
 
 
         private StatisticsOrganisationDataModel FreshServiceOrganisationStatistics(FreshServiceTicketModel[] ticketData)
@@ -124,8 +139,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             return _statisticsOrganisationDataModel;
         }
 
-        private MonthlyStatisticsDataModel FreshServiceTicketHandleTimeStatistics(
-            FreshServiceTimeEntriesModel[] timeEntryData)
+        private MonthlyStatisticsDataModel FreshServiceTicketHandleTimeStatistics(FreshServiceTimeEntriesModel[] timeEntryData)
         {
             _monthlyStatisticsModel = _monthlyStatisticsModel.PopulateAverageTicketHandleTimeInMinutes(timeEntryData);
             return _monthlyStatisticsModel;

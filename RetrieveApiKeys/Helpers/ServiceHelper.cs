@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
@@ -16,7 +17,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 
             var listOfCalls = JsonConvert.DeserializeObject<AirCallModel>(airCallResult);
             var airCallNextPageUrl = listOfCalls.Meta.NextPageLink;
-            
+
             do
             {
                 if (!string.IsNullOrEmpty(airCallNextPageUrl))
@@ -32,6 +33,33 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
             return JsonHelper.MergeJsonStringValues(airCallModelList);
         }
 
+        public static List<string> GetTicketIdListOfString(FreshServiceTicketModel[] listOfTickets)
+        {
+            var ticketIdList = new List<string>();
+            if (listOfTickets != null)
+            {
+                foreach (var tickets in listOfTickets)
+                {
+                    if (tickets?.Tickets == null)
+                    {
+                        continue;
+                    }
+
+                    foreach (var individualTicket in tickets.Tickets)
+                    {
+                        if (!string.IsNullOrEmpty(individualTicket.CreatedAt) &&
+                            (DateTime.Parse(individualTicket.CreatedAt.Substring(0, 10))).Month ==
+                            DateTime.Now.Month)
+                        {
+                            ticketIdList.Add(individualTicket.Id);
+                        }
+                    }
+                }
+            }
+
+            return ticketIdList;
+        }
+
         public static string ExecuteFreshServiceTimeEntriesForEachTicket(List<string> ticketIds, FreshServiceTimeEntriesTask freshServiceTimeEntriesTask)
         {
             var responseBodyList = new List<string>();
@@ -40,14 +68,14 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
             {
                 if (!string.IsNullOrEmpty(ticketId))
                 {
-                    var freshServiceTimeEntriesServiceResult = ServiceCaller.ExecuteFreshServiceTimeEntriesApiService(freshServiceTimeEntriesTask,ticketId);
+                    var freshServiceTimeEntriesServiceResult = ServiceCaller.ExecuteFreshServiceTimeEntriesApiService(freshServiceTimeEntriesTask, ticketId);
                     if (!string.IsNullOrEmpty(freshServiceTimeEntriesServiceResult) && freshServiceTimeEntriesServiceResult.Any())
                     {
                         var deserializedTimeEntries = JsonConvert.DeserializeObject<FreshServiceTimeEntriesModel>(freshServiceTimeEntriesServiceResult);
 
                         if (deserializedTimeEntries != null && deserializedTimeEntries.Time_Entries.Any())
                         {
-                           responseBodyList.Add(freshServiceTimeEntriesServiceResult);
+                            responseBodyList.Add(freshServiceTimeEntriesServiceResult);
                         }
                     }
                 }
