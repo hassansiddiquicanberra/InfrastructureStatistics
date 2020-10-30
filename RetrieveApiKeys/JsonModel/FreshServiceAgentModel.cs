@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace F1Solutions.InfrastructureStatistics.Services.Models
+namespace F1Solutions.InfrastructureStatistics.ApiCalls.Models
 {
-    public class StatisticsAgentDataModel
+    public class FreshServiceAgentModel
     {
-        public string AgentId { get; set; }
+        public int AgentId { get; set; }
         public string AgentName { get; set; }
         public DateTime DateRecorded { get; set; }
         public int TotalTicketsOpen { get; set; }

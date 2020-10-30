@@ -73,9 +73,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\EntityCalculationHelper.cs" />
+    <Compile Include="Helpers\EntityTransformationHelper.cs" />
+    <Compile Include="Models\CallModel.cs" />
     <Compile Include="Models\MonthlyStatisticsDataModel.cs" />
     <Compile Include="Models\StatisticsAgentDataModel.cs" />
     <Compile Include="Models\StatisticsOrganisationDataModel.cs" />
+    <Compile Include="Models\TicketModel.cs" />
     <Compile Include="StatisticsService.cs" />
     <Compile Include="Helpers\StatisticsExtensions.cs" />
     <Compile Include="Models\StatisticsDataModel.cs" />

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using F1Solutions.InfrastructureStatistics.DataAccess;
 using F1Solutions.InfrastructureStatistics.Services.Helpers;
 using F1Solutions.InfrastructureStatistics.Services.Models;
@@ -35,12 +34,32 @@ namespace F1Solutions.InfrastructureStatistics.Services
             DataAccessStatistics.SaveChanges();
         }
 
-        public void SaveOrganisationStatisticsData(StatisticsOrganisationDataModel model)
+        public void SaveOrganizationStatisticsData(StatisticsOrganisationDataModel model)
         {
-            var organisationStatisticsValues = model.StatisticsOrganisationModelToDomain();
+            var organizationStatisticsValues = model.StatisticsOrganisationModelToDomain();
 
-            DataAccessStatistics.Organisations.Add(organisationStatisticsValues);
+            DataAccessStatistics.Organisations.Add(organizationStatisticsValues);
             DataAccessStatistics.SaveChanges();
+        }
+
+        public void SaveTicket(TicketModel model)
+        {
+            //insert only if there is no matching ticket Id present in the database
+            if (!DataAccessStatistics.Tickets.Any(x => x.TicketId == model.TicketId))
+            {
+                DataAccessStatistics.Tickets.Add(model.TicketModelToDomainObject());
+                DataAccessStatistics.SaveChanges();
+            }
+        }
+
+        public void SaveCall(CallModel model)
+        {
+            //insert only if there is no matching call Id present in the database
+            if (!DataAccessStatistics.Calls.Any(x => x.CallId == model.CallId))
+            {
+                DataAccessStatistics.Calls.Add(model.CallModelToDomainObject());
+                DataAccessStatistics.SaveChanges();
+            }
         }
 
         public bool DoesAnyRecordExistForToday()

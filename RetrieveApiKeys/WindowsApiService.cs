@@ -23,15 +23,13 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
 
         public void Start()
         {
-            _apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
-            /////*
-            //// * TODO:**CHECK WITH ZAR FOR Whether the Below call to monthly will change ??  will it not be every 1st day of the month at 1am?
-            ////*/
+            _apiOrchestrator.ExecuteServiceForCalls();
+            //_apiOrchestrator.ExecuteApiServiceCallForTickets();
             ////if (CalculationHelper.IsFirstDayOfTheMonthAndTimeMatches())
             ////{
             ////    if (!_statisticsService.DoesAnyRecordExistForToday())
             ////    {
-            ////        _apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
+            ////        _apiOrchestrator.ExecuteServiceForCalls();
             ////    }
             ////}
 
@@ -48,7 +46,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
         private void OnElapsedTime(object sender, ElapsedEventArgs e)
         {
             var executionCount = 0;
-            _apiOrchestrator.ExecuteMonthlyStatisticsServiceCalls();
+            _apiOrchestrator.ExecuteServiceForCalls();
             executionCount++;
             Console.WriteLine("Execution No of Service " + executionCount);
             Console.WriteLine();

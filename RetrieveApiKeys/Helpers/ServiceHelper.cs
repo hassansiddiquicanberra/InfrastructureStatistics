@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
+using F1Solutions.InfrastructureStatistics.ApiCalls.JsonModel;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
 using Newtonsoft.Json;
 
@@ -29,7 +30,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
                 }
 
             } while (!string.IsNullOrEmpty(airCallNextPageUrl));
-
             return JsonHelper.MergeJsonStringValues(airCallModelList);
         }
 

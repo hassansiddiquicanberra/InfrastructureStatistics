@@ -74,6 +74,9 @@
     <Compile Include="Agent.cs">
       <DependentUpon>StatisticsDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Call.cs">
+      <DependentUpon>StatisticsDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="MonthlyStatistic.cs">
       <DependentUpon>StatisticsDataModel.tt</DependentUpon>
     </Compile>
@@ -98,6 +101,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>StatisticsDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Ticket.cs">
+      <DependentUpon>StatisticsDataModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -14,7 +14,7 @@ namespace F1Solutions.InfrastructureStatistics.DataAccess
     
     public partial class Agent
     {
-        public int AgentId { get; set; }
+        public string AgentId { get; set; }
         public string AgentName { get; set; }
         public Nullable<System.DateTime> DateRecorded { get; set; }
         public Nullable<int> TotalTicketsOpen { get; set; }
