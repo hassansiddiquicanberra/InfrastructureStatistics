@@ -42,24 +42,39 @@ namespace F1Solutions.InfrastructureStatistics.Services
             DataAccessStatistics.SaveChanges();
         }
 
-        public void SaveTicket(TicketModel model)
+        public void SaveTicket(TicketModel ticketModel)
         {
-            //insert only if there is no matching ticket Id present in the database
-            if (!DataAccessStatistics.Tickets.Any(x => x.TicketId == model.TicketId))
+            var existingTicketRecord = DataAccessStatistics.Tickets.SingleOrDefault(x => x.TicketId == ticketModel.TicketId);
+
+            if(existingTicketRecord == null && !DataAccessStatistics.Tickets.Any(x => x.TicketId == ticketModel.TicketId))
             {
-                DataAccessStatistics.Tickets.Add(model.TicketModelToDomainObject());
-                DataAccessStatistics.SaveChanges();
+                DataAccessStatistics.Tickets.Add(ticketModel.TicketModelToDomainObject());
+                
             }
+            //update
+            else if (existingTicketRecord != null)
+            {
+                DataAccessStatistics.Entry(existingTicketRecord).CurrentValues.SetValues(ticketModel);
+            }
+
+            DataAccessStatistics.SaveChanges();
         }
 
-        public void SaveCall(CallModel model)
+        public void SaveCall(CallModel callModel)
         {
-            //insert only if there is no matching call Id present in the database
-            if (!DataAccessStatistics.Calls.Any(x => x.CallId == model.CallId))
+            var existingCallRecord = DataAccessStatistics.Calls.SingleOrDefault(x => x.CallId == callModel.CallId);
+            if(existingCallRecord == null && !DataAccessStatistics.Calls.Any(x => x.CallId == callModel.CallId))
             {
-                DataAccessStatistics.Calls.Add(model.CallModelToDomainObject());
-                DataAccessStatistics.SaveChanges();
+                DataAccessStatistics.Calls.Add(callModel.CallModelToDomainObject());
             }
+
+            //update
+            else if (existingCallRecord != null)
+            {
+                DataAccessStatistics.Entry(existingCallRecord).CurrentValues.SetValues(callModel);
+            }
+
+            DataAccessStatistics.SaveChanges();
         }
 
         public bool DoesAnyRecordExistForToday()

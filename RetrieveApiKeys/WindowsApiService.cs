@@ -24,7 +24,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
         public void Start()
         {
             _apiOrchestrator.ExecuteServiceForCalls();
-            //_apiOrchestrator.ExecuteApiServiceCallForTickets();
+            _apiOrchestrator.ExecuteApiServiceCallForTickets();
             ////if (CalculationHelper.IsFirstDayOfTheMonthAndTimeMatches())
             ////{
             ////    if (!_statisticsService.DoesAnyRecordExistForToday())
