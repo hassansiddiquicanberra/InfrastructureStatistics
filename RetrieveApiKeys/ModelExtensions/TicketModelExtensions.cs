@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using F1Solutions.InfrastructureStatistics.ApiCalls.JsonModel;
 using F1Solutions.InfrastructureStatistics.Services.Models;
-using Microsoft.Office.Interop.Excel;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
 {

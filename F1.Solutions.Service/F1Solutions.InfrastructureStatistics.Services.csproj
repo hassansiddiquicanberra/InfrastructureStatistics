@@ -72,7 +72,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\EntityCalculationHelper.cs" />
     <Compile Include="Helpers\EntityTransformationHelper.cs" />
     <Compile Include="Models\CallModel.cs" />
     <Compile Include="Models\MonthlyStatisticsDataModel.cs" />

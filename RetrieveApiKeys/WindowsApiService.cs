@@ -45,13 +45,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
 
         private void OnElapsedTime(object sender, ElapsedEventArgs e)
         {
-            var executionCount = 0;
             _apiOrchestrator.ExecuteServiceForCalls();
-            executionCount++;
-            Console.WriteLine("Execution No of Service " + executionCount);
-            Console.WriteLine();
-            Console.WriteLine("The value for expiry of cache is " + CacheHelper.GetCacheExpiryValue());
-            Console.WriteLine();
         }
 
         protected override void OnStart(string[] args) { }

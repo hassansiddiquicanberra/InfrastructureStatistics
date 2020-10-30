@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
 using F1Solutions.InfrastructureStatistics.ApiCalls.JsonModel;
-using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
 using Newtonsoft.Json;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
@@ -32,33 +31,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
                 //} while (!string.IsNullOrEmpty(airCallNextPageUrl));
             } while (airCallNextPageUrl != "https://api.aircall.io/v1/calls?order=asc&page=5&per_page=20");
             return JsonHelper.MergeJsonStringValues(airCallModelList);
-        }
-
-        public static List<string> GetTicketIdListOfString(FreshServiceTicketModel[] listOfTickets)
-        {
-            var ticketIdList = new List<string>();
-            if (listOfTickets != null)
-            {
-                foreach (var tickets in listOfTickets)
-                {
-                    if (tickets?.Tickets == null)
-                    {
-                        continue;
-                    }
-
-                    foreach (var individualTicket in tickets.Tickets)
-                    {
-                        if (!string.IsNullOrEmpty(individualTicket.CreatedAt) &&
-                            (DateTime.Parse(individualTicket.CreatedAt.Substring(0, 10))).Month ==
-                            DateTime.Now.Month)
-                        {
-                            ticketIdList.Add(individualTicket.Id);
-                        }
-                    }
-                }
-            }
-
-            return ticketIdList;
         }
 
         public static string ExecuteFreshServiceTimeEntriesForEachTicket(List<string> ticketIds, FreshServiceTimeEntriesTask freshServiceTimeEntriesTask)
