@@ -57,8 +57,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
                 }
             }
 
-            listOfCalls.First().UserName = "Hello";
-
             return listOfCalls;
         }
     }

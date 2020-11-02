@@ -15,18 +15,11 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
         private readonly FreshServiceApiTask _freshServiceApiTask;
         private readonly StatisticsService _statisticsService;
 
-        private MonthlyStatisticsDataModel _monthlyStatisticsModel;
-        private TicketModel _ticketModel;
-        private CallModel _callModel;
-
         public ApiOrchestrator()
         {
             _airCallApiTask = new AirCallApiTask();
             _freshServiceApiTask = new FreshServiceApiTask();
             _statisticsService = new StatisticsService();
-            _monthlyStatisticsModel = new MonthlyStatisticsDataModel();
-            _ticketModel = new TicketModel();
-            _callModel = new CallModel();
         }
 
         public void ExecuteServiceForCalls()
@@ -57,14 +50,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             return TicketModelExtensions.PopulateTicketData(callData);
         }
 
-
-        //private MonthlyStatisticsDataModel FreshServiceTicketHandleTimeStatistics(FreshServiceTimeEntriesModel[] timeEntryData)
-        //{
-        //    _monthlyStatisticsModel = _monthlyStatisticsModel.PopulateAverageTicketHandleTimeInMinutes(timeEntryData);
-        //    return _monthlyStatisticsModel;
-        //}
-
-
         private void SaveTickets(List<TicketModel> tickets)
         {
             foreach (var ticket in tickets)
@@ -74,13 +59,11 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
         }
 
         private void SaveCalls(List<CallModel> calls)
-        { 
-            //check for inserts first, then updates as well
+        {
             foreach (var call in calls)
             {
                 _statisticsService.SaveCall(call);
             }
         }
-
     }
 }

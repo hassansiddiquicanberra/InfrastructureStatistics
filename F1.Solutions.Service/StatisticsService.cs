@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using F1Solutions.InfrastructureStatistics.DataAccess;
 using F1Solutions.InfrastructureStatistics.Services.Helpers;
 using F1Solutions.InfrastructureStatistics.Services.Models;

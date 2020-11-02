@@ -13,7 +13,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
     {
         protected string Id;
         protected string Token;
-        protected string TicketId;
         private int initialPageNumber = 1;
 
         public delegate void SetOutputTextCallback(string text);

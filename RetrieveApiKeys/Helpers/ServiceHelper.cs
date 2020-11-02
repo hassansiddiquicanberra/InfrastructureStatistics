@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
 using F1Solutions.InfrastructureStatistics.ApiCalls.JsonModel;
@@ -28,8 +27,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
                     airCallNextPageUrl = deserializedObject.Meta.NextPageLink;
                 }
 
-                //} while (!string.IsNullOrEmpty(airCallNextPageUrl));
-            } while (airCallNextPageUrl != "https://api.aircall.io/v1/calls?order=asc&page=5&per_page=20");
+            } while (!string.IsNullOrEmpty(airCallNextPageUrl));
             return JsonHelper.MergeJsonStringValues(airCallModelList);
         }
 

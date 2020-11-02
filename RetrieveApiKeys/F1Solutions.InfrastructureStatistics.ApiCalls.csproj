@@ -112,12 +112,10 @@
     <Compile Include="ApiTask\AirCallApiTask.cs" />
     <Compile Include="ApiTask\FreshServiceAgentGroupApiTask.cs" />
     <Compile Include="ApiTask\FreshServiceTimeEntriesTask.cs" />
-    <Compile Include="Helpers\CalculationHelper.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Helpers\ServiceCaller.cs" />
     <Compile Include="Helpers\ServiceHelper.cs" />
-    <Compile Include="JsonModel\FreshServiceAgentGroupModel.cs" />
     <Compile Include="JsonModel\FreshServiceTimeEntriesModel.cs" />
     <Compile Include="JsonModel\FreshServiceTicketModel.cs" />
     <Compile Include="ModelExtensions\AirCallModelExtensions.cs" />

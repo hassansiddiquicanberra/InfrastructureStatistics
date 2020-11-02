@@ -1,55 +1,36 @@
-﻿using System;
-using System.ServiceProcess;
+﻿using System.ServiceProcess;
 using System.Timers;
-using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator;
-using F1Solutions.InfrastructureStatistics.Services;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls
 {
     partial class WindowsApiService : ServiceBase
     {
         private readonly ApiOrchestrator _apiOrchestrator;
-        private readonly double ServiceToRunEverySixMinutesInMilliseconds = 240000;
-        private readonly StatisticsService _statisticsService;
+        private readonly double ServiceToRunEveryFiveHoursInMilliseconds = 18000000;
         readonly Timer _timer = new Timer();
-
         public WindowsApiService()
         {
             InitializeComponent();
             _apiOrchestrator = new ApiOrchestrator();
-            _statisticsService = new StatisticsService();
         }
-
         public void Start()
         {
-            _apiOrchestrator.ExecuteServiceForCalls();
-            _apiOrchestrator.ExecuteApiServiceCallForTickets();
-            ////if (CalculationHelper.IsFirstDayOfTheMonthAndTimeMatches())
-            ////{
-            ////    if (!_statisticsService.DoesAnyRecordExistForToday())
-            ////    {
-            ////        _apiOrchestrator.ExecuteServiceForCalls();
-            ////    }
-            ////}
-
-            //_timer.Elapsed += OnElapsedTime;
-            //_timer.Interval = ServiceToRunEverySixMinutesInMilliseconds;
-            //_timer.Enabled = true;
+            _timer.Elapsed += OnElapsedTime;
+            _timer.Interval = ServiceToRunEveryFiveHoursInMilliseconds;
+            _timer.Enabled = true;
         }
-
         public new void Stop()
         {
             _timer.Enabled = false;
         }
-
         private void OnElapsedTime(object sender, ElapsedEventArgs e)
         {
             _apiOrchestrator.ExecuteServiceForCalls();
+            _apiOrchestrator.ExecuteApiServiceCallForTickets();
         }
 
         protected override void OnStart(string[] args) { }
-
         protected override void OnStop() { }
     }
 }

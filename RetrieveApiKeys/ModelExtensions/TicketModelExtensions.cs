@@ -8,7 +8,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
 {
     public static class TicketModelExtensions
     {
-
         public static List<TicketModel> PopulateTicketData(FreshServiceTicketModel[] ticketData)
         {
             var listOfTickets = new List<TicketModel>();

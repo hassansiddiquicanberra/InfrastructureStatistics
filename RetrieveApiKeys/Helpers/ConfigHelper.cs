@@ -12,8 +12,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
         public static string FreshServiceApiKey => GetSetting<string>("FreshServiceApiKey");
         public static string AirCallApiId => GetSetting<string>("AirCallApiId");
         public static string AirCallApiToken => GetSetting<string>("AirCallApiToken");
-        public static string MspNumber => GetSetting<string>("MspNumber");
-        public static string RegisNumber => GetSetting<string>("RegisNumber");
 
         public static T GetSetting<T>(string key)
         {
