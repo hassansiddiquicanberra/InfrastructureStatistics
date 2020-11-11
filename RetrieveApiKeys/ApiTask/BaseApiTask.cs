@@ -163,39 +163,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 
             return JsonHelper.MergeJsonStringValues(responseBodyList);
         }
-
-        protected async Task<string> GetAllTimeEntriesAsync(string ticketId, string uri, HttpMethod method, int attempt = 1, int maxAttempts = 5)
-        {
-            return await GetAllTimeEntriesAsync(ticketId, uri, Id, Token, method, string.Empty, attempt, maxAttempts);
-        }
-
-        protected async Task<string> GetAllTimeEntriesAsync(string ticketId, string uri, string id, string token, HttpMethod method, string requestBody = "", int attempt = 1, int maxAttempts = 5)
-        {
-            var client = InitialiseHttpClient(id, token);
-            var url = ConfigHelper.FreshServiceForTicketsUri + "/" + ticketId + "/time_entries";
-
-            var request = new HttpRequestMessage
-            {
-                RequestUri = new Uri(url),
-                Method = method,
-            };
-
-            var response = await client.SendAsync(request);
-            var content = response.Content;
-
-            string responseBody = await content.ReadAsStringAsync();
-
-            var isSuccessResponseButEmptyBody = response.IsSuccessStatusCode &&
-                                                (string.IsNullOrEmpty(responseBody) ||
-                                                 string.IsNullOrWhiteSpace(responseBody));
-
-            if (!isSuccessResponseButEmptyBody)
-            {
-                return responseBody;
-            }
-
-            return await GetAllTimeEntriesAsync(ticketId, uri, id, token, method, requestBody, attempt + 1);
-        }
     }
 }
 

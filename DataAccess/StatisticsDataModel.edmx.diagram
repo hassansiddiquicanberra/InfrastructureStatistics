@@ -5,12 +5,8 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="07761ca190b44809b45f0000cc55e98a" Name="Diagram1">
-        <EntityTypeShape EntityType="StatisticsModel.Agent" Width="1.5" PointX="1.375" PointY="0.5" />
-        <EntityTypeShape EntityType="StatisticsModel.Call" Width="1.5" PointX="3.375" PointY="0.5" />
-        <EntityTypeShape EntityType="StatisticsModel.MonthlyStatistic" Width="1.5" PointX="5.375" PointY="0.5" />
-        <EntityTypeShape EntityType="StatisticsModel.Organisation" Width="1.5" PointX="4.875" PointY="4.375" />
-        <EntityTypeShape EntityType="StatisticsModel.Statistic" Width="1.5" PointX="2.875" PointY="4.25" />
-        <EntityTypeShape EntityType="StatisticsModel.Ticket" Width="1.5" PointX="7.375" PointY="0.5" />
+        <EntityTypeShape EntityType="StatisticsModel.Call" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="StatisticsModel.Ticket" Width="1.5" PointX="2.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

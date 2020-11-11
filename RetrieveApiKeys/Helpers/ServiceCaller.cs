@@ -9,10 +9,5 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 
             return freshServiceApiTask.Start();
         }
-
-        public static string ExecuteFreshServiceTimeEntriesApiService(FreshServiceTimeEntriesTask freshServiceTimeEntriesTask, string ticketId)
-        {
-            return freshServiceTimeEntriesTask.Start(ticketId);
-        }
     }
 }

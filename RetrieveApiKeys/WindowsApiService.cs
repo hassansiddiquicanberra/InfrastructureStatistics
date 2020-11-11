@@ -1,11 +1,13 @@
 ﻿using System.ServiceProcess;
 using System.Timers;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator;
+using log4net;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls
 {
     partial class WindowsApiService : ServiceBase
     {
+        readonly ILog _log = LogManager.GetLogger(typeof(WindowsApiService));
         private readonly ApiOrchestrator _apiOrchestrator;
         private readonly double ServiceToRunEveryFiveHoursInMilliseconds = 18000000;
         readonly Timer _timer = new Timer();
@@ -16,6 +18,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
         }
         public void Start()
         {
+             _log.Info("Service Initialized.");
             _apiOrchestrator.ExecuteServiceForCalls();
             _apiOrchestrator.ExecuteApiServiceCallForTickets();
             _timer.Elapsed += OnElapsedTime;

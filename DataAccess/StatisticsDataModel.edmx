@@ -5,22 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="StatisticsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Agent">
-          <Key>
-            <PropertyRef Name="AgentId" />
-          </Key>
-          <Property Name="AgentId" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="AgentName" Type="varchar" MaxLength="100" />
-          <Property Name="DateRecorded" Type="date" />
-          <Property Name="TotalTicketsOpen" Type="int" />
-          <Property Name="TotalResolvedToday" Type="int" />
-          <Property Name="TotalResolvedLastSevenDays" Type="int" />
-          <Property Name="TotalTickets" Type="int" />
-          <Property Name="TotalResolvedLastThirtyDays" Type="int" />
-          <Property Name="TotalNotRespondedToInTwoDays" Type="int" />
-          <Property Name="AverageTicketAgeLastSevenDays" Type="decimal" Precision="20" Scale="10" />
-          <Property Name="AverageTicketResolutionTimeLastSevenDays" Type="decimal" Precision="20" Scale="10" />
-        </EntityType>
         <EntityType Name="Call">
           <Key>
             <PropertyRef Name="Id" />
@@ -37,44 +21,6 @@
           <Property Name="AssignedTo" Type="nvarchar" MaxLength="100" />
           <Property Name="AssignedToEmail" Type="nvarchar" MaxLength="100" />
           <Property Name="UserName" Type="nvarchar" MaxLength="100" />
-        </EntityType>
-        <EntityType Name="MonthlyStatistics">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MonthlyTicketCount" Type="int" />
-          <Property Name="MonthlyAverageTicketHandlingTime" Type="decimal" Precision="20" Scale="10" />
-          <Property Name="MonthlyLevelOneResolvedTickets" Type="int" />
-          <Property Name="EntryDateTime" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Organisation">
-          <Key>
-            <PropertyRef Name="OrganisationId" />
-          </Key>
-          <Property Name="OrganisationId" Type="int" Nullable="false" />
-          <Property Name="OrganisationName" Type="varchar" MaxLength="100" />
-          <Property Name="DateRecorded" Type="date" />
-          <Property Name="TotalOpen" Type="int" />
-          <Property Name="TotalOlderThanSevenDays" Type="int" />
-          <Property Name="TotalOlderThanThirtyDays" Type="int" />
-        </EntityType>
-        <EntityType Name="Statistics">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TwoDayPercentage" Type="decimal" Precision="20" Scale="10" />
-          <Property Name="OpenMoreThanSevenDays" Type="int" />
-          <Property Name="OpenMoreThanThirtyDays" Type="int" />
-          <Property Name="TotalPositive" Type="int" />
-          <Property Name="TotalNeutral" Type="int" />
-          <Property Name="TotalNegative" Type="int" />
-          <Property Name="TotalMspMissedCalls" Type="int" />
-          <Property Name="TotalRegisMissedCalls" Type="int" />
-          <Property Name="TotalMspHoldTime" Type="datetime" />
-          <Property Name="TotalRegisHoldTime" Type="datetime" />
-          <Property Name="EntryDateTime" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Ticket">
           <Key>
@@ -93,11 +39,7 @@
           <Property Name="AssignedTo" Type="nvarchar" MaxLength="1000" />
         </EntityType>
         <EntityContainer Name="StatisticsModelStoreContainer">
-          <EntitySet Name="Agent" EntityType="Self.Agent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Call" EntityType="Self.Call" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MonthlyStatistics" EntityType="Self.MonthlyStatistics" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Organisation" EntityType="Self.Organisation" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Statistics" EntityType="Self.Statistics" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ticket" EntityType="Self.Ticket" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -105,29 +47,9 @@
     <edmx:ConceptualModels>
       <Schema Namespace="StatisticsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="StatisticsEntity" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Agents" EntityType="StatisticsModel.Agent" />
           <EntitySet Name="Calls" EntityType="StatisticsModel.Call" />
-          <EntitySet Name="MonthlyStatistics" EntityType="StatisticsModel.MonthlyStatistic" />
-          <EntitySet Name="Organisations" EntityType="StatisticsModel.Organisation" />
-          <EntitySet Name="Statistics" EntityType="StatisticsModel.Statistic" />
           <EntitySet Name="Tickets" EntityType="StatisticsModel.Ticket" />
         </EntityContainer>
-        <EntityType Name="Agent">
-          <Key>
-            <PropertyRef Name="AgentId" />
-          </Key>
-          <Property Name="AgentId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="AgentName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="DateRecorded" Type="DateTime" Precision="0" />
-          <Property Name="TotalTicketsOpen" Type="Int32" />
-          <Property Name="TotalResolvedToday" Type="Int32" />
-          <Property Name="TotalResolvedLastSevenDays" Type="Int32" />
-          <Property Name="TotalTickets" Type="Int32" />
-          <Property Name="TotalResolvedLastThirtyDays" Type="Int32" />
-          <Property Name="TotalNotRespondedToInTwoDays" Type="Int32" />
-          <Property Name="AverageTicketAgeLastSevenDays" Type="Decimal" Precision="20" Scale="10" />
-          <Property Name="AverageTicketResolutionTimeLastSevenDays" Type="Decimal" Precision="20" Scale="10" />
-        </EntityType>
         <EntityType Name="Call">
           <Key>
             <PropertyRef Name="Id" />
@@ -144,44 +66,6 @@
           <Property Name="AssignedTo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="AssignedToEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="MonthlyStatistic">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MonthlyTicketCount" Type="Int32" />
-          <Property Name="MonthlyAverageTicketHandlingTime" Type="Decimal" Precision="20" Scale="10" />
-          <Property Name="MonthlyLevelOneResolvedTickets" Type="Int32" />
-          <Property Name="EntryDateTime" Type="DateTime" Nullable="false" Precision="3" />
-        </EntityType>
-        <EntityType Name="Organisation">
-          <Key>
-            <PropertyRef Name="OrganisationId" />
-          </Key>
-          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
-          <Property Name="OrganisationName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="DateRecorded" Type="DateTime" Precision="0" />
-          <Property Name="TotalOpen" Type="Int32" />
-          <Property Name="TotalOlderThanSevenDays" Type="Int32" />
-          <Property Name="TotalOlderThanThirtyDays" Type="Int32" />
-        </EntityType>
-        <EntityType Name="Statistic">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TwoDayPercentage" Type="Decimal" Precision="20" Scale="10" />
-          <Property Name="OpenMoreThanSevenDays" Type="Int32" />
-          <Property Name="OpenMoreThanThirtyDays" Type="Int32" />
-          <Property Name="TotalPositive" Type="Int32" />
-          <Property Name="TotalNeutral" Type="Int32" />
-          <Property Name="TotalNegative" Type="Int32" />
-          <Property Name="TotalMspMissedCalls" Type="Int32" />
-          <Property Name="TotalRegisMissedCalls" Type="Int32" />
-          <Property Name="TotalMspHoldTime" Type="DateTime" Precision="3" />
-          <Property Name="TotalRegisHoldTime" Type="DateTime" Precision="3" />
-          <Property Name="EntryDateTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="Ticket">
           <Key>
@@ -205,23 +89,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="StatisticsModelStoreContainer" CdmEntityContainer="StatisticsEntity">
-          <EntitySetMapping Name="Agents">
-            <EntityTypeMapping TypeName="StatisticsModel.Agent">
-              <MappingFragment StoreEntitySet="Agent">
-                <ScalarProperty Name="AverageTicketResolutionTimeLastSevenDays" ColumnName="AverageTicketResolutionTimeLastSevenDays" />
-                <ScalarProperty Name="AverageTicketAgeLastSevenDays" ColumnName="AverageTicketAgeLastSevenDays" />
-                <ScalarProperty Name="TotalNotRespondedToInTwoDays" ColumnName="TotalNotRespondedToInTwoDays" />
-                <ScalarProperty Name="TotalResolvedLastThirtyDays" ColumnName="TotalResolvedLastThirtyDays" />
-                <ScalarProperty Name="TotalTickets" ColumnName="TotalTickets" />
-                <ScalarProperty Name="TotalResolvedLastSevenDays" ColumnName="TotalResolvedLastSevenDays" />
-                <ScalarProperty Name="TotalResolvedToday" ColumnName="TotalResolvedToday" />
-                <ScalarProperty Name="TotalTicketsOpen" ColumnName="TotalTicketsOpen" />
-                <ScalarProperty Name="DateRecorded" ColumnName="DateRecorded" />
-                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
-                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Calls">
             <EntityTypeMapping TypeName="StatisticsModel.Call">
               <MappingFragment StoreEntitySet="Call">
@@ -236,47 +103,6 @@
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Direction" ColumnName="Direction" />
                 <ScalarProperty Name="CallId" ColumnName="CallId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MonthlyStatistics">
-            <EntityTypeMapping TypeName="StatisticsModel.MonthlyStatistic">
-              <MappingFragment StoreEntitySet="MonthlyStatistics">
-                <ScalarProperty Name="EntryDateTime" ColumnName="EntryDateTime" />
-                <ScalarProperty Name="MonthlyLevelOneResolvedTickets" ColumnName="MonthlyLevelOneResolvedTickets" />
-                <ScalarProperty Name="MonthlyAverageTicketHandlingTime" ColumnName="MonthlyAverageTicketHandlingTime" />
-                <ScalarProperty Name="MonthlyTicketCount" ColumnName="MonthlyTicketCount" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Organisations">
-            <EntityTypeMapping TypeName="StatisticsModel.Organisation">
-              <MappingFragment StoreEntitySet="Organisation">
-                <ScalarProperty Name="TotalOlderThanThirtyDays" ColumnName="TotalOlderThanThirtyDays" />
-                <ScalarProperty Name="TotalOlderThanSevenDays" ColumnName="TotalOlderThanSevenDays" />
-                <ScalarProperty Name="TotalOpen" ColumnName="TotalOpen" />
-                <ScalarProperty Name="DateRecorded" ColumnName="DateRecorded" />
-                <ScalarProperty Name="OrganisationName" ColumnName="OrganisationName" />
-                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Statistics">
-            <EntityTypeMapping TypeName="StatisticsModel.Statistic">
-              <MappingFragment StoreEntitySet="Statistics">
-                <ScalarProperty Name="EntryDateTime" ColumnName="EntryDateTime" />
-                <ScalarProperty Name="TotalRegisHoldTime" ColumnName="TotalRegisHoldTime" />
-                <ScalarProperty Name="TotalMspHoldTime" ColumnName="TotalMspHoldTime" />
-                <ScalarProperty Name="TotalRegisMissedCalls" ColumnName="TotalRegisMissedCalls" />
-                <ScalarProperty Name="TotalMspMissedCalls" ColumnName="TotalMspMissedCalls" />
-                <ScalarProperty Name="TotalNegative" ColumnName="TotalNegative" />
-                <ScalarProperty Name="TotalNeutral" ColumnName="TotalNeutral" />
-                <ScalarProperty Name="TotalPositive" ColumnName="TotalPositive" />
-                <ScalarProperty Name="OpenMoreThanThirtyDays" ColumnName="OpenMoreThanThirtyDays" />
-                <ScalarProperty Name="OpenMoreThanSevenDays" ColumnName="OpenMoreThanSevenDays" />
-                <ScalarProperty Name="TwoDayPercentage" ColumnName="TwoDayPercentage" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

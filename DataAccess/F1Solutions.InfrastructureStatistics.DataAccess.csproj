@@ -71,22 +71,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Agent.cs">
-      <DependentUpon>StatisticsDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Call.cs">
       <DependentUpon>StatisticsDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="MonthlyStatistic.cs">
-      <DependentUpon>StatisticsDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Organisation.cs">
-      <DependentUpon>StatisticsDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Statistic.cs">
-      <DependentUpon>StatisticsDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="StatisticsDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

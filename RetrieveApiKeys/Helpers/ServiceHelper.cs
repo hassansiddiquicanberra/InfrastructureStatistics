@@ -22,37 +22,16 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
                 if (!string.IsNullOrEmpty(airCallNextPageUrl))
                 {
                     airCallResult = airCallApiTask.Start(null, airCallNextPageUrl);
-                    airCallModelList.Add(airCallResult);
-                    var deserializedObject = JsonConvert.DeserializeObject<AirCallModel>(airCallResult);
-                    airCallNextPageUrl = deserializedObject.Meta.NextPageLink;
+                    if (airCallResult != null)
+                    {
+                        airCallModelList.Add(airCallResult);
+                        var deserializedObject = JsonConvert.DeserializeObject<AirCallModel>(airCallResult);
+                        airCallNextPageUrl = deserializedObject.Meta.NextPageLink;
+                    }
                 }
 
             } while (!string.IsNullOrEmpty(airCallNextPageUrl));
             return JsonHelper.MergeJsonStringValues(airCallModelList);
-        }
-
-        public static string ExecuteFreshServiceTimeEntriesForEachTicket(List<string> ticketIds, FreshServiceTimeEntriesTask freshServiceTimeEntriesTask)
-        {
-            var responseBodyList = new List<string>();
-
-            foreach (var ticketId in ticketIds)
-            {
-                if (!string.IsNullOrEmpty(ticketId))
-                {
-                    var freshServiceTimeEntriesServiceResult = ServiceCaller.ExecuteFreshServiceTimeEntriesApiService(freshServiceTimeEntriesTask, ticketId);
-                    if (!string.IsNullOrEmpty(freshServiceTimeEntriesServiceResult) && freshServiceTimeEntriesServiceResult.Any())
-                    {
-                        var deserializedTimeEntries = JsonConvert.DeserializeObject<FreshServiceTimeEntriesModel>(freshServiceTimeEntriesServiceResult);
-
-                        if (deserializedTimeEntries != null && deserializedTimeEntries.Time_Entries.Any())
-                        {
-                            responseBodyList.Add(freshServiceTimeEntriesServiceResult);
-                        }
-                    }
-                }
-            }
-
-            return JsonHelper.MergeJsonStringValues(responseBodyList);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
                     })
                     .RunAsLocalSystem()
                     .StartAutomatically()
-                    .SetServiceName("Infrastructure Statistics");
+                    .SetServiceName("WindowsApiService");
             });
         }
     }
