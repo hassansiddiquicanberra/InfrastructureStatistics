@@ -31,6 +31,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
                 }
 
             } while (!string.IsNullOrEmpty(airCallNextPageUrl));
+
             return JsonHelper.MergeJsonStringValues(airCallModelList);
         }
     }

@@ -18,12 +18,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
         }
         public void Start()
         {
-             _log.Info("Service Initialized.");
-            _apiOrchestrator.ExecuteServiceForCalls();
-            _apiOrchestrator.ExecuteApiServiceCallForTickets();
-            _timer.Elapsed += OnElapsedTime;
-            _timer.Interval = ServiceToRunEveryFiveHoursInMilliseconds;
-            _timer.Enabled = true;
+            OnStart(new []{""});
         }
         public new void Stop()
         {
@@ -35,7 +30,15 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
             _apiOrchestrator.ExecuteApiServiceCallForTickets();
         }
 
-        protected override void OnStart(string[] args) { }
+        protected override void OnStart(string[] args)
+        {
+            _log.Info("Service Initialized.");
+            _apiOrchestrator.ExecuteServiceForCalls();
+            _apiOrchestrator.ExecuteApiServiceCallForTickets();
+            _timer.Elapsed += OnElapsedTime;
+            _timer.Interval = ServiceToRunEveryFiveHoursInMilliseconds;
+            _timer.Enabled = true;
+        }
         protected override void OnStop() { }
     }
 }
