@@ -7,7 +7,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
 {
     partial class WindowsApiService : ServiceBase
     {
-        readonly ILog _log = LogManager.GetLogger(typeof(WindowsApiService));
+        //readonly ILog _log = LogManager.GetLogger(typeof(WindowsApiService));
         private readonly ApiOrchestrator _apiOrchestrator;
         private readonly double ServiceToRunEveryFiveHoursInMilliseconds = 18000000;
         readonly Timer _timer = new Timer();
@@ -18,7 +18,12 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
         }
         public void Start()
         {
-            OnStart(new []{""});
+            //_log.Info("Service Initialized.");
+            _apiOrchestrator.ExecuteServiceForCalls();
+            _apiOrchestrator.ExecuteApiServiceCallForTickets();
+            _timer.Elapsed += OnElapsedTime;
+            _timer.Interval = ServiceToRunEveryFiveHoursInMilliseconds;
+            _timer.Enabled = true;
         }
         public new void Stop()
         {
@@ -32,13 +37,12 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
 
         protected override void OnStart(string[] args)
         {
-            _log.Info("Service Initialized.");
-            _apiOrchestrator.ExecuteServiceForCalls();
-            _apiOrchestrator.ExecuteApiServiceCallForTickets();
-            _timer.Elapsed += OnElapsedTime;
-            _timer.Interval = ServiceToRunEveryFiveHoursInMilliseconds;
-            _timer.Enabled = true;
+            
         }
-        protected override void OnStop() { }
+
+        protected override void OnStop()
+        {
+           
+        }
     }
 }
