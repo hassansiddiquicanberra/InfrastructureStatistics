@@ -1,25 +1,27 @@
 ﻿using System.ServiceProcess;
+using Topshelf;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls
 {
     public class Program
     {
-        
         static void Main(string[] args)
         {
-#if DEBUG
-
-            WindowsApiService myService = new WindowsApiService();
-            myService.Start();
-            System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
-
-#endif
-            ServiceBase[] servicesToRun;
-            servicesToRun = new ServiceBase[]
+            HostFactory.Run(hostConfig =>
             {
-                new WindowsApiService(),
-            };
-            ServiceBase.Run(servicesToRun);
+                hostConfig.Service<WindowsApiService>(serviceConfig =>
+                    {
+                        if (serviceConfig != null)
+                        {
+                            serviceConfig.ConstructUsing(() => new WindowsApiService());
+                            serviceConfig.WhenStarted(s => s.Start());
+                            serviceConfig.WhenStopped(s => s.Stop());
+                        }
+                    })
+                    .RunAsLocalSystem()
+                    .StartAutomatically()
+                    .SetServiceName("Windows Api Service");
+            });
         }
     }
 }
