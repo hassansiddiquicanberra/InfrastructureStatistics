@@ -11,6 +11,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
         private readonly ApiOrchestrator _apiOrchestrator;
         private readonly double ServiceToRunEveryFiveHoursInMilliseconds = 18000000;
         readonly Timer _timer = new Timer();
+
         public WindowsApiService()
         {
             InitializeComponent();
@@ -19,6 +20,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
         public void Start()
         {
             _log.Info("Service Initialized.");
+            
             _apiOrchestrator.ExecuteServiceForCalls();
             _apiOrchestrator.ExecuteApiServiceCallForTickets();
             _timer.Elapsed += OnElapsedTime;

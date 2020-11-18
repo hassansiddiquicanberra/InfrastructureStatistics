@@ -18,7 +18,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
                             serviceConfig.WhenStopped(s => s.Stop());
                         }
                     })
-                    .RunAsLocalSystem()
+                    .RunAsLocalService()
+                    .StartManually()
                     .SetServiceName("Windows Api Service");
             });
         }
