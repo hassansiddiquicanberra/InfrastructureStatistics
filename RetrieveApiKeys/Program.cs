@@ -1,5 +1,4 @@
-﻿using System.ServiceProcess;
-using Topshelf;
+﻿using Topshelf;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls
 {
