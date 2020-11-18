@@ -11,7 +11,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
         public static string ExecutePaginatedAirCallService(AirCallApiTask airCallApiTask)
         {
             var airCallModelList = new List<string>();
-            var airCallResult = airCallApiTask.Start();
+            var airCallResult = airCallApiTask.Start(ConfigHelper.AirCallForCallUri);
             airCallModelList.Add(airCallResult);
 
             var listOfCalls = JsonConvert.DeserializeObject<AirCallModel>(airCallResult);
@@ -21,7 +21,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
             {
                 if (!string.IsNullOrEmpty(airCallNextPageUrl))
                 {
-                    airCallResult = airCallApiTask.Start(null, airCallNextPageUrl);
+                    airCallResult = airCallApiTask.Start(airCallNextPageUrl);
                     if (airCallResult != null)
                     {
                         airCallModelList.Add(airCallResult);

@@ -11,7 +11,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
             Token = ConfigHelper.AirCallApiToken;
         }
 
-        public override string Start(string ticketId = null, string url = null)
+        public virtual string Start(string url)
         {
             var airCallResponse = SendRequest(ConfigHelper.AirCallForCallUri, ConfigHelper.AirCallForCallUri, HttpMethod.Get);
             return airCallResponse.Result;

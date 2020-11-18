@@ -7,7 +7,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
         public static string CallFreshServiceApi(FreshServiceApiTask freshServiceApiTask)
         {
 
-            return freshServiceApiTask.Start();
+            return freshServiceApiTask.Start(ConfigHelper.FreshServiceForTicketsUri);
         }
     }
 }

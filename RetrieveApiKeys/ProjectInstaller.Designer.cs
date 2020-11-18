@@ -39,6 +39,8 @@
             // 
             // serviceInstaller1
             // 
+            this.serviceInstaller1.Description = "This service calls the api for calls and tickets and persists to the database eve" +
+    "ry 5 hours";
             this.serviceInstaller1.ServiceName = "Windows Api Service";
             // 
             // ProjectInstaller

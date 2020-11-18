@@ -17,12 +17,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 
         public delegate void SetOutputTextCallback(string text);
         public event SetOutputTextCallback RaiseSetOutputText;
-        public abstract string Start(string ticketId = null, string url = null);
-        public virtual void TaskComplete()
-        {
-            SetOutputText($"{Environment.NewLine} Task completed!!");
-            SetOutputText($"{Environment.NewLine}{Environment.NewLine}");
-        }
 
         protected async Task<string> SendRequest(string url, string uri, HttpMethod method, int attempt = 1, int maxAttempts = 5)
         {
