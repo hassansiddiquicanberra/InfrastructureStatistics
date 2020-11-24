@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask;
 using F1Solutions.InfrastructureStatistics.ApiCalls.Helpers;
 using F1Solutions.InfrastructureStatistics.ApiCalls.JsonModel;
 using F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions;
+using F1Solutions.InfrastructureStatistics.ApiCalls.Models;
+using F1Solutions.InfrastructureStatistics.ApiCalls.Utils;
 using F1Solutions.InfrastructureStatistics.Services;
 using F1Solutions.InfrastructureStatistics.Services.Models;
 using Newtonsoft.Json;
@@ -35,29 +38,28 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             SaveCalls(callDomainObjects);
         }
 
-        //Call the department and requester service api and retrieve the values...only the necessary ones
-
         public void ExecuteApiServiceCallForRequesters()
         {
             var stringListOfRequesters = ServiceCaller.CallFreshServiceRequester(_freshServiceRequesterTask);
             var jsonDeserialisedRequesters = JsonConvert.DeserializeObject<FreshServiceRequesterModel[]>(stringListOfRequesters);
-            var a = jsonDeserialisedRequesters;
-            //var ticketDomainObjects = PopulateModelWithTicketObjects(jsonDeserializedTickets);
+            CacheHelper.SaveToCache(Constants.RequestersCacheKey, jsonDeserialisedRequesters, DateTime.Now.AddHours(Constants.CacheExpirationTimeInHours));
         }
 
         public void ExecuteApiServiceCallForDepartments()
         {
             var stringListOfDepartments = ServiceCaller.CallFreshServiceDepartment(_freshServiceDepartmentTask);
             var jsonDeserialisedDepartments = JsonConvert.DeserializeObject<FreshServiceDepartmentModel[]>(stringListOfDepartments);
-            var a = jsonDeserialisedDepartments;
-            //var ticketDomainObjects = PopulateModelWithTicketObjects(jsonDeserializedTickets);
+            CacheHelper.SaveToCache(Constants.DepartmentsCacheKey, jsonDeserialisedDepartments, DateTime.Now.AddHours(Constants.CacheExpirationTimeInHours));
         }
 
         public void ExecuteApiServiceCallForTickets()
         {
+            var cachedRequesterData = CacheHelper.GetFromCache<FreshServiceRequesterModel[]>(Constants.RequestersCacheKey);
+            var cachedDepartmentData = CacheHelper.GetFromCache<FreshServiceDepartmentModel[]>(Constants.DepartmentsCacheKey);
+
             var stringListOfTickets = ServiceCaller.CallFreshServiceApi(_freshServiceApiTask);
             var jsonDeserializedTickets = JsonConvert.DeserializeObject<FreshServiceTicketModel[]>(stringListOfTickets);
-            var ticketDomainObjects = PopulateModelWithTicketObjects(jsonDeserializedTickets);
+            var ticketDomainObjects = PopulateModelWithTicketObjects(jsonDeserializedTickets, cachedRequesterData, cachedDepartmentData);
 
             SaveTickets(ticketDomainObjects);
         }
@@ -67,9 +69,9 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             return AirCallModelExtensions.PopulateCallData(callData);
         }
 
-        private List<TicketModel> PopulateModelWithTicketObjects(FreshServiceTicketModel[] callData)
+        private List<TicketModel> PopulateModelWithTicketObjects(FreshServiceTicketModel[] callData, FreshServiceRequesterModel[] cachedRequesterData, FreshServiceDepartmentModel[] cachedDepartmentData)
         {
-            return TicketModelExtensions.PopulateTicketData(callData);
+            return TicketModelExtensions.PopulateTicketData(callData, cachedRequesterData, cachedDepartmentData);
         }
 
         private void SaveTickets(List<TicketModel> tickets)

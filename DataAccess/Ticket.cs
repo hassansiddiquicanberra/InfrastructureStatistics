@@ -15,14 +15,14 @@ namespace F1Solutions.InfrastructureStatistics.DataAccess
     public partial class Ticket
     {
         public int Id { get; set; }
-        public Nullable<int> TicketId { get; set; }
+        public string TicketId { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
         public string Status { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }
         public Nullable<System.DateTime> DueBy { get; set; }
         public string TicketType { get; set; }
         public string Description { get; set; }
-        public Nullable<int> OwnerId { get; set; }
+        public string Requester { get; set; }
         public string DepartmentName { get; set; }
         public string AssignedTo { get; set; }
     }

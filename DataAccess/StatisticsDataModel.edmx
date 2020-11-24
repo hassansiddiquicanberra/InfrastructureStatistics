@@ -27,14 +27,14 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TicketId" Type="int" />
+          <Property Name="TicketId" Type="nvarchar(max)" />
           <Property Name="CreatedAt" Type="datetime" />
           <Property Name="Status" Type="nvarchar" MaxLength="1000" />
           <Property Name="UpdatedAt" Type="datetime" />
           <Property Name="DueBy" Type="datetime" />
           <Property Name="TicketType" Type="nvarchar" MaxLength="1000" />
           <Property Name="Description" Type="nvarchar(max)" />
-          <Property Name="OwnerId" Type="int" />
+          <Property Name="Requester" Type="nvarchar" MaxLength="1000" />
           <Property Name="DepartmentName" Type="nvarchar" MaxLength="1000" />
           <Property Name="AssignedTo" Type="nvarchar" MaxLength="1000" />
         </EntityType>
@@ -72,14 +72,14 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TicketId" Type="Int32" />
+          <Property Name="TicketId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreatedAt" Type="DateTime" Precision="3" />
           <Property Name="Status" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
           <Property Name="DueBy" Type="DateTime" Precision="3" />
           <Property Name="TicketType" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="OwnerId" Type="Int32" />
+          <Property Name="Requester" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="DepartmentName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="AssignedTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
@@ -112,7 +112,7 @@
               <MappingFragment StoreEntitySet="Ticket">
                 <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
                 <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
-                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="Requester" ColumnName="Requester" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="TicketType" ColumnName="TicketType" />
                 <ScalarProperty Name="DueBy" ColumnName="DueBy" />

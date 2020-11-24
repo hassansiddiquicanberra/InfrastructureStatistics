@@ -17,6 +17,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 
         public delegate void SetOutputTextCallback(string text);
         public event SetOutputTextCallback RaiseSetOutputText;
+
         public abstract string Start(string ticketId = null, string url = null);
         public virtual void TaskComplete()
         {
@@ -159,7 +160,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
                     isResponseContainingLinkText = false;
                 }
 
-            } while (pageNumber<10);
+            } while (pageNumber < 50);
 
             return JsonHelper.MergeJsonStringValues(responseBodyList);
         }

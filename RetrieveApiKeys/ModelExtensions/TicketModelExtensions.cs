@@ -8,7 +8,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
 {
     public static class TicketModelExtensions
     {
-        public static List<TicketModel> PopulateTicketData(FreshServiceTicketModel[] ticketData)
+        public static List<TicketModel> PopulateTicketData(FreshServiceTicketModel[] ticketData, FreshServiceRequesterModel[] cachedRequesterData, FreshServiceDepartmentModel[] cachedDepartmentData)
         {
             var listOfTickets = new List<TicketModel>();
 
@@ -22,16 +22,15 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
                         {
                             var model = new TicketModel
                             {
-                                TicketId = Convert.ToInt32(individualTicket.Id),
+                                TicketId = individualTicket.Id,
                                 CreatedAt = DateTime.Parse(individualTicket.CreatedAt.Substring(0, 10)),
                                 Status = individualTicket.Status,
                                 UpdatedAt = DateTime.Parse(individualTicket.UpdatedAt.Substring(0, 10)),
                                 DueBy = DateTime.Parse(individualTicket.DueBy.Substring(0, 10)),
                                 TicketType = individualTicket.TicketType,
                                 Description = individualTicket.Description,
-                                //OwnerId = Convert.ToInt32(individualTicket.OwnerId),
-                                DepartmentName = individualTicket.DepartmentName,
-                                //AssignedTo = individualTicket.OwnerId
+                                Requester = RetrieveRequesterPrimaryEmail(cachedRequesterData, individualTicket.RequesterId),
+                                DepartmentName = RetrieveDepartmentName(cachedDepartmentData, individualTicket.DepartmentId)
                             };
                             listOfTickets.Add(model);
                         }
@@ -40,6 +39,48 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             }
 
             return listOfTickets;
+        }
+
+        public static string RetrieveDepartmentName(FreshServiceDepartmentModel[] cachedDepartmentData, string departmentId)
+        {
+            var departmentName = string.Empty;
+
+            foreach (var allDepartments in cachedDepartmentData)
+            {
+                if (allDepartments?.Departments != null && allDepartments.Departments.Any())
+                {
+                    foreach (var individualDepartment in allDepartments.Departments)
+                    {
+                        if (individualDepartment.Id == departmentId)
+                        {
+                            departmentName = individualDepartment.Name;
+                        }
+                    }
+                }
+            }
+
+            return departmentName;
+        }
+
+        public static string RetrieveRequesterPrimaryEmail(FreshServiceRequesterModel[] cachedRequesterData, string requesterId)
+        {
+            var requesterName = string.Empty;
+
+            foreach (var allRequesters in cachedRequesterData)
+            {
+                if (allRequesters?.Requesters != null && allRequesters.Requesters.Any())
+                {
+                    foreach (var individualRequester in allRequesters.Requesters)
+                    {
+                        if (individualRequester.Id == requesterId)
+                        {
+                            requesterName = individualRequester.PrimaryEmail;
+                        }
+                    }
+                }
+            }
+
+            return requesterName;
         }
     }
 }

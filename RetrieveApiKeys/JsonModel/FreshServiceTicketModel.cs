@@ -91,6 +91,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.JsonModel
         [JsonProperty("to_emails")]
         public string[] ToEmails { get; set; }
         [JsonProperty("department_id")]
+        public string DepartmentId { get; set; }
+        [JsonProperty("department_name")]
         public string DepartmentName { get; set; }
         [JsonProperty("assoc_problem_id")]
         public string AssocProblemId { get; set; }

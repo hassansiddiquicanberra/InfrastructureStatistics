@@ -13,10 +13,9 @@ namespace F1Solutions.InfrastructureStatistics.Services.Helpers
                 UpdatedAt = model.UpdatedAt,
                 CreatedAt = model.CreatedAt,
                 Status = model.Status,
-                OwnerId = model.OwnerId,
+                Requester = model.Requester,
                 DepartmentName = model.DepartmentName,
                 DueBy = model.DueBy,
-                AssignedTo = model.AssignedTo,
                 Description = model.Description,
                 TicketType = model.TicketType,
             };
