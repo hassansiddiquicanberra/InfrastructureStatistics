@@ -16,8 +16,6 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.JsonModel
     {
         [JsonProperty("id")]
         public string Id { get; set; }
-        [JsonProperty("requester_id")]
-        public string RequesterId { get; set; }
         [JsonProperty("responder_id")]
         public string ResponderId { get; set; }
         [JsonProperty("status")]
@@ -36,8 +34,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.JsonModel
         public string Subject { get; set; }
         [JsonProperty("display_id")]
         public string DisplayId { get; set; }
-        [JsonProperty("owner_id")]
-        public string OwnerId { get; set; }
+        [JsonProperty("requester_id")]
+        public string RequesterId { get; set; }
         [JsonProperty("group_id")]
         public string GroupId { get; set; }
         [JsonProperty("due_by")]
@@ -60,14 +58,14 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.JsonModel
         public string[] FwdEmails { get; set; }
         [JsonProperty("reply_cc_emails")]
         public string[] ReplyCcEmails { get; set; }
-        [JsonProperty("ticket_type")]
+        [JsonProperty("type")]
         public string TicketType { get; set; }
         [JsonProperty("urgency")]
         public string Urgency { get; set; }
         [JsonProperty("impact")]
         public string Impact { get; set; }
-        [JsonProperty("department_id")]
-        public string DepartmentId { get; set; }
+        //[JsonProperty("department_id")]
+        //public string DepartmentId { get; set; }
         [JsonProperty("category")]
         public string Category { get; set; }
         [JsonProperty("sub_category")]
@@ -92,7 +90,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.JsonModel
         public string ResponderName { get; set; }
         [JsonProperty("to_emails")]
         public string[] ToEmails { get; set; }
-        [JsonProperty("department_name")]
+        [JsonProperty("department_id")]
         public string DepartmentName { get; set; }
         [JsonProperty("assoc_problem_id")]
         public string AssocProblemId { get; set; }

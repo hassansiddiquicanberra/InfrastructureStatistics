@@ -9,5 +9,17 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
 
             return freshServiceApiTask.Start();
         }
+
+        public static string CallFreshServiceDepartment(FreshServiceDepartmentTask freshServiceDepartmentTask)
+        {
+
+            return freshServiceDepartmentTask.Start();
+        }
+
+        public static string CallFreshServiceRequester(FreshServiceRequesterTask freshServiceRequesterTask)
+        {
+
+            return freshServiceRequesterTask.Start();
+        }
     }
 }

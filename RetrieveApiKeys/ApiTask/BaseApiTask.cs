@@ -159,6 +159,104 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
                     isResponseContainingLinkText = false;
                 }
 
+            } while (pageNumber<10);
+
+            return JsonHelper.MergeJsonStringValues(responseBodyList);
+        }
+
+        protected async Task<string> GetAllRequestersAsync(string uri, HttpMethod method, int attempt = 1, int maxAttempts = 5)
+        {
+            return await GetAllRequestersAsync(uri, Id, Token, method, string.Empty, attempt, maxAttempts);
+        }
+
+        protected async Task<string> GetAllRequestersAsync(string uri, string id, string token, HttpMethod method, string requestBody = "", int attempt = 1, int maxAttempts = 5)
+        {
+            int pageNumber = initialPageNumber;
+            var httpClient = InitialiseHttpClient(id, token);
+
+            bool isResponseContainingLinkText = false;
+            var responseBodyList = new List<string>();
+
+            do
+            {
+                var request = new HttpRequestMessage
+                {
+                    RequestUri = new Uri(uri + "?page=" + pageNumber),
+                    Method = method,
+                };
+
+                var response = await httpClient.SendAsync(request);
+                var content = response.Content;
+                string responseBody = await content.ReadAsStringAsync();
+
+                var isSuccessResponseButEmptyBody = response.IsSuccessStatusCode &&
+                                                    (string.IsNullOrEmpty(responseBody) ||
+                                                     string.IsNullOrWhiteSpace(responseBody));
+
+                if (!isSuccessResponseButEmptyBody)
+                {
+                    responseBodyList.Add(responseBody);
+                }
+
+                if (response.Headers.Contains(Constants.LinkInResponseHeader))
+                {
+                    isResponseContainingLinkText = true;
+                    pageNumber++;
+                }
+                else if (!response.Headers.Contains(Constants.LinkInResponseHeader))
+                {
+                    isResponseContainingLinkText = false;
+                }
+
+            } while (isResponseContainingLinkText);
+
+            return JsonHelper.MergeJsonStringValues(responseBodyList);
+        }
+
+        protected async Task<string> GetAllDepartmentsAsync(string uri, HttpMethod method, int attempt = 1, int maxAttempts = 5)
+        {
+            return await GetAllDepartmentsAsync(uri, Id, Token, method, string.Empty, attempt, maxAttempts);
+        }
+
+        protected async Task<string> GetAllDepartmentsAsync(string uri, string id, string token, HttpMethod method, string requestBody = "", int attempt = 1, int maxAttempts = 5)
+        {
+            int pageNumber = initialPageNumber;
+            var httpClient = InitialiseHttpClient(id, token);
+
+            bool isResponseContainingLinkText = false;
+            var responseBodyList = new List<string>();
+
+            do
+            {
+                var request = new HttpRequestMessage
+                {
+                    RequestUri = new Uri(uri + "?page=" + pageNumber),
+                    Method = method,
+                };
+
+                var response = await httpClient.SendAsync(request);
+                var content = response.Content;
+                string responseBody = await content.ReadAsStringAsync();
+
+                var isSuccessResponseButEmptyBody = response.IsSuccessStatusCode &&
+                                                    (string.IsNullOrEmpty(responseBody) ||
+                                                     string.IsNullOrWhiteSpace(responseBody));
+
+                if (!isSuccessResponseButEmptyBody)
+                {
+                    responseBodyList.Add(responseBody);
+                }
+
+                if (response.Headers.Contains(Constants.LinkInResponseHeader))
+                {
+                    isResponseContainingLinkText = true;
+                    pageNumber++;
+                }
+                else if (!response.Headers.Contains(Constants.LinkInResponseHeader))
+                {
+                    isResponseContainingLinkText = false;
+                }
+
             } while (isResponseContainingLinkText);
 
             return JsonHelper.MergeJsonStringValues(responseBodyList);

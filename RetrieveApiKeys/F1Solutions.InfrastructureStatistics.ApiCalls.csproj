@@ -113,10 +113,14 @@
   <ItemGroup>
     <Compile Include="ApiTask\BaseApiTask.cs" />
     <Compile Include="ApiTask\AirCallApiTask.cs" />
+    <Compile Include="ApiTask\FreshServiceRequesterTask.cs" />
+    <Compile Include="ApiTask\FreshServiceDepartmentTask.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Helpers\ServiceCaller.cs" />
     <Compile Include="Helpers\ServiceHelper.cs" />
+    <Compile Include="JsonModel\FreshServiceDepartmentModel.cs" />
+    <Compile Include="JsonModel\FreshServiceRequesterModel.cs" />
     <Compile Include="JsonModel\FreshServiceTicketModel.cs" />
     <Compile Include="ModelExtensions\AirCallModelExtensions.cs" />
     <Compile Include="ModelExtensions\TicketModelExtensions.cs" />

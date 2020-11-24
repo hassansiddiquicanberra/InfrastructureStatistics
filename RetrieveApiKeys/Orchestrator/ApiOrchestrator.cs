@@ -13,6 +13,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
     {
         private readonly AirCallApiTask _airCallApiTask;
         private readonly FreshServiceApiTask _freshServiceApiTask;
+        private readonly FreshServiceDepartmentTask _freshServiceDepartmentTask;
+        private readonly FreshServiceRequesterTask _freshServiceRequesterTask;
         private readonly StatisticsService _statisticsService;
 
         public ApiOrchestrator()
@@ -20,6 +22,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             _airCallApiTask = new AirCallApiTask();
             _freshServiceApiTask = new FreshServiceApiTask();
             _statisticsService = new StatisticsService();
+            _freshServiceDepartmentTask = new FreshServiceDepartmentTask();
+            _freshServiceRequesterTask = new FreshServiceRequesterTask();
         }
 
         public void ExecuteServiceForCalls()
@@ -29,6 +33,24 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Orchestrator
             var callDomainObjects = PopulateModelWithCallObjects(jsonDeserializedCalls);
 
             SaveCalls(callDomainObjects);
+        }
+
+        //Call the department and requester service api and retrieve the values...only the necessary ones
+
+        public void ExecuteApiServiceCallForRequesters()
+        {
+            var stringListOfRequesters = ServiceCaller.CallFreshServiceRequester(_freshServiceRequesterTask);
+            var jsonDeserialisedRequesters = JsonConvert.DeserializeObject<FreshServiceRequesterModel[]>(stringListOfRequesters);
+            var a = jsonDeserialisedRequesters;
+            //var ticketDomainObjects = PopulateModelWithTicketObjects(jsonDeserializedTickets);
+        }
+
+        public void ExecuteApiServiceCallForDepartments()
+        {
+            var stringListOfDepartments = ServiceCaller.CallFreshServiceDepartment(_freshServiceDepartmentTask);
+            var jsonDeserialisedDepartments = JsonConvert.DeserializeObject<FreshServiceDepartmentModel[]>(stringListOfDepartments);
+            var a = jsonDeserialisedDepartments;
+            //var ticketDomainObjects = PopulateModelWithTicketObjects(jsonDeserializedTickets);
         }
 
         public void ExecuteApiServiceCallForTickets()

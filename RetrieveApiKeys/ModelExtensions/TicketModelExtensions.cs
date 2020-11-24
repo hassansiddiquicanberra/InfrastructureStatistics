@@ -29,9 +29,9 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
                                 DueBy = DateTime.Parse(individualTicket.DueBy.Substring(0, 10)),
                                 TicketType = individualTicket.TicketType,
                                 Description = individualTicket.Description,
-                                OwnerId = Convert.ToInt32(individualTicket.OwnerId),
+                                //OwnerId = Convert.ToInt32(individualTicket.OwnerId),
                                 DepartmentName = individualTicket.DepartmentName,
-                                AssignedTo = individualTicket.OwnerId
+                                //AssignedTo = individualTicket.OwnerId
                             };
                             listOfTickets.Add(model);
                         }

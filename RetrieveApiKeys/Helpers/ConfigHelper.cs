@@ -9,6 +9,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
         public static string FreshServiceForTicketsUri => GetSetting<string>("FreshServiceForTicketsUri");
 
         public static string FreshServiceForAgentGroupsUri => GetSetting<string>("FreshServiceForAgentGroupsUri");
+        public static string FreshServiceForDepartmentsUri => GetSetting<string>("FreshServiceForDepartmentsUri");
+        public static string FreshServiceForRequesterUri => GetSetting<string>("FreshServiceForRequesterUri");
         public static string FreshServiceApiKey => GetSetting<string>("FreshServiceApiKey");
         public static string AirCallApiId => GetSetting<string>("AirCallApiId");
         public static string AirCallApiToken => GetSetting<string>("AirCallApiToken");
