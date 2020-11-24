@@ -19,10 +19,12 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
         public void Start()
         {
              _log.Info("Service Initialized.");
-            //_apiOrchestrator.ExecuteServiceForCalls();
+            _apiOrchestrator.ExecuteServiceForCalls();
+
             _apiOrchestrator.ExecuteApiServiceCallForRequesters();
             _apiOrchestrator.ExecuteApiServiceCallForDepartments();
             _apiOrchestrator.ExecuteApiServiceCallForTickets();
+
             _timer.Elapsed += OnElapsedTime;
             _timer.Interval = ServiceToRunEveryFiveHoursInMilliseconds;
             _timer.Enabled = true;

@@ -24,7 +24,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
                             {
                                 TicketId = individualTicket.Id,
                                 CreatedAt = DateTime.Parse(individualTicket.CreatedAt.Substring(0, 10)),
-                                Status = individualTicket.Status,
+                                Status = RetrieveStatusName(individualTicket.Status),
                                 UpdatedAt = DateTime.Parse(individualTicket.UpdatedAt.Substring(0, 10)),
                                 DueBy = DateTime.Parse(individualTicket.DueBy.Substring(0, 10)),
                                 TicketType = individualTicket.TicketType,
@@ -41,7 +41,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             return listOfTickets;
         }
 
-        public static string RetrieveDepartmentName(FreshServiceDepartmentModel[] cachedDepartmentData, string departmentId)
+        private static string RetrieveDepartmentName(FreshServiceDepartmentModel[] cachedDepartmentData, string departmentId)
         {
             var departmentName = string.Empty;
 
@@ -62,7 +62,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             return departmentName;
         }
 
-        public static string RetrieveRequesterPrimaryEmail(FreshServiceRequesterModel[] cachedRequesterData, string requesterId)
+        private static string RetrieveRequesterPrimaryEmail(FreshServiceRequesterModel[] cachedRequesterData, string requesterId)
         {
             var requesterName = string.Empty;
 
@@ -82,5 +82,31 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
 
             return requesterName;
         }
+
+        private static string RetrieveStatusName(string statusId)
+        {
+            string statusValue = string.Empty;   
+            switch (statusId)
+            {
+                case "2":
+                    statusValue = "Open";
+                    break;
+                case "3":
+                    statusValue = "Pending";
+                    break;
+                case "4":
+                    statusValue = "Resolved";
+                    break;
+                case "5":
+                    statusValue = "Closed";
+                    break;
+                default:
+                    statusValue = string.Empty;
+                    break;
+            }
+
+            return statusValue;
+        }
+
     }
 }
