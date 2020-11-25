@@ -23,6 +23,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls
 
             _apiOrchestrator.ExecuteApiServiceCallForRequesters();
             _apiOrchestrator.ExecuteApiServiceCallForDepartments();
+            _apiOrchestrator.ExecuteApiServiceCallForAgents();
             _apiOrchestrator.ExecuteApiServiceCallForTickets();
 
             _timer.Elapsed += OnElapsedTime;

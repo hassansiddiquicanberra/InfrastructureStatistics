@@ -13,5 +13,6 @@ namespace F1Solutions.InfrastructureStatistics.Services.Models
         public string Description { get; set; }
         public string Requester { get; set; }
         public string DepartmentName { get; set; }
+        public string AssignedTo { get; set; }
     }
 }

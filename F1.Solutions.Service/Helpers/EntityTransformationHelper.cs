@@ -18,6 +18,7 @@ namespace F1Solutions.InfrastructureStatistics.Services.Helpers
                 DueBy = model.DueBy,
                 Description = model.Description,
                 TicketType = model.TicketType,
+                AssignedTo = model.AssignedTo
             };
         }
 

@@ -7,7 +7,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
         public static string CallFreshServiceApi(FreshServiceApiTask freshServiceApiTask)
         {
 
-            return freshServiceApiTask.Start(ConfigHelper.FreshServiceForTicketsUri);
+            return freshServiceApiTask.Start();
         }
 
         public static string CallFreshServiceDepartment(FreshServiceDepartmentTask freshServiceDepartmentTask)
@@ -20,6 +20,12 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.Helpers
         {
 
             return freshServiceRequesterTask.Start();
+        }
+
+        public static string CallFreshServiceAgents(FreshServiceAgentsTask freshServiceAgentsTask)
+        {
+
+            return freshServiceAgentsTask.Start();
         }
     }
 }

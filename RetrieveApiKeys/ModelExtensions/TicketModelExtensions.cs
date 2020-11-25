@@ -9,7 +9,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
 {
     public static class TicketModelExtensions
     {
-        public static List<TicketModel> PopulateTicketData(FreshServiceTicketModel[] ticketData, FreshServiceRequesterModel[] cachedRequesterData, FreshServiceDepartmentModel[] cachedDepartmentData)
+        public static List<TicketModel> PopulateTicketData(FreshServiceTicketModel[] ticketData, 
+            FreshServiceRequesterModel[] cachedRequesterData, FreshServiceDepartmentModel[] cachedDepartmentData, FreshServiceAgentsModel[] cachedAgentsData)
         {
             var listOfTickets = new List<TicketModel>();
 
@@ -31,7 +32,8 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
                                 TicketType = individualTicket.TicketType,
                                 Description = individualTicket.Description,
                                 Requester = RetrieveRequesterPrimaryEmail(cachedRequesterData, individualTicket.RequesterId),
-                                DepartmentName = RetrieveDepartmentName(cachedDepartmentData, individualTicket.DepartmentId)
+                                DepartmentName = RetrieveDepartmentName(cachedDepartmentData, individualTicket.DepartmentId),
+                                AssignedTo = RetrieveAgentEmail(cachedAgentsData, individualTicket.ResponderId)
                             };
                             listOfTickets.Add(model);
                         }
@@ -82,6 +84,27 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
             }
 
             return requesterName;
+        }
+
+        private static string RetrieveAgentEmail(FreshServiceAgentsModel[] cachedAgentsModels, string responderId)
+        {
+            var agentEmail = string.Empty;
+
+            foreach (var allAgents in cachedAgentsModels)
+            {
+                if (allAgents?.Agents != null && allAgents.Agents.Any())
+                {
+                    foreach (var individualAgent in allAgents.Agents)
+                    {
+                        if (individualAgent.Id == responderId)
+                        {
+                            agentEmail = individualAgent.Email;
+                        }
+                    }
+                }
+            }
+
+            return agentEmail;
         }
 
         private static string RetrieveStatusName(string statusId)
