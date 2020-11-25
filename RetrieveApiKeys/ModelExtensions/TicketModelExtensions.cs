@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using F1Solutions.InfrastructureStatistics.ApiCalls.JsonModel;
+using F1Solutions.InfrastructureStatistics.ApiCalls.Utils;
 using F1Solutions.InfrastructureStatistics.Services.Models;
 
 namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
@@ -85,20 +86,20 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ModelExtensions
 
         private static string RetrieveStatusName(string statusId)
         {
-            string statusValue = string.Empty;   
+            var statusValue = string.Empty;   
             switch (statusId)
             {
-                case "2":
-                    statusValue = "Open";
+                case Constants.TicketWithOpenStatus:
+                    statusValue = Constants.OpenTicket;
                     break;
-                case "3":
-                    statusValue = "Pending";
+                case Constants.TicketWithPendingStatus:
+                    statusValue = Constants.PendingTicket;
                     break;
-                case "4":
-                    statusValue = "Resolved";
+                case Constants.TicketWithResolvedStatus:
+                    statusValue = Constants.ResolvedTicket;
                     break;
-                case "5":
-                    statusValue = "Closed";
+                case Constants.TicketWithClosedStatus:
+                    statusValue = Constants.ClosedTicket;
                     break;
                 default:
                     statusValue = string.Empty;

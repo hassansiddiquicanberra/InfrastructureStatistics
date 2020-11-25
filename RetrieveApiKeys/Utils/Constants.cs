@@ -10,5 +10,9 @@
         public const double CacheExpirationTimeInHours = 5.0;
         public const string DepartmentsCacheKey = "ListOfDepartments";
         public const string RequestersCacheKey = "ListOfRequesters";
+        public const string OpenTicket = "Open";
+        public const string PendingTicket = "Pending";
+        public const string ResolvedTicket = "Resolved";
+        public const string ClosedTicket = "Closed";
     }
 }
