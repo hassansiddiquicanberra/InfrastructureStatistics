@@ -12,7 +12,7 @@ namespace F1Solutions.InfrastructureStatistics.ApiCalls.ApiTask
 
         public override string Start(string ticketId = null, string url = null)
         {
-            var freshServiceResponse = GetAllRequestersAsync(ConfigHelper.FreshServiceForRequesterUri, HttpMethod.Get);
+            var freshServiceResponse = GetAllAsync(ConfigHelper.FreshServiceForRequesterUri, HttpMethod.Get);
             
             return freshServiceResponse.Result;
         }

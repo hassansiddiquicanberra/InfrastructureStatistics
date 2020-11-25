@@ -120,6 +120,7 @@
     <Compile Include="Helpers\CacheHelper.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\JsonHelper.cs" />
+    <Compile Include="Helpers\RetrieveDataHelper.cs" />
     <Compile Include="Helpers\ServiceCaller.cs" />
     <Compile Include="Helpers\ServiceHelper.cs" />
     <Compile Include="JsonModel\FreshServiceAgentsModel.cs" />
